@@ -169,20 +169,34 @@
       <div class="stat-card"><div class="stat-num green">✓</div><div class="stat-label">Alertes validées</div></div>
     </div>
 
-    <!-- PDF -->
+    <!-- PDF SUJET -->
+    <div class="pdf-section">
+      <div class="pdf-header">
+        <div class="pdf-header-left">
+          <div class="pdf-header-icon">📋</div>
+          <div>
+            <div class="pdf-header-label">Sujet de l'atelier</div>
+            <div class="pdf-header-title">Initiation à PRTG — Tutoriel LMD</div>
+          </div>
+        </div>
+        <a href="../../../files/doc-prtg-2025_docx.pdf" download class="dl-btn">⬇&nbsp; Télécharger</a>
+      </div>
+      <iframe class="pdf-embed" src="../../../files/doc-prtg-2025_docx.pdf" title="Sujet PRTG"></iframe>
+    </div>
+
+    <!-- PDF COMPTE-RENDU -->
     <div class="pdf-section">
       <div class="pdf-header">
         <div class="pdf-header-left">
           <div class="pdf-header-icon">📄</div>
           <div>
             <div class="pdf-header-label">Compte-rendu</div>
-            <div class="pdf-header-title">AP PRTG Network Monitor — Supervision d'infrastructure</div>
+            <div class="pdf-header-title">AP PRTG Network Monitor — Compte-rendu Adrien Blaize</div>
           </div>
         </div>
-        <a href="../../../files/doc-prtg-2025.docx.pdf" download class="dl-btn">⬇&nbsp; Télécharger</a>
+        <a href="../../../files/ABLAI_DOC-PRTG-2025.pdf" download class="dl-btn">⬇&nbsp; Télécharger</a>
       </div>
-      <iframe class="pdf-embed" src="../../../files/doc-prtg-2025.docx.pdf" title="AP PRTG Network Monitor"></iframe>
-      <iframe class="pdf-embed" src="../../../files/ABLAI_DOC-PRTG-2025.pdf" title="CR PRTG Network Monitor"></iframe>
+      <iframe class="pdf-embed" src="../../../files/ABLAI_DOC-PRTG-2025.pdf" title="CR PRTG Adrien Blaize"></iframe>
     </div>
 
     <!-- CONTEXTE -->
@@ -396,7 +410,7 @@
               <li>Modifier <code>/etc/mysql/mariadb.conf.d/50-server.cnf</code> : changer <code>bind-address = 127.0.0.1</code> en <code>bind-address = 172.30.230.81</code> (ou 0.0.0.0 pour toutes interfaces)</li>
               <li>Redémarrer le service : <code>service mysql restart</code></li>
               <li>Dans l'invite MySQL, créer l'utilisateur PRTG avec les droits nécessaires :</li>
-              <li><code>GRANT ALL PRIVILEGES ON gsb_frais.* TO prtguser@172.30.230.91 IDENTIFIED BY 'secret';</code></li>
+              <li><code>GRANT ALL PRIVILEGES ON gsb_frais.* TO <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c8b8babcafbdbbadba88f9fffae6fbf8e6fafbf8e6f1f9">[email&#160;protected]</a> IDENTIFIED BY 'secret';</code></li>
               <li>Renseigner les credentials MySQL dans les paramètres de l'équipement LAMP dans PRTG (utilisateur : prtguser)</li>
             </ul>
           </div>
@@ -600,8 +614,4 @@
 </div>
 
 <footer>
-  Portfolio de <strong>Adrien Blaize</strong> &nbsp;·&nbsp; BTS SIO SISR &nbsp;·&nbsp; La Martinière Duchère &nbsp;·&nbsp; 2025
-</footer>
-<script src="../../../js/nav.js"></script>
-</body>
-</html>
+  Portfolio de <strong>Adrien Blaize</strong> &nbsp;·&nbsp; BTS SIO SISR &nb
