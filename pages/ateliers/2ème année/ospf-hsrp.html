@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP — OSPF & HSRP · BTS SIO SISR</title>
+<link rel="stylesheet" href="../../../css/style.css">
+<style>
+.breadcrumb { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; color: var(--light); margin-bottom: 0.75rem; flex-wrap: wrap; }
+.breadcrumb a { color: var(--light); text-decoration: none; }
+.breadcrumb a:hover { color: var(--accent); }
+.breadcrumb span { color: var(--accent); font-weight: 600; }
+
+/* ─── HERO ─── */
+.page-hero {
+  background: #0d0a1f; border: 1px solid #2a1a4a;
+  border-radius: 16px; overflow: hidden; margin-bottom: 2rem;
+}
+.page-hero-banner {
+  height: 90px;
+  background: linear-gradient(135deg, #0d0a1f, #1a0d3a, #0a1a2e, #0d0a1f);
+  display: flex; align-items: center; justify-content: center;
+  gap: 1.25rem; font-size: 2.2rem;
+  border-bottom: 1px solid #2a1a4a;
+}
+.page-hero-body { padding: 1.5rem 2rem; }
+.page-hero-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #a78bfa; margin-bottom: 0.4rem; }
+.page-hero-title { font-family: 'Playfair Display', serif; font-weight: 800; font-size: clamp(1.2rem, 2.5vw, 1.65rem); line-height: 1.2; color: white; }
+.page-hero-sub { color: #9ca3af; font-size: 0.85rem; margin-top: 0.3rem; }
+
+/* ─── STATS ─── */
+.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
+.stat-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem 1.25rem; text-align: center; }
+.stat-num { font-family: 'Playfair Display', serif; font-weight: 800; font-size: 1.8rem; color: var(--accent); line-height: 1; }
+.stat-num.purple { color: #7c3aed; }
+.stat-num.green { color: #16a34a; }
+.stat-label { color: var(--muted); font-size: 0.78rem; margin-top: 0.3rem; }
+
+/* ─── CONTENT BLOCKS ─── */
+.content-block { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 1.75rem 2rem; margin-bottom: 1.25rem; }
+.content-block-title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem; }
+.content-block-title::before { content: ''; display: block; width: 3px; height: 18px; background: #7c3aed; border-radius: 2px; flex-shrink: 0; }
+.content-block-title.blue::before { background: var(--accent); }
+.content-block-title.green::before { background: #16a34a; }
+.content-block-title.orange::before { background: #f97316; }
+.content-text { color: var(--muted); font-size: 0.9rem; line-height: 1.85; }
+.content-text p + p { margin-top: 0.75rem; }
+
+/* ─── PARTIE HEADERS ─── */
+.partie-banner {
+  border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.25rem;
+  display: flex; align-items: center; gap: 0.85rem;
+}
+.partie-banner.p1 { background: linear-gradient(135deg, #0d0a1f, #1a0d3a); border: 1px solid #2a1a4a; }
+.partie-banner.p2 { background: linear-gradient(135deg, #0a1a0a, #0e2e0e); border: 1px solid #1a3a1a; }
+.partie-num {
+  width: 36px; height: 36px; flex-shrink: 0; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 1rem; color: white;
+}
+.partie-banner.p1 .partie-num { background: #7c3aed; }
+.partie-banner.p2 .partie-num { background: #16a34a; }
+.partie-title { font-weight: 700; font-size: 0.98rem; color: white; }
+.partie-sub { font-size: 0.8rem; color: #9ca3af; margin-top: 0.15rem; }
+
+/* ─── ÉTAPES LIST ─── */
+.etapes-list { display: flex; flex-direction: column; gap: 0.75rem; }
+.etape-item { display: flex; align-items: flex-start; gap: 0.85rem; }
+.etape-num {
+  width: 26px; height: 26px; flex-shrink: 0;
+  background: #7c3aed; color: white; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.72rem; font-weight: 700; margin-top: 0.05rem;
+}
+.etape-num.green { background: #16a34a; }
+.etape-content { flex: 1; }
+.etape-title-text { font-weight: 600; font-size: 0.88rem; color: var(--text); margin-bottom: 0.2rem; }
+.etape-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.65; }
+.etape-sub { list-style: none; margin-top: 0.35rem; display: flex; flex-direction: column; gap: 0.2rem; }
+.etape-sub li { font-size: 0.81rem; color: var(--muted); padding-left: 1rem; position: relative; line-height: 1.55; }
+.etape-sub li::before { content: '›'; position: absolute; left: 0; color: #7c3aed; font-weight: 700; }
+
+/* ─── RÉSEAU TOPOLOGIE ─── */
+.topo-block {
+  background: #f8f4ff; border: 1px solid #ddd6fe;
+  border-radius: 12px; padding: 1.5rem; margin-top: 0.85rem;
+}
+.topo-row { display: flex; align-items: center; justify-content: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.6rem; }
+.topo-node { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 0.5rem 0.85rem; font-size: 0.78rem; font-weight: 600; text-align: center; white-space: nowrap; }
+.topo-node.site-a  { background: #faf5ff; border-color: #ddd6fe; color: #6d28d9; }
+.topo-node.site-b  { background: var(--accent-light); border-color: var(--accent-mid); color: var(--accent); }
+.topo-node.site-e  { background: #f0fdf4; border-color: #bbf7d0; color: #16a34a; }
+.topo-node.site-f  { background: #fff7ed; border-color: #fed7aa; color: #c2410c; }
+.topo-node.core    { background: #f1f5f9; border-color: #cbd5e1; color: #475569; }
+.topo-arrow { font-size: 1rem; color: var(--muted); }
+.topo-label { font-size: 0.68rem; color: var(--light); text-align: center; margin-top: 0.2rem; }
+
+/* ─── PING TABLE ─── */
+.ping-table { width: 100%; border-collapse: collapse; font-size: 0.83rem; margin-top: 0.75rem; }
+.ping-table th { background: #1e1e1e; color: white; text-align: left; padding: 0.6rem 1rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.ping-table td { padding: 0.55rem 1rem; color: var(--muted); border-bottom: 1px solid var(--border); vertical-align: top; font-size: 0.8rem; line-height: 1.5; }
+.ping-table tr:nth-child(even) td { background: var(--surface); }
+.ping-table tr:last-child td { border-bottom: none; }
+.badge-ok  { background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; padding: 0.12rem 0.5rem; border-radius: 100px; font-size: 0.7rem; font-weight: 700; white-space: nowrap; }
+.badge-ko  { background: #fef2f2; border: 1px solid #fecaca; color: #b91c1c; padding: 0.12rem 0.5rem; border-radius: 100px; font-size: 0.7rem; font-weight: 700; white-space: nowrap; }
+.badge-na  { background: var(--tag-bg); border: 1px solid var(--border); color: var(--muted); padding: 0.12rem 0.5rem; border-radius: 100px; font-size: 0.7rem; font-weight: 600; white-space: nowrap; }
+
+/* ─── CONFIG BLOC ─── */
+.config-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.85rem; margin-top: 0.75rem; }
+.config-card { background: #0d0a1f; border: 1px solid #2a1a4a; border-radius: 10px; overflow: hidden; }
+.config-card-header { background: #1a0d3a; padding: 0.65rem 1rem; font-size: 0.78rem; font-weight: 700; color: #a78bfa; letter-spacing: 0.05em; border-bottom: 1px solid #2a1a4a; }
+.config-card pre { margin: 0; padding: 1rem; font-size: 0.77rem; color: #e2e8f0; line-height: 1.7; overflow-x: auto; white-space: pre-wrap; }
+.config-card pre .cmd-purple { color: #c4b5fd; }
+.config-card pre .cmd-green  { color: #86efac; }
+.config-card pre .cmd-orange { color: #fdba74; }
+.config-card pre .cmd-comment { color: #6b7280; font-style: italic; }
+
+/* ─── TECH TAGS ─── */
+.tech-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; }
+.tech-tag { font-size: 0.73rem; font-weight: 600; padding: 0.22rem 0.65rem; border-radius: 100px; }
+.tech-tag.purple  { background: #faf5ff; border: 1px solid #ddd6fe; color: #6d28d9; }
+.tech-tag.blue    { background: var(--accent-light); border: 1px solid var(--accent-mid); color: var(--accent); }
+.tech-tag.green   { background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; }
+.tech-tag.neutral { background: var(--tag-bg); border: 1px solid var(--border); color: var(--muted); }
+
+/* ─── PDF EMBED ─── */
+.pdf-section { background: white; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 1.25rem; }
+.pdf-header { padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); gap: 1rem; flex-wrap: wrap; }
+.pdf-header-left { display: flex; align-items: center; gap: 1rem; }
+.pdf-header-icon { width: 42px; height: 42px; background: #faf5ff; border: 1px solid #ddd6fe; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+.pdf-header-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #7c3aed; margin-bottom: 0.2rem; }
+.pdf-header-title { font-weight: 600; font-size: 0.92rem; color: var(--text); }
+.pdf-embed { width: 100%; height: 860px; border: none; display: block; }
+.dl-btn-dark { display: inline-flex; align-items: center; gap: 0.5rem; background: #7c3aed; color: white; text-decoration: none; padding: 0.65rem 1.3rem; border-radius: 8px; font-weight: 600; font-size: 0.85rem; white-space: nowrap; transition: all 0.18s; }
+.dl-btn-dark:hover { background: #6d28d9; transform: translateY(-1px); }
+
+/* ─── NAV BOTTOM ─── */
+.nav-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+.nav-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.83rem; font-weight: 600; color: var(--muted); text-decoration: none; transition: color 0.18s; }
+.nav-btn:hover { color: var(--accent); }
+
+@media (max-width: 700px) {
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .config-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../../../index.html" class="nav-logo">Adrien <span>Blaize</span></a>
+  <ul class="nav-links">
+    <li><a href="../../../index.html">Accueil</a></li>
+    <li><a href="../../about.html">À propos de moi</a></li>
+    <li><a href="../../ateliers.html" class="active">Ateliers Pro</a></li>
+    <li class="nav-dropdown">
+      <a href="../../stages.html">Stages</a>
+      <div class="dropdown-menu">
+        <a href="../../stages/stage1.html">🏢 Stage 1 — Paredes Orapi</a>
+        <a href="../../stages/stage2.html">🏢 Stage 2 — SIA BDE INSA</a>
+      </div>
+    </li>
+    <li><a href="../../veille.html">Veille techno</a></li>
+  </ul>
+</nav>
+
+<div class="page-content">
+  <div class="section">
+
+    <div class="breadcrumb">
+      <a href="../../ateliers.html">Ateliers Professionnels</a> ›
+      <a href="../../ateliers.html">Année 2</a> ›
+      <span>AP — OSPF & HSRP</span>
+    </div>
+
+    <!-- ══ HERO ══ -->
+    <div class="page-hero">
+      <div class="page-hero-banner">🌐 🔀 🛡️</div>
+      <div class="page-hero-body">
+        <div class="page-hero-label">Atelier de Professionnalisation — Année 2 · BTS SIO SISR</div>
+        <div class="page-hero-title">OSPF & HSRP — Routage Dynamique & Tolérance de Panne</div>
+        <div class="page-hero-sub">Packet Tracer · OSPF · NAT · SPF · Équilibrage de charge · HSRP · Redondance</div>
+      </div>
+    </div>
+
+    <!-- ══ STATS ══ -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-num purple">6</div>
+        <div class="stat-label">Routeurs configurés</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num purple">2</div>
+        <div class="stat-label">Parties réalisées</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num green">✓</div>
+        <div class="stat-label">OSPF convergé</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num green">✓</div>
+        <div class="stat-label">Basculement HSRP validé</div>
+      </div>
+    </div>
+
+    <!-- ══ CONTEXTE ══ -->
+    <div class="content-block">
+      <div class="content-block-title">Contexte de l'atelier</div>
+      <div class="content-text">
+        <p>Cet atelier de professionnalisation de 2ème année BTS SIO SISR s'appuie sur une maquette Cisco Packet Tracer représentant une entreprise à quatre sites (Siège B, Agence Nord C, Agence Sud D, Agence Est E) et deux sous-traitants (Site A et Site F) accédant au réseau via <strong>NAT</strong>.</p>
+        <p>La <strong>Partie 1</strong> consiste à mettre en place le protocole de routage dynamique <strong>OSPF</strong> sur l'ensemble des routeurs de liaison, puis à démontrer sa résilience en mode dégradé (rupture de lien, dégradation de bande passante). La <strong>Partie 2</strong> introduit la <strong>redondance de passerelle</strong> sur le Site A via le protocole <strong>HSRP</strong>, avec l'ajout d'un second routeur RtA-bis relié à RtD.</p>
+      </div>
+    </div>
+
+    <!-- ══ TOPOLOGIE ══ -->
+    <div class="content-block">
+      <div class="content-block-title">Topologie du réseau</div>
+      <div class="topo-block">
+        <div class="topo-row">
+          <div class="topo-node site-a">🏠 Site A — RtA<br><small>192.168.0.0/24 · NAT</small></div>
+          <div class="topo-arrow">↔</div>
+          <div class="topo-node site-b">🏢 Site B — RtB (Siège)<br><small>172.11.0.0/24 · Serv-B</small></div>
+          <div class="topo-arrow">↔</div>
+          <div class="topo-node core">📡 Site C — RtC<br><small>Agence Nord</small></div>
+        </div>
+        <div class="topo-row">
+          <div class="topo-node core">📡 Site D — RtD<br><small>Agence Sud</small></div>
+          <div class="topo-arrow">↔</div>
+          <div class="topo-node site-e">🖥️ Site E — RtE<br><small>172.12.0.0/24 · Serv-E</small></div>
+          <div class="topo-arrow">↔</div>
+          <div class="topo-node site-f">🏠 Site F — RtF<br><small>192.168.0.0/24 · NAT</small></div>
+        </div>
+        <div class="topo-label">Liaisons séries /30 dans le plan 20.0.0.0/8 — Maillage partiel avec redondance RtB↔RtC↔RtE↔RtD</div>
+      </div>
+    </div>
+
+    <!-- ══ PARTIE 1 — OSPF ══ -->
+    <div class="content-block">
+      <div class="partie-banner p1">
+        <div class="partie-num">1</div>
+        <div>
+          <div class="partie-title">Partie 1 — Routage Dynamique OSPF</div>
+          <div class="partie-sub">Vérifications initiales · Configuration OSPF · Mode dégradé</div>
+        </div>
+      </div>
+
+      <!-- Étape 1 : vérifications -->
+      <div style="margin-bottom: 1.5rem;">
+        <div style="font-size:0.72rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#7c3aed; margin-bottom:0.65rem;">Étape 1 — État initial (avant OSPF)</div>
+
+        <div class="content-text" style="margin-bottom: 0.85rem;">
+          <p>Avant toute configuration OSPF, j'ai réalisé un audit complet des pings pour établir la situation de départ. Les routeurs de liaison n'ont que leurs routes directement connectées — aucune route dynamique n'est encore échangée.</p>
+        </div>
+
+        <table class="ping-table">
+          <thead>
+            <tr>
+              <th>Source</th>
+              <th>✅ Pings qui fonctionnent</th>
+              <th>❌ Échouent (devraient marcher après OSPF)</th>
+              <th>🚫 N'ont pas à fonctionner (NAT)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>PC-A (Site A)</strong></td>
+              <td>Passerelle RtA (192.168.0.254)<br>Serv-B (172.11.0.1) via route par défaut</td>
+              <td>Serv-E (172.12.0.1) — RtB ignore le chemin vers site E<br>Interface RtF (20.0.0.1) — cœur non routé vers RtF</td>
+              <td>PC-F1 (192.168.0.1) — même IP privée masquée NAT<br>PC-F2 (192.168.0.2) — IP privée distante</td>
+            </tr>
+            <tr>
+              <td><strong>PC-F1 / F2 (Site F)</strong></td>
+              <td>Passerelle RtF · Voisins LAN · Serv-E via route par défaut RtF→RtE</td>
+              <td>Serv-B (172.11.0.1) — RtE ne connaît pas RtB<br>Interface RtA (20.6.6.2) — inaccessible sans OSPF</td>
+              <td>PC-A (192.168.0.1) — IP privée distante</td>
+            </tr>
+            <tr>
+              <td><strong>Serv-B (Site B)</strong></td>
+              <td>Passerelle RtB · RtA, RtC, RtD, RtE — voisins directs</td>
+              <td>Serv-E (172.12.0.1) — aucune route LAN B↔E<br>RtF (20.0.0.1) — non adjacent, inconnu</td>
+              <td>PC-A (192.168.0.1) — NAT de RtA bloque retour<br>PC-F1 — masqué par NAT RtF</td>
+            </tr>
+            <tr>
+              <td><strong>Routeurs liaison (RtB, C, D, E)</strong></td>
+              <td>Tous leurs voisins directs</td>
+              <td>Toute destination distante (ex. RtC ↛ RtF, RtA)</td>
+              <td>Tous les PC — réseaux privés derrière NAT inconnus</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Étape 2 : NAT -->
+      <div style="margin-bottom: 1.5rem;">
+        <div style="font-size:0.72rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#7c3aed; margin-bottom:0.65rem;">Étape 1 — Vérification du NAT</div>
+        <div class="content-text">
+          <p>J'ai vérifié le fonctionnement du NAT sur les routeurs terminaux RtA et RtF. La commande <code>show ip nat translations</code> sur RtA confirme que l'adresse <strong>Inside Local 192.168.0.1</strong> (PC-A) est bien traduite en <strong>Inside Global 20.6.6.2</strong> (interface série de RtA) lors d'un ping vers Serv-B. La capture du PDU en mode simulation montre que la source passe de 192.168.0.1 (Inbound) à 20.6.6.2 (Outbound) — le NAT fonctionne correctement.</p>
+        </div>
+      </div>
+
+      <!-- Étape 2 : config OSPF -->
+      <div style="margin-bottom: 1.5rem;">
+        <div style="font-size:0.72rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#7c3aed; margin-bottom:0.65rem;">Étape 2 — Configuration OSPF sur tous les routeurs</div>
+        <div class="content-text" style="margin-bottom: 0.75rem;">
+          <p>J'ai configuré le processus OSPF 1 sur chacun des six routeurs. Les interfaces LAN des routeurs terminaux (RtA et RtF) sont déclarées en <strong>passive-interface</strong> pour éviter l'envoi inutile de hello OSPF vers les postes clients.</p>
+        </div>
+        <div class="config-grid">
+          <div class="config-card">
+            <div class="config-card-header">Routeur A (RtA)</div>
+            <pre><span class="cmd-comment"># Pas de config OSPF sur RtA</span>
+<span class="cmd-comment"># Route par défaut uniquement</span>
+<span class="cmd-comment"># Interface Fa0/1 côté LAN site A</span></pre>
+          </div>
+          <div class="config-card">
+            <div class="config-card-header">Routeur B (RtB) — Siège</div>
+            <pre><span class="cmd-purple">router ospf 1</span>
+ <span class="cmd-green">router-id 2.2.2.2</span>
+ <span class="cmd-orange">network</span> 172.11.0.0 0.0.0.255 area 0
+ <span class="cmd-orange">network</span> 20.6.6.0 0.0.0.3 area 0
+ <span class="cmd-orange">network</span> 20.5.5.0 0.0.0.3 area 0
+ <span class="cmd-orange">network</span> 20.4.4.0 0.0.0.3 area 0
+ <span class="cmd-orange">network</span> 20.2.2.0 0.0.0.3 area 0
+ passive-interface Se0/1/1</pre>
+          </div>
+          <div class="config-card">
+            <div class="config-card-header">Routeur C (RtC)</div>
+            <pre><span class="cmd-purple">router ospf 1</span>
+ <span class="cmd-green">router-id 3.3.3.3</span>
+ <span class="cmd-orange">network</span> 20.5.5.0 0.0.0.3 area 0
+ <span class="cmd-orange">network</span> 20.1.1.0 0.0.0.3 area 0</pre>
+          </div>
+          <div class="config-card">
+            <div class="config-card-header">Routeur D (RtD)</div>
+            <pre><span class="cmd-purple">router ospf 1</span>
+ <span class="cmd-green">router-id 4.4.4.4</span>
+ <span class="cmd-orange">network</span> 20.4.4.0 0.0.0.3 area 0
+ <span class="cmd-orange">network</span> 20.3.3.0 0.0.0.3 area 0</pre>
+          </div>
+          <div class="config-card">
+            <div class="config-card-header">Routeur E (RtE) — Agence Est</div>
+            <pre><span class="cmd-purple">router ospf 1</span>
+ <span class="cmd-green">router-id 5.5.5.5</span>
+ <span class="cmd-orange">network</span> 172.12.0.0 0.0.0.255 area 0
+ <span class="cmd-orange">network</span> 20.2.2.0 0.0.0.3 area 0
+ <span class="cmd-orange">network</span> 20.1.1.0 0.0.0.3 area 0
+ <span class="cmd-orange">network</span> 20.3.3.0 0.0.0.3 area 0
+ <span class="cmd-orange">network</span> 20.0.0.0 0.0.0.3 area 0
+ passive-interface Se0/0/0</pre>
+          </div>
+          <div class="config-card">
+            <div class="config-card-header">Routeur F (RtF)</div>
+            <pre><span class="cmd-comment"># Pas de config OSPF sur RtF</span>
+<span class="cmd-comment"># Route par défaut uniquement</span>
+<span class="cmd-comment"># Interface Fa0/0 côté LAN site F</span></pre>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table de routage -->
+      <div style="margin-bottom: 1.5rem;">
+        <div style="font-size:0.72rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#7c3aed; margin-bottom:0.65rem;">Étape 2 — Validation : table de routage RtB</div>
+        <div class="content-text">
+          <p>Après convergence OSPF, j'ai extrait la table de routage de RtB. Les routes marquées <strong>« O »</strong> sont apprises dynamiquement par OSPF. La notation <strong>[110/192]</strong> indique la distance administrative d'OSPF (110) et la métrique (coût 192). Un point notable : pour le réseau 20.0.0.0/30 (Site F), deux sauts équivalents apparaissent — via 20.5.5.1 (RtC) et via 20.4.4.1 (RtD) — preuve qu'<strong>OSPF effectue un équilibrage de charge</strong> sur deux chemins de coût identique. RtB connaît désormais le réseau 172.12.0.0/24 (Serv-E) qu'il ignorait auparavant.</p>
+          <p>Le tracert de PC-A vers Serv-E (172.12.0.1) confirme le chemin : RtA → RtB → RtC → RtE → Serv-E en 5 sauts.</p>
+        </div>
+      </div>
+
+      <!-- Mode dégradé -->
+      <div style="margin-bottom: 0.5rem;">
+        <div style="font-size:0.72rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; color:#7c3aed; margin-bottom:0.65rem;">Étape 3 — Mode dégradé : rupture de lien & dégradation de bande passante</div>
+        <div class="etapes-list">
+
+          <div class="etape-item">
+            <div class="etape-num">A</div>
+            <div class="etape-content">
+              <div class="etape-title-text">Rupture de lien RtB ↔ RtC (shutdown Serial0/0/1)</div>
+              <div class="etape-desc">J'ai désactivé l'interface Serial0/0/1 de RtB pour couper le lien redondant vers RtC. Immédiatement, le message <code>%OSPF-5-ADJCHG: Nbr 3.3.3.3 from FULL to DOWN</code> s'affiche sur la console — OSPF a détecté la perte du voisin. La table de routage se met à jour en temps réel : toutes les routes via 20.5.5.1 disparaissent, le réseau 172.12.0.0/24 est désormais atteint uniquement via RtD (20.4.4.1) avec un coût de 129 [110/129]. La connectivité est maintenue par le chemin de secours.</div>
+            </div>
+          </div>
+
+          <div class="etape-item">
+            <div class="etape-num">B</div>
+            <div class="etape-content">
+              <div class="etape-title-text">Dégradation de bande passante (bandwidth 256 sur Serial0/0/1)</div>
+              <div class="etape-desc">Pour démontrer la sensibilité d'OSPF à la qualité des liens, j'ai abaissé la bande passante déclarée sur Serial0/0/1 de RtB à <strong>256 Kbps</strong> (défaut : 1544 Kbps). Le coût de ce lien grimpe alors à 390 selon la formule <code>Coût = 10⁸ / Bande passante</code>. OSPF recalcule et préfère le chemin via RtD (coût total 129 = 64+64+1). Le tracert depuis PC-A vers 20.0.0.1 (RtF) passe désormais par le saut 3 = 20.4.4.1 (RtD) au lieu de RtC, prouvant que <strong>OSPF sélectionne la route la plus performante et non la plus courte en sauts</strong>.</div>
+              <ul class="etape-sub">
+                <li>Coût lien 256 Kbps : 10⁸ / 256 000 = ~390</li>
+                <li>Chemin via RtC devenu trop cher (coût &gt; 450) vs RtD (coût 129)</li>
+                <li>Tracert validé : PC-A → RtA → RtB → RtD → RtE → RtF en 5 sauts</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="tech-row" style="margin-top: 1.25rem;">
+        <span class="tech-tag purple">OSPF</span>
+        <span class="tech-tag purple">SPF Algorithm</span>
+        <span class="tech-tag purple">Area 0</span>
+        <span class="tech-tag blue">Cisco IOS</span>
+        <span class="tech-tag blue">NAT/PAT</span>
+        <span class="tech-tag neutral">Passive-interface</span>
+        <span class="tech-tag neutral">Packet Tracer</span>
+        <span class="tech-tag neutral">tracert / show ip route</span>
+      </div>
+    </div>
+
+    <!-- ══ PARTIE 2 — HSRP ══ -->
+    <div class="content-block">
+      <div class="partie-banner p2">
+        <div class="partie-num green">2</div>
+        <div>
+          <div class="partie-title">Partie 2 — Redondance de Passerelle HSRP</div>
+          <div class="partie-sub">Ajout RtA-bis · OSPF sur RtD · Configuration HSRP · Basculement</div>
+        </div>
+      </div>
+
+      <div class="etapes-list">
+
+        <div class="etape-item">
+          <div class="etape-num green">7</div>
+          <div class="etape-content">
+            <div class="etape-title-text">Ajout du routeur RtA-bis et configuration des interfaces</div>
+            <div class="etape-desc">J'ai intégré un second routeur sur le Site A pour assurer la redondance de la passerelle. Ses interfaces sont configurées comme suit :</div>
+            <ul class="etape-sub">
+              <li>Interface LAN <strong>FastEthernet 0/0</strong> : 192.168.0.253 /24 — reliée au port Fa0/2 du switch du Site A</li>
+              <li>Interface WAN <strong>Serial 0/0/0</strong> : 20.7.7.2 /30 — liaison série vers RtD</li>
+              <li>OSPF : router-id 1.1.1.2 · network 192.168.0.0/24 et 20.7.7.0/30 · passive-interface Fa0/0</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="etape-item">
+          <div class="etape-num green">8</div>
+          <div class="etape-content">
+            <div class="etape-title-text">Mise à jour OSPF sur RtD pour inclure la liaison vers RtA-bis</div>
+            <div class="etape-desc">J'ai activé l'interface Serial0/0/0 de RtD (adresse 20.7.7.1 /30) et ajouté le réseau 20.7.7.0/30 dans son processus OSPF. RtD annonce ainsi ce nouveau chemin vers le reste de la maquette, permettant au trafic retour d'atteindre le Site A via RtA-bis.</div>
+          </div>
+        </div>
+
+        <div class="etape-item">
+          <div class="etape-num green">9</div>
+          <div class="etape-content">
+            <div class="etape-title-text">Test du nouveau chemin (passerelle PC-A = 192.168.0.253)</div>
+            <div class="etape-desc">En configurant temporairement PC-A avec la passerelle de RtA-bis, un tracert vers 172.12.0.1 confirme le nouveau trajet en 4 sauts : 192.168.0.253 → 20.7.7.1 (RtD) → 20.3.3.1 (RtE) → 172.12.0.1. Le chemin fonctionne via RtA-bis.</div>
+          </div>
+        </div>
+
+        <div class="etape-item">
+          <div class="etape-num green">10</div>
+          <div class="etape-content">
+            <div class="etape-title-text">Configuration HSRP sur RtA (Actif) et RtA-bis (Standby)</div>
+            <div class="etape-desc">HSRP crée une <strong>adresse IP virtuelle commune</strong> (192.168.0.254) que les deux routeurs partagent. RtA est défini comme routeur prioritaire avec une priorité de 150 (défaut : 100). En cas de panne de RtA, RtA-bis prend automatiquement le relai.</div>
+            <ul class="etape-sub">
+              <li><strong>RtA</strong> : standby 1 ip 192.168.0.254 · priority 150 · preempt → état <em>Active</em></li>
+              <li><strong>RtA-bis</strong> : standby 1 ip 192.168.0.254 · preempt (priorité 100 par défaut) → état <em>Standby</em></li>
+              <li>Validation : <code>show standby brief</code> confirme RtA = Active, RtA-bis = Standby</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="etape-item">
+          <div class="etape-num green">11</div>
+          <div class="etape-content">
+            <div class="etape-title-text">Test HSRP en fonctionnement normal (passerelle virtuelle .254)</div>
+            <div class="etape-desc">PC-A est configuré avec la passerelle virtuelle <strong>192.168.0.254</strong>. Le tracert vers 172.12.0.1 montre que le premier saut passe par l'IP physique de RtA (192.168.0.252), confirmant que HSRP dirige bien le trafic vers le routeur prioritaire. Le flux suit ensuite le chemin OSPF classique : RtA → RtB → RtC/D → RtE.</div>
+          </div>
+        </div>
+
+        <div class="etape-item">
+          <div class="etape-num green">12</div>
+          <div class="etape-content">
+            <div class="etape-title-text">Simulation de panne — Basculement vers RtA-bis</div>
+            <div class="etape-desc">J'ai désactivé l'interface LAN de RtA (shutdown sur Fa0/1). Immédiatement, le message <code>%HSRP-6-STATECHANGE: Fa0/1 Grp 1 state Active → Init</code> s'affiche sur RtA, suivi de <code>FastEthernet0/0 Grp 1 state Standby → Active</code> sur RtA-bis. Le tracert relancé depuis PC-A prouve le basculement :</div>
+            <ul class="etape-sub">
+              <li>Saut 1 : 192.168.0.253 — RtA-bis prend le relai de façon transparente</li>
+              <li>Saut 2 : 20.7.7.1 — passage par la liaison série RtA-bis → RtD</li>
+              <li>Destination atteinte en 4 sauts — aucune interruption visible pour l'utilisateur</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="tech-row" style="margin-top: 1.25rem;">
+        <span class="tech-tag green">HSRP</span>
+        <span class="tech-tag green">Standby / Preempt</span>
+        <span class="tech-tag green">IP Virtuelle</span>
+        <span class="tech-tag purple">OSPF</span>
+        <span class="tech-tag blue">Cisco IOS</span>
+        <span class="tech-tag neutral">Packet Tracer</span>
+        <span class="tech-tag neutral">show standby brief</span>
+      </div>
+    </div>
+
+    <!-- ══ PDF — COMPTE-RENDU ══ -->
+    <div class="pdf-section">
+      <div class="pdf-header">
+        <div class="pdf-header-left">
+          <div class="pdf-header-icon">📄</div>
+          <div>
+            <div class="pdf-header-label">Compte-rendu</div>
+            <div class="pdf-header-title">AP OSPF & HSRP — Rapport complet</div>
+          </div>
+        </div>
+        <a href="../../../files/BLAIZE_OSPF.pdf" download class="dl-btn-dark">⬇&nbsp; Télécharger</a>
+      </div>
+      <iframe class="pdf-embed" src="../../../files/BLAIZE_OSPF.pdf" title="Compte-rendu AP OSPF HSRP — Adrien BLAIZE"></iframe>
+    </div>
+
+    <!-- ══ PDF — SUJET ══ -->
+    <div class="pdf-section">
+      <div class="pdf-header">
+        <div class="pdf-header-left">
+          <div class="pdf-header-icon">📋</div>
+          <div>
+            <div class="pdf-header-label">Sujet de l'atelier</div>
+            <div class="pdf-header-title">Exolab Découverte OSPF-HSRP — CERTA</div>
+          </div>
+        </div>
+        <a href="../../../files/3A-Exolab-Decouverte-OSPF-HSRP-dd_docx.pdf" download class="dl-btn-dark">⬇&nbsp; Télécharger</a>
+      </div>
+      <iframe class="pdf-embed" src="../../../files/3A-Exolab-Decouverte-OSPF-HSRP-dd_docx.pdf" title="Sujet Exolab OSPF HSRP — CERTA"></iframe>
+    </div>
+
+    <!-- ══ OUTILS ══ -->
+    <div class="content-block">
+      <div class="content-block-title blue">Outils & technologies utilisés</div>
+      <div class="chips" style="gap: 0.5rem;">
+        <span class="chip blue">OSPF</span>
+        <span class="chip blue">HSRP</span>
+        <span class="chip blue">Cisco IOS</span>
+        <span class="chip blue">Packet Tracer</span>
+        <span class="chip">NAT/PAT</span>
+        <span class="chip">SPF Algorithm</span>
+        <span class="chip">show ip route</span>
+        <span class="chip">show ip ospf neighbor</span>
+        <span class="chip">show standby brief</span>
+        <span class="chip">tracert</span>
+      </div>
+    </div>
+
+    <div class="nav-bottom">
+      <a class="nav-btn" href="../../ateliers.html">← Retour aux Ateliers</a>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  Portfolio de <strong>Adrien Blaize</strong> &nbsp;·&nbsp; BTS SIO SISR &nbsp;·&nbsp; La Martinière Duchère &nbsp;·&nbsp; 2025
+</footer>
+<script src="../../../js/nav.js"></script>
+</body>
+</html>
