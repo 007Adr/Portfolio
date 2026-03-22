@@ -32,93 +32,85 @@
 .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
 .stat-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem 1.25rem; text-align: center; }
 .stat-num { font-family: 'Playfair Display', serif; font-weight: 800; font-size: 1.8rem; color: var(--accent); line-height: 1; }
+.stat-num.green { color: #16a34a; }
 .stat-label { color: var(--muted); font-size: 0.78rem; margin-top: 0.3rem; }
 
 /* ─── CONTENT BLOCKS ─── */
 .content-block { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 1.75rem 2rem; margin-bottom: 1.25rem; }
 .content-block-title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem; }
-.content-block-title::before { content: ''; display: block; width: 3px; height: 18px; background: var(--accent); border-radius: 2px; flex-shrink: 0; }
-.content-block-title.green::before { background: #16a34a; }
-.content-block-title.orange::before { background: #f97316; }
+.content-block-title::before { content: ''; display: block; width: 3px; height: 18px; background: #16a34a; border-radius: 2px; flex-shrink: 0; }
+.content-block-title.blue::before { background: var(--accent); }
 .content-text { color: var(--muted); font-size: 0.9rem; line-height: 1.85; }
 .content-text p + p { margin-top: 0.75rem; }
 
-/* ─── PARTIES ─── */
-.partie-header {
-  border-radius: 14px; overflow: hidden; margin-bottom: 1.25rem;
-}
-.partie-banner {
-  padding: 1rem 1.5rem; display: flex; align-items: center; gap: 1rem;
-}
-.partie-banner.p1 { background: linear-gradient(135deg, #0a1a0a, #0e2e0e); border-bottom: 1px solid #1a3a1a; }
-.partie-banner.p2 { background: linear-gradient(135deg, #0d1520, #0e2340); border-bottom: 1px solid #1a2e4a; }
-.partie-num {
-  width: 38px; height: 38px; flex-shrink: 0; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-weight: 800; font-size: 1rem; color: white;
-}
-.partie-banner.p1 .partie-num { background: #16a34a; }
-.partie-banner.p2 .partie-num { background: var(--accent); }
-.partie-title { font-weight: 700; font-size: 0.98rem; color: white; }
-.partie-sub { font-size: 0.8rem; color: #9ca3af; margin-top: 0.15rem; }
+/* ─── ÉTAPE ITEMS — style PingCastle ─── */
+.etape-item { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 1rem; background: white; }
 
-/* ─── ÉTAPES LIST ─── */
-.etapes-list { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 0.5rem; }
-.etape-item { display: flex; align-items: flex-start; gap: 0.85rem; }
+.etape-header { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; }
+.etape-header.green  { background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-bottom: 1px solid #bbf7d0; }
+.etape-header.blue   { background: linear-gradient(135deg, #eff6ff, #dbeafe); border-bottom: 1px solid #bfdbfe; }
+.etape-header.orange { background: linear-gradient(135deg, #fff7ed, #ffedd5); border-bottom: 1px solid #fed7aa; }
+
 .etape-num {
-  width: 26px; height: 26px; flex-shrink: 0;
-  background: var(--accent); color: white; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.72rem; font-weight: 700; margin-top: 0.05rem;
+  width: 36px; height: 36px; flex-shrink: 0;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 0.95rem; color: white;
 }
-.etape-content { flex: 1; }
-.etape-title-text { font-weight: 600; font-size: 0.88rem; color: var(--text); margin-bottom: 0.2rem; }
-.etape-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.65; }
-.etape-sub { list-style: none; margin-top: 0.35rem; display: flex; flex-direction: column; gap: 0.2rem; }
-.etape-sub li { font-size: 0.81rem; color: var(--muted); padding-left: 1rem; position: relative; line-height: 1.55; }
-.etape-sub li::before { content: '›'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+.etape-header.green  .etape-num { background: #16a34a; }
+.etape-header.blue   .etape-num { background: var(--accent); }
+.etape-header.orange .etape-num { background: #f97316; }
 
-/* ─── RÉSEAU SCHEMA ─── */
-.schema-block {
-  background: #f8faff; border: 1px solid var(--accent-mid);
-  border-radius: 12px; padding: 1.5rem; margin-top: 0.85rem;
+.etape-title { font-weight: 700; font-size: 0.92rem; color: var(--text); }
+.etape-cat-badge {
+  margin-left: auto; font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 0.22rem 0.65rem; border-radius: 100px;
 }
-.schema-row { display: flex; align-items: center; justify-content: center; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
-.schema-node { background: white; border: 1px solid var(--border); border-radius: 10px; padding: 0.6rem 1rem; font-size: 0.82rem; font-weight: 600; text-align: center; white-space: nowrap; }
-.schema-node.wan { background: #fef2f2; border-color: #fecaca; color: #b91c1c; }
-.schema-node.pfsense { background: #fff7ed; border-color: #fed7aa; color: #c2410c; }
-.schema-node.lan { background: var(--accent-light); border-color: var(--accent-mid); color: var(--accent); }
-.schema-node.vpn { background: #f0fdf4; border-color: #bbf7d0; color: #16a34a; }
-.schema-arrow { font-size: 1.2rem; color: var(--muted); }
+.etape-header.green  .etape-cat-badge { background: #dcfce7; color: #15803d; }
+.etape-header.blue   .etape-cat-badge { background: #dbeafe; color: #1d4ed8; }
+.etape-header.orange .etape-cat-badge { background: #ffedd5; color: #c2410c; }
 
-/* ─── TECH TAGS ─── */
-.tech-row { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.75rem; }
-.tech-tag { font-size: 0.73rem; font-weight: 600; padding: 0.22rem 0.65rem; border-radius: 100px; }
-.tech-tag.green { background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; }
-.tech-tag.blue { background: var(--accent-light); border: 1px solid var(--accent-mid); color: var(--accent); }
-.tech-tag.orange { background: #fff7ed; border: 1px solid #fed7aa; color: #c2410c; }
-.tech-tag.neutral { background: var(--tag-bg); border: 1px solid var(--border); color: var(--muted); }
+.etape-body { padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 0.85rem; }
+.etape-section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem; }
+.etape-text { color: var(--muted); font-size: 0.87rem; line-height: 1.75; }
+
+.etape-steps { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; margin-top: 0.25rem; }
+.etape-steps li { font-size: 0.86rem; color: var(--muted); line-height: 1.6; padding-left: 1.4rem; position: relative; }
+.etape-steps li::before { content: '›'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+
+.impact-tag {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a;
+  padding: 0.3rem 0.85rem; border-radius: 100px;
+  font-size: 0.73rem; font-weight: 700;
+}
+.impact-tag.blue { background: var(--accent-light); border-color: var(--accent-mid); color: var(--accent); }
+
+/* ─── BILAN TABLE ─── */
+.bilan-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.bilan-table th { background: #1e1e1e; color: white; text-align: left; padding: 0.65rem 1rem; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.bilan-table td { padding: 0.6rem 1rem; color: var(--muted); border-bottom: 1px solid var(--border); }
+.bilan-table tr:last-child td { border-bottom: none; background: var(--accent-light); color: var(--accent); font-weight: 700; }
+.bilan-table tr:nth-child(even) td { background: var(--surface); }
+.badge-ok  { background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; padding: 0.15rem 0.55rem; border-radius: 100px; font-size: 0.72rem; font-weight: 700; }
 
 /* ─── PDF EMBED ─── */
-.pdf-section { background: white; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 2rem; }
+.pdf-section { background: white; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 1.25rem; }
 .pdf-header { padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); gap: 1rem; flex-wrap: wrap; }
 .pdf-header-left { display: flex; align-items: center; gap: 1rem; }
-.pdf-header-icon { width: 42px; height: 42px; background: var(--accent-light); border: 1px solid var(--accent-mid); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
-.pdf-header-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.2rem; }
+.pdf-header-icon { width: 42px; height: 42px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+.pdf-header-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #16a34a; margin-bottom: 0.2rem; }
 .pdf-header-title { font-weight: 600; font-size: 0.92rem; color: var(--text); }
 .pdf-embed { width: 100%; height: 860px; border: none; display: block; }
-.dl-btn-dark { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--accent); color: white; text-decoration: none; padding: 0.65rem 1.3rem; border-radius: 8px; font-weight: 600; font-size: 0.85rem; white-space: nowrap; transition: all 0.18s; }
-.dl-btn-dark:hover { background: #1a45c0; transform: translateY(-1px); }
+.dl-btn { display: inline-flex; align-items: center; gap: 0.5rem; background: #16a34a; color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 9px; font-weight: 700; font-size: 0.88rem; white-space: nowrap; transition: all 0.18s; flex-shrink: 0; }
+.dl-btn:hover { background: #15803d; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(22,163,74,0.35); }
 
 /* ─── NAV BOTTOM ─── */
 .nav-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
 .nav-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.83rem; font-weight: 600; color: var(--muted); text-decoration: none; transition: color 0.18s; }
 .nav-btn:hover { color: var(--accent); }
 
-@media (max-width: 700px) {
-  .stats-row { grid-template-columns: repeat(2, 1fr); }
-  .schema-row { flex-direction: column; }
-}
+@media (max-width: 700px) { .stats-row { grid-template-columns: repeat(2, 1fr); } }
 </style>
 </head>
 <body>
@@ -146,253 +138,43 @@
     <div class="breadcrumb">
       <a href="../../ateliers.html">Ateliers Professionnels</a> ›
       <a href="../../ateliers.html">Année 2</a> ›
-      <span>AP — pfSense & OpenVPN</span>
+      <span>AP — pfSense &amp; OpenVPN</span>
     </div>
 
-    <!-- ══ HERO ══ -->
+    <!-- HERO -->
     <div class="page-hero">
       <div class="page-hero-banner">🛡️ 🌐 🔒</div>
       <div class="page-hero-body">
         <div class="page-hero-label">Atelier de Professionnalisation — Année 2 · BTS SIO SISR</div>
-        <div class="page-hero-title">pfSense — Pare-feu, Redirection de port & VPN OpenVPN</div>
-        <div class="page-hero-sub">Infrastructure réseau · pfSense · NAT/PAT · OpenVPN · Certificats · Pare-feu</div>
+        <div class="page-hero-title">pfSense — Pare-feu, Redirection de port &amp; VPN OpenVPN</div>
+        <div class="page-hero-sub">Infrastructure réseau · pfSense · NAT/PAT · PKI complète · OpenVPN · Règles pare-feu</div>
       </div>
     </div>
 
-    <!-- ══ STATS ══ -->
+    <!-- STATS -->
     <div class="stats-row">
-      <div class="stat-card">
-        <div class="stat-num">2</div>
-        <div class="stat-label">Parties réalisées</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num">7</div>
-        <div class="stat-label">Étapes OpenVPN</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num">4</div>
-        <div class="stat-label">Règles pare-feu créées</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num">✓</div>
-        <div class="stat-label">Tunnel VPN validé</div>
-      </div>
+      <div class="stat-card"><div class="stat-num">2</div><div class="stat-label">Parties réalisées</div></div>
+      <div class="stat-card"><div class="stat-num">7</div><div class="stat-label">Étapes OpenVPN</div></div>
+      <div class="stat-card"><div class="stat-num green">4</div><div class="stat-label">Règles pare-feu créées</div></div>
+      <div class="stat-card"><div class="stat-num green">✓</div><div class="stat-label">Tunnel VPN validé</div></div>
     </div>
 
-    <!-- ══ CONTEXTE ══ -->
-    <div class="content-block">
-      <div class="content-block-title">Contexte de l'atelier</div>
-      <div class="content-text">
-        <p>Cet atelier de professionnalisation de 2ème année BTS SIO SISR consiste à déployer et configurer un <strong>pare-feu pfSense</strong> dans une infrastructure réseau virtualisée, puis à mettre en place un <strong>tunnel VPN OpenVPN</strong> permettant un accès distant sécurisé.</p>
-        <p>Le pfSense est équipé de deux interfaces réseau : une carte <strong>WAN</strong> reliée à la Livebox (réseau 192.168.1.0/24) et une carte <strong>LAN</strong> connectée au VNET étudiant (172.26.206.0/24). Un serveur Apache Linux est déployé derrière le pfSense et accessible depuis l'extérieur via redirection de port.</p>
-        <p>La seconde partie approfondit la sécurité avec la mise en place d'une <strong>PKI complète</strong> (Autorité de Certification, certificats serveur et utilisateur) et d'un serveur <strong>OpenVPN en mode accès distant</strong>, permettant de joindre le réseau interne depuis n'importe où de manière chiffrée.</p>
-      </div>
-    </div>
-
-    <!-- ══ ARCHITECTURE RÉSEAU ══ -->
-    <div class="content-block">
-      <div class="content-block-title">Architecture réseau</div>
-      <div class="schema-block">
-        <div class="schema-row">
-          <div class="schema-node wan">🌍 Internet<br><small>IP publique : 90.65.104.37</small></div>
-          <div class="schema-arrow">→</div>
-          <div class="schema-node wan">📦 Livebox (Box 2)<br><small>192.168.1.1 · VLAN992</small></div>
-          <div class="schema-arrow">→</div>
-          <div class="schema-node pfsense">🛡️ pfSense-206<br><small>WAN: 192.168.1.225 · LAN: 172.26.206.250</small></div>
-        </div>
-        <div class="schema-row">
-          <div class="schema-arrow" style="display:block; text-align:center; width:100%;">↓</div>
-        </div>
-        <div class="schema-row">
-          <div class="schema-node lan">🖥️ Serveur Apache<br><small>172.26.206.80 · HTTP:80 · SSH:22</small></div>
-          <div class="schema-arrow">←</div>
-          <div class="schema-node vpn">🔒 Tunnel OpenVPN<br><small>10.10.206.0/24 · UDP:20694</small></div>
-          <div class="schema-arrow">←</div>
-          <div class="schema-node vpn">💻 Client VPN<br><small>IP VPN : 10.10.206.6</small></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ══ PARTIE 1 ══ -->
-    <div class="content-block">
-      <div style="background: linear-gradient(135deg, #0a1a0a, #0e2e0e); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.85rem;">
-        <div style="width:36px; height:36px; background:#16a34a; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; color:white; flex-shrink:0;">1</div>
-        <div>
-          <div style="font-weight:700; font-size:0.98rem; color:white;">Première Partie — Infrastructure pfSense & Apache</div>
-          <div style="font-size:0.8rem; color:#9ca3af; margin-top:0.1rem;">Configuration serveurs · NAT/PAT · Redirection de port</div>
-        </div>
-      </div>
-
-      <div class="etapes-list">
-        <div class="etape-item">
-          <div class="etape-num" style="background:#16a34a;">1</div>
-          <div class="etape-content">
-            <div class="etape-title-text">Installation pfSense avec 2 cartes réseaux</div>
-            <div class="etape-desc">Déploiement depuis l'ISO netgate-installer. La carte WAN est configurée en DHCP sur le réseau 192.168.1.0/24 (VLAN992, reliée à la Livebox) avec réservation d'adresse statique. La carte LAN est fixée à 172.26.206.250 sur le VNET étudiant.</div>
-            <ul class="etape-sub">
-              <li>Ajout du hostname <code>pfSense-206</code> et du domaine <code>home.arpa</code> dans System/General Setup</li>
-              <li>Deux interfaces réseau virtuelles : <code>net0</code> (vlan992) et <code>net1</code> (vlan206)</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="etape-item">
-          <div class="etape-num" style="background:#16a34a;">2</div>
-          <div class="etape-content">
-            <div class="etape-title-text">Déploiement du serveur Apache Linux</div>
-            <div class="etape-desc">Installation d'une machine Linux sur le VNET étudiant (172.26.206.80). Le serveur accède à Internet via le pfSense qui assure le routage NAT. La page Apache affiche « Bonjour, je m'appelle Adrien Blaize / Je suis en BTS SIO ».</div>
-            <ul class="etape-sub">
-              <li>Interface réseau <code>enp0s18</code> configurée avec l'IP statique 172.26.206.80/24</li>
-              <li>Passerelle par défaut : 172.26.206.250 (pfSense LAN)</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="etape-item">
-          <div class="etape-num" style="background:#16a34a;">3</div>
-          <div class="etape-content">
-            <div class="etape-title-text">Redirection de port NAT/PAT (Port Forwarding)</div>
-            <div class="etape-desc">Configuration d'une règle NAT dans Firewall → NAT → Port Forward pour rediriger le trafic TCP entrant sur le port 26206 (WAN) vers le serveur Apache sur le port 80 (HTTP), à l'adresse interne 172.26.206.80.</div>
-            <ul class="etape-sub">
-              <li>Interface WAN · Protocole TCP · Port destination 26206 → 172.26.206.80:80</li>
-              <li>Réservation de l'IP 192.168.1.225 sur la Livebox via l'adresse MAC du pfSense</li>
-              <li>Redirection configurée sur la box par les professeurs (port 26206 mappé sur pfSense-206)</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="tech-row" style="margin-top: 1.25rem;">
-        <span class="tech-tag green">pfSense CE</span>
-        <span class="tech-tag green">Apache2</span>
-        <span class="tech-tag green">NAT/PAT</span>
-        <span class="tech-tag neutral">VLAN992</span>
-        <span class="tech-tag neutral">Debian Linux</span>
-        <span class="tech-tag neutral">Livebox Orange</span>
-      </div>
-    </div>
-
-    <!-- ══ PARTIE 2 ══ -->
-    <div class="content-block">
-      <div style="background: linear-gradient(135deg, #0d1520, #0e2340); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.85rem;">
-        <div style="width:36px; height:36px; background:var(--accent); border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; color:white; flex-shrink:0;">2</div>
-        <div>
-          <div style="font-weight:700; font-size:0.98rem; color:white;">Deuxième Partie — VPN OpenVPN avec PKI complète</div>
-          <div style="font-size:0.8rem; color:#9ca3af; margin-top:0.1rem;">CA · Certificats · OpenVPN Server · Règles pare-feu · Tests</div>
-        </div>
-      </div>
-
-      <div class="etapes-list">
-
-        <div class="etape-item">
-          <div class="etape-num">1</div>
-          <div class="etape-content">
-            <div class="etape-title-text">Créer l'Autorité de Certification (CA)</div>
-            <div class="etape-desc">Dans System → Certificates → Authorities, création d'une CA interne auto-signée nommée <strong>CA-BLAIZE</strong>. Common Name : <code>domblaize.local</code>, Organisation : <em>BLAIZE & Co</em>, localisation France / Rhône-Alpes / Lyon. Validité : 10 ans.</div>
-          </div>
-        </div>
-
-        <div class="etape-item">
-          <div class="etape-num">2</div>
-          <div class="etape-content">
-            <div class="etape-title-text">Créer le certificat serveur</div>
-            <div class="etape-desc">Génération d'un certificat interne <strong>Certificat-OpenVPN-AB</strong> signé par CA-BLAIZE, de type <em>Server Certificate</em>. Chiffrement RSA 2048 bits, algorithme SHA256, durée de validité 3650 jours. Common Name : <code>Firewall-Pfsense-AB</code>.</div>
-          </div>
-        </div>
-
-        <div class="etape-item">
-          <div class="etape-num">3</div>
-          <div class="etape-content">
-            <div class="etape-title-text">Créer un utilisateur et son certificat</div>
-            <div class="etape-desc">Dans System → User Manager, création du compte <strong>adrien.blaize</strong> avec mot de passe sécurisé et génération simultanée du certificat utilisateur <strong>Certificat-VPN-Adrien</strong>, rattaché à CA-BLAIZE (RSA 2048 / SHA256 / 3650 jours).</div>
-          </div>
-        </div>
-
-        <div class="etape-item">
-          <div class="etape-num">4</div>
-          <div class="etape-content">
-            <div class="etape-title-text">Configurer le serveur OpenVPN</div>
-            <div class="etape-desc">Dans VPN → OpenVPN → Servers, création du serveur <strong>« Accès distant OpenVPN AB »</strong> en mode <em>SSL/TLS + User Auth</em> (double authentification : certificat + identifiants).</div>
-            <ul class="etape-sub">
-              <li>Protocole UDP sur l'interface WAN · Port personnalisé <code>20694</code></li>
-              <li>CA : <code>CA-BLAIZE</code> · Certificat serveur : <code>Certificat-OpenVPN-AB</code></li>
-              <li>Chiffrement : AES-256-GCM, CHACHA20-POLY1305 · DH 2048 bits · Auth SHA256</li>
-              <li>Tunnel IPv4 : <code>10.10.206.0/24</code> · Réseau local : <code>172.26.206.0/24</code></li>
-              <li>Connexions simultanées : 2 · DNS domain : <code>domblaize.local</code> · auth-nocache</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="etape-item">
-          <div class="etape-num">5</div>
-          <div class="etape-content">
-            <div class="etape-title-text">Exporter la configuration OpenVPN</div>
-            <div class="etape-desc">Installation du paquet <code>openvpn-client-export</code> via System → Package Manager. Génération automatique du fichier <code>.ovpn</code> et de l'installeur Windows pour le compte d'adrien.blaize. Le fichier pointe vers <code>90.65.104.37:20694</code>.</div>
-          </div>
-        </div>
-
-        <div class="etape-item">
-          <div class="etape-num">6</div>
-          <div class="etape-content">
-            <div class="etape-title-text">Créer les règles de pare-feu</div>
-            <div class="etape-desc">Quatre règles créées pour autoriser le trafic VPN et les flux internes :</div>
-            <ul class="etape-sub">
-              <li><strong>WAN → UDP 20694</strong> : « Accès Distant OpenVPN » — permet aux clients de s'authentifier</li>
-              <li><strong>OpenVPN → ICMP → 172.26.206.0/24</strong> : ping vers tout le LAN pour tester la connectivité</li>
-              <li><strong>OpenVPN → TCP:22 → 172.26.206.80</strong> : accès SSH au serveur Apache</li>
-              <li><strong>OpenVPN → TCP/UDP:80 → 172.26.206.80</strong> : accès HTTP au serveur web</li>
-              <li><strong>OpenVPN → TCP:3389 → 172.26.206.80</strong> : « Autoriser RDP via VPN » — bureau à distance</li>
-            </ul>
-          </div>
-        </div>
-
-        <div class="etape-item">
-          <div class="etape-num">7</div>
-          <div class="etape-content">
-            <div class="etape-title-text">Tester et valider le tunnel VPN</div>
-            <div class="etape-desc">Connexion réussie depuis le poste client Windows — adresse IP VPN attribuée : <code>10.10.206.6</code>. La ligne <em>Initialization Sequence Completed</em> confirme le tunnel opérationnel.</div>
-            <ul class="etape-sub">
-              <li><strong>Ping ✅</strong> — ICMP vers 172.26.206.80 : 4 paquets envoyés, 0 perdu, latence 2-4ms</li>
-              <li><strong>SSH ✅</strong> — Connexion PuTTY vers 172.26.206.80:22 validée via le tunnel</li>
-              <li><strong>HTTP ✅</strong> — Page Apache accessible depuis le navigateur via IP interne</li>
-              <li><strong>RDP ✅</strong> — Bureau à distance xRDP opérationnel (1.01 MiB de trafic constaté)</li>
-              <li><strong>Wireshark ✅</strong> — Paquets UDP chiffrés port 20694 visibles sur l'interface physique</li>
-            </ul>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="tech-row" style="margin-top: 1.25rem;">
-        <span class="tech-tag blue">OpenVPN</span>
-        <span class="tech-tag blue">PKI / CA</span>
-        <span class="tech-tag blue">SSL/TLS</span>
-        <span class="tech-tag blue">RSA 2048</span>
-        <span class="tech-tag orange">AES-256-GCM</span>
-        <span class="tech-tag orange">SHA256</span>
-        <span class="tech-tag neutral">Wireshark</span>
-        <span class="tech-tag neutral">PuTTY / SSH</span>
-        <span class="tech-tag neutral">xRDP</span>
-        <span class="tech-tag neutral">UDP 20694</span>
-      </div>
-    </div>
-
-    <!-- ══ PDF — CR PARTIE 1 ══ -->
+    <!-- PDF P1 -->
     <div class="pdf-section">
       <div class="pdf-header">
         <div class="pdf-header-left">
           <div class="pdf-header-icon">📄</div>
           <div>
             <div class="pdf-header-label">Compte-rendu · Partie 1</div>
-            <div class="pdf-header-title">AP pfSense — Infrastructure & Redirection de port</div>
+            <div class="pdf-header-title">AP pfSense — Infrastructure &amp; Redirection de port</div>
           </div>
         </div>
-        <a href="../../../files/AP_pfSense.pdf" download class="dl-btn-dark">⬇&nbsp; Télécharger</a>
+        <a href="../../../files/AP_pfSense.pdf" download class="dl-btn">⬇&nbsp; Télécharger</a>
       </div>
-      <iframe class="pdf-embed" src="../../../files/AP_pfSense.pdf" title="AP pfSense — Compte-rendu Partie 1"></iframe>
+      <iframe class="pdf-embed" src="../../../files/AP_pfSense.pdf" title="AP pfSense Partie 1"></iframe>
     </div>
 
-    <!-- ══ PDF — CR PARTIE 2 ══ -->
+    <!-- PDF P2 -->
     <div class="pdf-section">
       <div class="pdf-header">
         <div class="pdf-header-left">
@@ -402,14 +184,310 @@
             <div class="pdf-header-title">AP pfSense — VPN OpenVPN avec PKI complète</div>
           </div>
         </div>
-        <a href="../../../files/BLAIZE_PFSENSE-VPN__1_.pdf" download class="dl-btn-dark">⬇&nbsp; Télécharger</a>
+        <a href="../../../files/BLAIZE_PFSENSE-VPN__1_.pdf" download class="dl-btn">⬇&nbsp; Télécharger</a>
       </div>
-      <iframe class="pdf-embed" src="../../../files/BLAIZE_PFSENSE-VPN__1_.pdf" title="AP pfSense — Compte-rendu VPN OpenVPN"></iframe>
+      <iframe class="pdf-embed" src="../../../files/BLAIZE_PFSENSE-VPN__1_.pdf" title="AP pfSense Partie 2"></iframe>
     </div>
 
-    <!-- ══ OUTILS ══ -->
+    <!-- CONTEXTE -->
     <div class="content-block">
-      <div class="content-block-title">Outils & technologies utilisés</div>
+      <div class="content-block-title">Contexte de l'atelier</div>
+      <div class="content-text">
+        <p>Cet atelier consiste à déployer et configurer un <strong>pare-feu pfSense</strong> dans une infrastructure réseau virtualisée sur Proxmox, puis à mettre en place un <strong>tunnel VPN OpenVPN</strong> permettant un accès distant sécurisé au réseau interne.</p>
+        <p>Le pfSense dispose de deux interfaces : une carte <strong>WAN</strong> sur le réseau de la Livebox (192.168.1.0/24) et une carte <strong>LAN</strong> sur le VNET étudiant (172.26.206.0/24). Un serveur Apache Linux est déployé derrière le pfSense. La partie 2 introduit une <strong>PKI complète</strong> (CA, certificats serveur et utilisateur) et un serveur OpenVPN en mode accès distant avec double authentification.</p>
+      </div>
+    </div>
+
+    <!-- ══ PARTIE 1 ══ -->
+    <div class="content-block">
+      <div class="content-block-title">Partie 1 — Infrastructure pfSense &amp; Redirection de port</div>
+
+      <div class="etape-item">
+        <div class="etape-header green">
+          <div class="etape-num">1</div>
+          <div class="etape-title">Installation de pfSense avec 2 cartes réseau</div>
+          <span class="etape-cat-badge">Infrastructure</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Le problème</div>
+            <p class="etape-text">Le réseau étudiant (VNET 172.26.206.0/24) doit être isolé et protégé par un pare-feu avant d'être exposé vers l'extérieur. Sans pfSense, aucun filtrage ni contrôle du trafic entrant/sortant n'est possible.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Solution mise en place</div>
+            <p class="etape-text">Déploiement depuis l'ISO netgate-installer sur Proxmox. La carte <strong>WAN</strong> est configurée en DHCP sur 192.168.1.0/24 avec réservation statique de l'IP 192.168.1.225 sur la Livebox. La carte <strong>LAN</strong> est fixée à 172.26.206.250 sur le VNET étudiant. Hostname : <code>pfSense-206</code>, domaine : <code>home.arpa</code>.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Étapes</div>
+            <ul class="etape-steps">
+              <li>Créer la VM sur Proxmox avec deux interfaces réseau : <code>net0</code> (vlan992) et <code>net1</code> (vlan206)</li>
+              <li>Installer pfSense CE depuis l'ISO, assigner WAN → net0 et LAN → net1</li>
+              <li>Configurer l'IP LAN à 172.26.206.250/24 via le menu console</li>
+              <li>Accéder à l'interface web et renseigner le hostname et le domaine dans System → General Setup</li>
+              <li>Réserver l'IP 192.168.1.225 sur la Livebox via l'adresse MAC de l'interface WAN</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag">✅ pfSense opérationnel — WAN et LAN configurés</span></div>
+        </div>
+      </div>
+
+      <div class="etape-item">
+        <div class="etape-header green">
+          <div class="etape-num">2</div>
+          <div class="etape-title">Déploiement du serveur Apache Linux</div>
+          <span class="etape-cat-badge">Infrastructure</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Le problème</div>
+            <p class="etape-text">Il faut une machine cible derrière le pfSense pour valider le filtrage, la redirection de port et, plus tard, l'accès VPN. Cette machine doit pouvoir accéder à Internet via le pfSense (NAT sortant).</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Solution mise en place</div>
+            <p class="etape-text">Déploiement d'une VM Linux Debian sur le VNET 206. Le serveur Apache est installé et une page personnalisée est créée : <em>« Bonjour, je m'appelle Adrien Blaize / Je suis en BTS SIO »</em>. L'interface réseau est configurée en statique avec la passerelle pfSense.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Étapes</div>
+            <ul class="etape-steps">
+              <li>Configurer <code>enp0s18</code> avec l'IP statique 172.26.206.80/24, passerelle 172.26.206.250</li>
+              <li>Installer Apache2 : <code>apt install apache2</code></li>
+              <li>Modifier <code>/var/www/html/index.html</code> avec la page personnalisée</li>
+              <li>Vérifier l'accès Internet depuis le serveur via le pfSense (NAT sortant automatique)</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag">✅ Serveur Apache accessible sur 172.26.206.80</span></div>
+        </div>
+      </div>
+
+      <div class="etape-item">
+        <div class="etape-header blue">
+          <div class="etape-num">3</div>
+          <div class="etape-title">Redirection de port NAT/PAT — Accès HTTP depuis Internet</div>
+          <span class="etape-cat-badge">NAT / Pare-feu</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Le problème</div>
+            <p class="etape-text">Le serveur Apache est sur un réseau privé (172.26.206.80). Pour qu'il soit accessible depuis l'extérieur, le pfSense doit rediriger les requêtes entrantes sur un port public vers ce serveur interne — c'est le principe du <strong>Port Forwarding (NAT/PAT)</strong>.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Solution mise en place</div>
+            <p class="etape-text">Règle créée dans Firewall → NAT → Port Forward : tout trafic TCP entrant sur le port <strong>26206</strong> de l'interface WAN est redirigé vers <strong>172.26.206.80:80</strong>. La Livebox relaie le port 26206 vers l'IP WAN du pfSense (192.168.1.225).</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Étapes</div>
+            <ul class="etape-steps">
+              <li>Firewall → NAT → Port Forward → Add</li>
+              <li>Interface : WAN · Protocole : TCP · Port destination : 26206</li>
+              <li>Redirect IP : 172.26.206.80 · Redirect Port : 80</li>
+              <li>pfSense crée automatiquement la règle pare-feu associée</li>
+              <li>Tester depuis un poste externe : <code>http://90.65.104.37:26206</code> → page Apache ✅</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag">✅ Serveur Apache accessible depuis Internet via port 26206</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PARTIE 2 ══ -->
+    <div class="content-block">
+      <div class="content-block-title">Partie 2 — VPN OpenVPN avec PKI complète</div>
+
+      <div class="etape-item">
+        <div class="etape-header blue">
+          <div class="etape-num">4</div>
+          <div class="etape-title">Création de l'Autorité de Certification (CA)</div>
+          <span class="etape-cat-badge">PKI · Sécurité</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Le problème</div>
+            <p class="etape-text">Pour mettre en place un VPN avec authentification par certificat, il faut d'abord une <strong>Autorité de Certification (CA)</strong> qui signera tous les certificats du système. Sans CA, impossible de garantir l'identité des parties qui se connectent.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Solution mise en place</div>
+            <p class="etape-text">Création d'une CA interne auto-signée <strong>CA-BLAIZE</strong> dans System → Certificates → Authorities. Common Name : <code>domblaize.local</code>, Organisation : <em>BLAIZE &amp; Co</em>, localisation France / Rhône-Alpes / Lyon. Durée de validité : 10 ans.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Étapes</div>
+            <ul class="etape-steps">
+              <li>System → Certificates → Authorities → Add</li>
+              <li>Method : Create an internal Certificate Authority</li>
+              <li>Renseigner Common Name, Organisation, Country (FR), State, City</li>
+              <li>Key length : 2048 bits · Digest : SHA256 · Lifetime : 3650 jours</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag">✅ CA-BLAIZE créée et disponible</span></div>
+        </div>
+      </div>
+
+      <div class="etape-item">
+        <div class="etape-header blue">
+          <div class="etape-num">5</div>
+          <div class="etape-title">Création du certificat serveur et du certificat utilisateur</div>
+          <span class="etape-cat-badge">PKI · Certificats</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Le problème</div>
+            <p class="etape-text">Le serveur OpenVPN et les clients VPN doivent chacun posséder un certificat signé par la CA pour pouvoir s'authentifier mutuellement. Sans ces certificats, la liaison chiffrée SSL/TLS ne peut pas s'établir.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Solution mise en place</div>
+            <p class="etape-text">Deux certificats créés et signés par CA-BLAIZE : le certificat serveur <strong>Certificat-OpenVPN-AB</strong> (type Server Certificate, Common Name <code>Firewall-Pfsense-AB</code>) et le certificat utilisateur <strong>Certificat-VPN-Adrien</strong> généré lors de la création du compte <code>adrien.blaize</code> dans System → User Manager.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Étapes</div>
+            <ul class="etape-steps">
+              <li>System → Certificates → Certificates → Add — Type : Server Certificate, signé par CA-BLAIZE</li>
+              <li>RSA 2048 bits · SHA256 · 3650 jours · Common Name : Firewall-Pfsense-AB</li>
+              <li>System → User Manager → Add — créer le compte adrien.blaize avec mot de passe</li>
+              <li>Cocher « Click to create a user certificate » → nommer Certificat-VPN-Adrien, signer par CA-BLAIZE</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag">✅ Certificat serveur + certificat utilisateur signés par CA-BLAIZE</span></div>
+        </div>
+      </div>
+
+      <div class="etape-item">
+        <div class="etape-header blue">
+          <div class="etape-num">6</div>
+          <div class="etape-title">Configuration du serveur OpenVPN</div>
+          <span class="etape-cat-badge">VPN · Configuration</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Le problème</div>
+            <p class="etape-text">Il faut configurer le serveur VPN pour qu'il accepte les connexions des clients distants, les authentifie par certificat ET par identifiants (double facteur), et leur donne accès au réseau interne 172.26.206.0/24.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Solution mise en place</div>
+            <p class="etape-text">Serveur <strong>« Accès distant OpenVPN AB »</strong> créé en mode <em>SSL/TLS + User Auth</em> sur UDP port <strong>20694</strong>, interface WAN. Tunnel IPv4 : <code>10.10.206.0/24</code>. Réseau local redirigé : <code>172.26.206.0/24</code>. Chiffrement AES-256-GCM avec CHACHA20-POLY1305 en fallback.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Étapes</div>
+            <ul class="etape-steps">
+              <li>VPN → OpenVPN → Servers → Add</li>
+              <li>Mode : Remote Access (SSL/TLS + User Auth) · Interface : WAN · Port : 20694 · Protocole : UDP</li>
+              <li>CA : CA-BLAIZE · Certificat serveur : Certificat-OpenVPN-AB</li>
+              <li>Tunnel Network : 10.10.206.0/24 · Local Network : 172.26.206.0/24</li>
+              <li>Chiffrement : AES-256-GCM, CHACHA20-POLY1305 · Auth : SHA256 · DH : 2048</li>
+              <li>DNS domain : domblaize.local · Connexions simultanées : 2 · auth-nocache activé</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag">✅ Serveur OpenVPN configuré sur UDP 20694</span></div>
+        </div>
+      </div>
+
+      <div class="etape-item">
+        <div class="etape-header blue">
+          <div class="etape-num">7</div>
+          <div class="etape-title">Création des règles de pare-feu OpenVPN</div>
+          <span class="etape-cat-badge">Pare-feu · Règles</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Le problème</div>
+            <p class="etape-text">Par défaut, pfSense bloque tout le trafic entrant. Sans règles explicites, les clients VPN connectés ne pourront ni joindre le serveur pour s'authentifier, ni accéder aux ressources du réseau interne.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Solution mise en place</div>
+            <p class="etape-text">Quatre règles créées pour autoriser précisément les flux nécessaires, sans ouvrir inutilement le réseau :</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Règles appliquées</div>
+            <ul class="etape-steps">
+              <li><strong>WAN → UDP 20694</strong> : « Accès Distant OpenVPN » — permet aux clients de s'authentifier</li>
+              <li><strong>OpenVPN → ICMP → 172.26.206.0/24</strong> : ping vers tout le LAN pour tests de connectivité</li>
+              <li><strong>OpenVPN → TCP:22 → 172.26.206.80</strong> : accès SSH au serveur Apache</li>
+              <li><strong>OpenVPN → TCP/UDP:80 → 172.26.206.80</strong> : accès HTTP au serveur web</li>
+              <li><strong>OpenVPN → TCP:3389 → 172.26.206.80</strong> : « Autoriser RDP via VPN » — bureau à distance</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag">✅ 4 règles pare-feu créées — principe du moindre privilège</span></div>
+        </div>
+      </div>
+
+      <div class="etape-item">
+        <div class="etape-header orange">
+          <div class="etape-num">8</div>
+          <div class="etape-title">Export de la configuration &amp; validation du tunnel VPN</div>
+          <span class="etape-cat-badge">Tests · Validation</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Ce que j'ai fait</div>
+            <p class="etape-text">Installation du paquet <code>openvpn-client-export</code> pour générer le fichier <code>.ovpn</code> et l'installeur Windows pour le compte adrien.blaize. Le fichier pointe vers <code>90.65.104.37:20694</code>. Connexion depuis un poste Windows — IP VPN attribuée : <strong>10.10.206.6</strong>. La ligne <em>Initialization Sequence Completed</em> confirme le tunnel opérationnel.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Tests réalisés</div>
+            <ul class="etape-steps">
+              <li><strong>Ping ✅</strong> — ICMP vers 172.26.206.80 : 4 paquets, 0 perdu, latence 2–4 ms</li>
+              <li><strong>SSH ✅</strong> — Connexion PuTTY vers 172.26.206.80:22 validée via le tunnel</li>
+              <li><strong>HTTP ✅</strong> — Page Apache accessible via IP interne depuis le navigateur</li>
+              <li><strong>RDP ✅</strong> — Bureau à distance xRDP opérationnel (1,01 MiB de trafic constaté)</li>
+              <li><strong>Wireshark ✅</strong> — Paquets UDP chiffrés port 20694 visibles sur l'interface physique</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag">✅ Tunnel VPN pleinement opérationnel — 5 protocoles testés</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BILAN -->
+    <div class="content-block">
+      <div class="content-block-title blue">Bilan de l'atelier</div>
+      <table class="bilan-table">
+        <thead>
+          <tr>
+            <th>Étape</th>
+            <th>Réalisé</th>
+            <th>Résultat</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>pfSense installé (2 interfaces)</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>WAN 192.168.1.225 · LAN 172.26.206.250</td>
+          </tr>
+          <tr>
+            <td><strong>Serveur Apache déployé</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>Accessible sur 172.26.206.80, page personnalisée</td>
+          </tr>
+          <tr>
+            <td><strong>Redirection de port NAT/PAT</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>Port 26206 → 172.26.206.80:80 depuis Internet</td>
+          </tr>
+          <tr>
+            <td><strong>PKI créée (CA + 2 certificats)</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>CA-BLAIZE · Certificat serveur · Certificat utilisateur</td>
+          </tr>
+          <tr>
+            <td><strong>Serveur OpenVPN configuré</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>SSL/TLS + User Auth · UDP 20694 · AES-256-GCM</td>
+          </tr>
+          <tr>
+            <td><strong>Règles pare-feu</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>5 règles · Ping, SSH, HTTP, RDP via tunnel VPN</td>
+          </tr>
+          <tr>
+            <td><strong>Tunnel VPN validé</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>IP VPN 10.10.206.6 · 5 protocoles testés avec succès</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- OUTILS -->
+    <div class="content-block">
+      <div class="content-block-title">Outils &amp; technologies utilisés</div>
       <div class="chips" style="gap: 0.5rem;">
         <span class="chip blue">pfSense CE</span>
         <span class="chip blue">OpenVPN</span>
@@ -419,9 +497,8 @@
         <span class="chip">Debian Linux</span>
         <span class="chip">NAT/PAT</span>
         <span class="chip">Wireshark</span>
-        <span class="chip">PuTTY</span>
+        <span class="chip">PuTTY / SSH</span>
         <span class="chip">xRDP</span>
-        <span class="chip">Livebox Orange</span>
         <span class="chip">Proxmox VE</span>
       </div>
     </div>
