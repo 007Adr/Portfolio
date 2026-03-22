@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP — PRTG Network Monitor · BTS SIO SISR</title>
+<link rel="stylesheet" href="../../../css/style.css">
+<style>
+.breadcrumb { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; color: var(--light); margin-bottom: 0.75rem; flex-wrap: wrap; }
+.breadcrumb a { color: var(--light); text-decoration: none; }
+.breadcrumb a:hover { color: var(--accent); }
+.breadcrumb span { color: var(--accent); font-weight: 600; }
+
+/* ─── HERO ─── */
+.page-hero {
+  background: #0a0f1a; border: 1px solid #1a2a3a;
+  border-radius: 16px; overflow: hidden; margin-bottom: 2rem;
+}
+.page-hero-banner {
+  height: 90px;
+  background: linear-gradient(135deg, #0a0f1a, #0d1f35, #0a1520, #0a0f1a);
+  display: flex; align-items: center; justify-content: center;
+  gap: 1.25rem; font-size: 2.2rem;
+  border-bottom: 1px solid #1a2a3a;
+}
+.page-hero-body { padding: 1.5rem 2rem; }
+.page-hero-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #38bdf8; margin-bottom: 0.4rem; }
+.page-hero-title { font-family: 'Playfair Display', serif; font-weight: 800; font-size: clamp(1.2rem, 2.5vw, 1.65rem); line-height: 1.2; color: white; }
+.page-hero-sub { color: #9ca3af; font-size: 0.85rem; margin-top: 0.3rem; }
+
+/* ─── STATS ─── */
+.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
+.stat-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem 1.25rem; text-align: center; }
+.stat-num { font-family: 'Playfair Display', serif; font-weight: 800; font-size: 1.8rem; color: #0284c7; line-height: 1; }
+.stat-num.green { color: #16a34a; }
+.stat-label { color: var(--muted); font-size: 0.78rem; margin-top: 0.3rem; }
+
+/* ─── CONTENT BLOCKS ─── */
+.content-block { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 1.75rem 2rem; margin-bottom: 1.25rem; }
+.content-block-title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem; }
+.content-block-title::before { content: ''; display: block; width: 3px; height: 18px; background: #0284c7; border-radius: 2px; flex-shrink: 0; }
+.content-block-title.green::before { background: #16a34a; }
+.content-block-title.orange::before { background: #f97316; }
+.content-text { color: var(--muted); font-size: 0.9rem; line-height: 1.85; }
+.content-text p + p { margin-top: 0.75rem; }
+
+/* ─── ÉTAPE ITEMS — style PingCastle ─── */
+.etape-item { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 1rem; background: white; }
+
+.etape-header { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; }
+.etape-header.blue   { background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border-bottom: 1px solid #bae6fd; }
+.etape-header.green  { background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-bottom: 1px solid #bbf7d0; }
+.etape-header.orange { background: linear-gradient(135deg, #fff7ed, #ffedd5); border-bottom: 1px solid #fed7aa; }
+.etape-header.red    { background: linear-gradient(135deg, #fef2f2, #fee2e2); border-bottom: 1px solid #fecaca; }
+.etape-header.purple { background: linear-gradient(135deg, #faf5ff, #ede9fe); border-bottom: 1px solid #ddd6fe; }
+
+.etape-num {
+  width: 36px; height: 36px; flex-shrink: 0;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 0.95rem; color: white;
+}
+.etape-header.blue   .etape-num { background: #0284c7; }
+.etape-header.green  .etape-num { background: #16a34a; }
+.etape-header.orange .etape-num { background: #f97316; }
+.etape-header.red    .etape-num { background: #ef4444; }
+.etape-header.purple .etape-num { background: #7c3aed; }
+
+.etape-title { font-weight: 700; font-size: 0.92rem; color: var(--text); }
+.etape-cat-badge {
+  margin-left: auto; font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 0.22rem 0.65rem; border-radius: 100px;
+}
+.etape-header.blue   .etape-cat-badge { background: #e0f2fe; color: #0369a1; }
+.etape-header.green  .etape-cat-badge { background: #dcfce7; color: #15803d; }
+.etape-header.orange .etape-cat-badge { background: #ffedd5; color: #c2410c; }
+.etape-header.red    .etape-cat-badge { background: #fee2e2; color: #b91c1c; }
+.etape-header.purple .etape-cat-badge { background: #ede9fe; color: #6d28d9; }
+
+.etape-body { padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 0.85rem; }
+.etape-section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem; }
+.etape-text { color: var(--muted); font-size: 0.87rem; line-height: 1.75; }
+
+.etape-steps { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; margin-top: 0.25rem; }
+.etape-steps li { font-size: 0.86rem; color: var(--muted); line-height: 1.6; padding-left: 1.4rem; position: relative; }
+.etape-steps li::before { content: '›'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+
+.impact-tag {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a;
+  padding: 0.3rem 0.85rem; border-radius: 100px;
+  font-size: 0.73rem; font-weight: 700;
+}
+.impact-tag.blue   { background: #f0f9ff; border-color: #bae6fd; color: #0284c7; }
+.impact-tag.orange { background: #fff7ed; border-color: #fed7aa; color: #c2410c; }
+.impact-tag.red    { background: #fef2f2; border-color: #fecaca; color: #b91c1c; }
+.impact-tag.purple { background: #faf5ff; border-color: #ddd6fe; color: #6d28d9; }
+
+/* ─── BILAN TABLE ─── */
+.bilan-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.bilan-table th { background: #1e1e1e; color: white; text-align: left; padding: 0.65rem 1rem; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.bilan-table td { padding: 0.6rem 1rem; color: var(--muted); border-bottom: 1px solid var(--border); }
+.bilan-table tr:last-child td { border-bottom: none; background: #f0f9ff; color: #0284c7; font-weight: 700; }
+.bilan-table tr:nth-child(even) td { background: var(--surface); }
+.badge-ok { background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; padding: 0.15rem 0.55rem; border-radius: 100px; font-size: 0.72rem; font-weight: 700; }
+
+/* ─── PDF EMBED ─── */
+.pdf-section { background: white; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 1.25rem; }
+.pdf-header { padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); gap: 1rem; flex-wrap: wrap; }
+.pdf-header-left { display: flex; align-items: center; gap: 1rem; }
+.pdf-header-icon { width: 42px; height: 42px; background: #f0f9ff; border: 1px solid #bae6fd; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+.pdf-header-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #0284c7; margin-bottom: 0.2rem; }
+.pdf-header-title { font-weight: 600; font-size: 0.92rem; color: var(--text); }
+.pdf-embed { width: 100%; height: 860px; border: none; display: block; }
+.dl-btn { display: inline-flex; align-items: center; gap: 0.5rem; background: #0284c7; color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 9px; font-weight: 700; font-size: 0.88rem; white-space: nowrap; transition: all 0.18s; flex-shrink: 0; }
+.dl-btn:hover { background: #0369a1; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(2,132,199,0.35); }
+
+/* ─── NAV BOTTOM ─── */
+.nav-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+.nav-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.83rem; font-weight: 600; color: var(--muted); text-decoration: none; transition: color 0.18s; }
+.nav-btn:hover { color: var(--accent); }
+
+@media (max-width: 700px) { .stats-row { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../../../index.html" class="nav-logo">Adrien <span>Blaize</span></a>
+  <ul class="nav-links">
+    <li><a href="../../../index.html">Accueil</a></li>
+    <li><a href="../../about.html">À propos de moi</a></li>
+    <li><a href="../../ateliers.html" class="active">Ateliers Pro</a></li>
+    <li class="nav-dropdown">
+      <a href="../../stages.html">Stages</a>
+      <div class="dropdown-menu">
+        <a href="../../stages/stage1.html">🏢 Stage 1 — Paredes Orapi</a>
+        <a href="../../stages/stage2.html">🏢 Stage 2 — SIA BDE INSA</a>
+      </div>
+    </li>
+    <li><a href="../../veille.html">Veille techno</a></li>
+  </ul>
+</nav>
+
+<div class="page-content">
+  <div class="section">
+
+    <div class="breadcrumb">
+      <a href="../../ateliers.html">Ateliers Professionnels</a> ›
+      <a href="../../ateliers.html">Année 2</a> ›
+      <span>AP — PRTG Network Monitor</span>
+    </div>
+
+    <!-- HERO -->
+    <div class="page-hero">
+      <div class="page-hero-banner">📡 🖥️ 🔔</div>
+      <div class="page-hero-body">
+        <div class="page-hero-label">Atelier de Professionnalisation — Année 2 · BTS SIO SISR</div>
+        <div class="page-hero-title">PRTG Network Monitor — Supervision d'Infrastructure</div>
+        <div class="page-hero-sub">PRTG · Capteurs WMI · SNMP · MySQL · Alertes · Windows Server · Linux · Supervision réseau</div>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-num">4</div><div class="stat-label">Équipements supervisés</div></div>
+      <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">Groupes créés</div></div>
+      <div class="stat-card"><div class="stat-num green">3</div><div class="stat-label">Capteurs MySQL</div></div>
+      <div class="stat-card"><div class="stat-num green">✓</div><div class="stat-label">Alertes validées</div></div>
+    </div>
+
+    <!-- PDF -->
+    <div class="pdf-section">
+      <div class="pdf-header">
+        <div class="pdf-header-left">
+          <div class="pdf-header-icon">📄</div>
+          <div>
+            <div class="pdf-header-label">Compte-rendu</div>
+            <div class="pdf-header-title">AP PRTG Network Monitor — Supervision d'infrastructure</div>
+          </div>
+        </div>
+        <a href="../../../files/doc-prtg-2025_docx.pdf" download class="dl-btn">⬇&nbsp; Télécharger</a>
+      </div>
+      <iframe class="pdf-embed" src="../../../files/doc-prtg-2025_docx.pdf" title="AP PRTG Network Monitor"></iframe>
+    </div>
+
+    <!-- CONTEXTE -->
+    <div class="content-block">
+      <div class="content-block-title">Contexte de l'atelier</div>
+      <div class="content-text">
+        <p>Cet atelier consiste à déployer et configurer <strong>PRTG Network Monitor</strong> (Paessler) sur une machine Windows 11 dédiée, puis à superviser l'ensemble de l'infrastructure virtualisée : machines Linux (LAMP, SNMP), serveur Windows Server AD, et bases de données MySQL.</p>
+        <p>PRTG s'administre via une <strong>interface web</strong> et fonctionne sur un système de <strong>capteurs</strong> qui interrogent régulièrement les équipements. L'objectif est de créer une arborescence de groupes, d'y ajouter des équipements, de configurer des capteurs adaptés à chaque type de machine, de paramétrer des seuils d'alerte personnalisés, et de valider le déclenchement des alertes en simulant des pannes.</p>
+      </div>
+    </div>
+
+    <!-- ══ SECTION 1 — INSTALLATION ══ -->
+    <div class="content-block">
+      <div class="content-block-title">Installation &amp; Configuration initiale de PRTG</div>
+
+      <div class="etape-item">
+        <div class="etape-header blue">
+          <div class="etape-num">1</div>
+          <div class="etape-title">Préparation de la VM Windows 11 et installation de PRTG</div>
+          <span class="etape-cat-badge">Installation</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Ce que j'ai fait</div>
+            <p class="etape-text">Clone complet d'une VM Windows 11 sur Proxmox, configurée avec 4 cœurs (type <em>host</em>) et une carte réseau Intel E1000E. La machine n'est <strong>pas rattachée au domaine</strong> — cela permet de démontrer l'utilisation de credentials différents par équipement supervisé. Nom de machine : <code>PRTG-LOGIN</code>, IP fixe : <code>172.30.2ee.50</code>.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Installation de PRTG</div>
+            <ul class="etape-steps">
+              <li>Téléchargement de la version d'évaluation sur paessler.com avec adresse @lmdsio.fr (notifications réelles)</li>
+              <li>Exécution de l'installeur — accepter la licence — saisir l'adresse mail pour les alertes</li>
+              <li>Mode d'installation <strong>Rapide</strong> — découverte automatique du réseau lancée</li>
+              <li>PRTG s'ouvre dans le navigateur (Firefox recommandé) — connexion avec prtgadmin / prtgadmin</li>
+              <li>La découverte automatique a trouvé 141 capteurs dont le commutateur de niveau 3 (2 capteurs par port) → <strong>suppression de la passerelle</strong> pour libérer des capteurs (limite 100 en version gratuite)</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag blue">✅ PRTG opérationnel — 11 capteurs actifs après nettoyage</span></div>
+        </div>
+      </div>
+
+      <div class="etape-item">
+        <div class="etape-header blue">
+          <div class="etape-num">2</div>
+          <div class="etape-title">Création de l'arborescence de groupes</div>
+          <span class="etape-cat-badge">Organisation</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Le problème</div>
+            <p class="etape-text">PRTG fonctionne sur un système d'<strong>héritage</strong> — les propriétés définies au niveau d'un groupe (credentials, intervalles, etc.) sont automatiquement héritées par tous les équipements enfants. Sans organisation en groupes, il faudrait reconfigurer manuellement chaque équipement.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Solution mise en place</div>
+            <p class="etape-text">Création d'un groupe racine <strong>Equipements-TP</strong> avec 3 sous-groupes correspondant aux types de machines de l'infrastructure :</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Groupes créés</div>
+            <ul class="etape-steps">
+              <li><strong>Mes-Machines-Linux</strong> — pour les VM Debian (LAMP, SNMP) sans authentification Windows</li>
+              <li><strong>Mes-Machines-AD</strong> — pour les serveurs Windows intégrés au domaine · credentials AD renseignés au niveau du groupe (domaine DOMPGI, compte administrateur)</li>
+              <li><strong>Mes-Machines-Windows-Autonomes</strong> — pour les postes Windows hors domaine</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag blue">✅ Arborescence créée — héritage des credentials configuré</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SECTION 2 — LINUX ══ -->
+    <div class="content-block">
+      <div class="content-block-title">Supervision des machines Linux</div>
+
+      <div class="etape-item">
+        <div class="etape-header green">
+          <div class="etape-num">3</div>
+          <div class="etape-title">Ajout de la machine LAMP et découverte automatique</div>
+          <span class="etape-cat-badge">Linux · LAMP</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Ce que j'ai fait</div>
+            <p class="etape-text">Déplacement de la machine LAMP (172.30.230.80) découverte automatiquement vers le groupe <strong>Mes-Machines-Linux</strong>, puis renommage. PRTG a automatiquement découvert les capteurs Ping et HTTP disponibles sur cette machine.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Ajout de la machine SNMP</div>
+            <p class="etape-text">Ajout manuel de la VM Linux SNMP (172.30.230.20) via clic droit sur le groupe → Ajouter un appareil. Après découverte automatique, l'agent SNMP installé sur cette machine fournit <strong>23 capteurs supplémentaires</strong> : charge CPU, mémoire, disques, interfaces réseau, processus…</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Remarque importante</div>
+            <ul class="etape-steps">
+              <li>La découverte automatique multiplie les capteurs — certains peuvent être inutiles</li>
+              <li>23 capteurs obtenus grâce à la communauté SNMP publique configurée sur la VM</li>
+              <li>Le nom Linux de la machine est affiché automatiquement entre parenthèses</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag">✅ 2 machines Linux supervisées — Ping, HTTP, SNMP opérationnels</span></div>
+        </div>
+      </div>
+
+      <div class="etape-item">
+        <div class="etape-header green">
+          <div class="etape-num">4</div>
+          <div class="etape-title">Personnalisation d'un capteur HTTP (sous-répertoire)</div>
+          <span class="etape-cat-badge">Linux · HTTP</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Le problème</div>
+            <p class="etape-text">Le capteur HTTP par défaut teste uniquement la racine du site (<code>http:///</code>). Pour surveiller un sous-répertoire ou une page applicative spécifique, il faut créer un capteur personnalisé pointant vers la bonne URL.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Solution mise en place</div>
+            <p class="etape-text">Création d'un sous-répertoire <code>sitedd</code> sur le serveur Apache (<code>mkdir /var/www/html/sitedd && touch index.html</code>), puis ajout d'un capteur HTTP nommé <strong>sitedd</strong> pointant vers <code>http://172.30.230.80/sitedd</code>. Délai d'expiration réduit à 30 secondes.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Étapes</div>
+            <ul class="etape-steps">
+              <li>Clic droit sur l'équipement LAMP → Ajouter un capteur → technologie HTTP</li>
+              <li>Nom : sitedd · URL : http://172.30.230.80/sitedd · Méthode : GET</li>
+              <li>Premier état : <em>Inconnu</em> (pas encore de données) → après analyse : <em>Disponible ✅</em></li>
+              <li>Test de panne : sous-répertoire supprimé → capteur passe à <em>404 Not Found ❌</em> puis revient au vert après recréation</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag">✅ Capteur HTTP ciblé sur sous-répertoire applicatif fonctionnel</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SECTION 3 — WINDOWS AD ══ -->
+    <div class="content-block">
+      <div class="content-block-title">Supervision du serveur Windows AD</div>
+
+      <div class="etape-item">
+        <div class="etape-header orange">
+          <div class="etape-num">5</div>
+          <div class="etape-title">Installation du fournisseur WMI SNMP sur le serveur AD</div>
+          <span class="etape-cat-badge">Windows Server · WMI</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Le problème</div>
+            <p class="etape-text">Sans le fournisseur WMI SNMP installé, la découverte automatique retourne une erreur : <em>« No response (check: firewalls, routing, snmp settings, community, passwords etc) »</em>. PRTG ne peut pas récupérer les métriques système (CPU, RAM, disque) via WMI sans cette fonctionnalité.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Solution mise en place</div>
+            <p class="etape-text">Installation de la fonctionnalité <strong>Fournisseur WMI SNMP</strong> via l'assistant <em>Ajout de rôles et de fonctionnalités</em> sur Windows Server. Sous Windows 10/11 : Paramètres → Applications → Fonctionnalités facultatives → Fournisseur SNMP WMI (820 Ko).</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Étapes sur Windows Server</div>
+            <ul class="etape-steps">
+              <li>Gestionnaire de serveur → Ajouter des rôles et fonctionnalités</li>
+              <li>Fonctionnalités → Service SNMP → cocher <strong>Fournisseur WMI SNMP</strong></li>
+              <li>Installer → patienter jusqu'au message « Installation réussie »</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag orange">✅ Fournisseur WMI SNMP installé — capteurs WMI disponibles</span></div>
+        </div>
+      </div>
+
+      <div class="etape-item">
+        <div class="etape-header orange">
+          <div class="etape-num">6</div>
+          <div class="etape-title">Capteurs WMI — CPU, RAM et Espace Disque sur le serveur AD</div>
+          <span class="etape-cat-badge">Windows · WMI</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Ce que j'ai configuré</div>
+            <p class="etape-text">Ajout du serveur AD dans le groupe <strong>Mes-Machines-AD</strong> (credentials hérités : domaine DOMPGI, compte administrateur). Trois capteurs WMI installés pour surveiller les métriques critiques du serveur.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Capteurs installés</div>
+            <ul class="etape-steps">
+              <li><strong>Ping</strong> — vérification de la joignabilité réseau du serveur</li>
+              <li><strong>Charge CPU (WMI)</strong> — surveillance de l'utilisation processeur en temps réel</li>
+              <li><strong>Espace disque libre (WMI)</strong> — surveillance de l'espace disponible sur tous les lecteurs</li>
+              <li><strong>Mémoire (WMI)</strong> — surveillance de la RAM disponible</li>
+            </ul>
+          </div>
+          <div>
+            <div class="etape-section-label">Paramétrage des seuils d'alerte (espace disque)</div>
+            <p class="etape-text">L'espace disponible étant de 51%, j'ai défini des <strong>limites inférieures</strong> : avertissement (orange) si l'espace libre passe sous <strong>60%</strong>, erreur (rouge) si sous <strong>20%</strong>. Le capteur est immédiatement passé en orange, confirmant le bon fonctionnement des seuils.</p>
+          </div>
+          <div><span class="impact-tag orange">✅ Serveur AD supervisé — seuil 60%/20% déclenche l'alerte orange</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SECTION 4 — MYSQL ══ -->
+    <div class="content-block">
+      <div class="content-block-title">Supervision de la base de données MySQL</div>
+
+      <div class="etape-item">
+        <div class="etape-header purple">
+          <div class="etape-num">7</div>
+          <div class="etape-title">Configuration de MySQL pour l'accès distant depuis PRTG</div>
+          <span class="etape-cat-badge">MySQL · Prérequis</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Le problème</div>
+            <p class="etape-text">Par défaut, MySQL écoute uniquement sur <code>127.0.0.1</code> (boucle locale). PRTG ne peut pas s'y connecter depuis une machine distante — toute tentative retourne <em>ERROR 2002: Can't connect to MySQL server</em>. De plus, aucun utilisateur n'est autorisé à se connecter depuis une IP externe.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Solution mise en place</div>
+            <p class="etape-text">Deux modifications nécessaires sur la VM LAMP :</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Étapes</div>
+            <ul class="etape-steps">
+              <li>Modifier <code>/etc/mysql/mariadb.conf.d/50-server.cnf</code> : changer <code>bind-address = 127.0.0.1</code> en <code>bind-address = 172.30.230.81</code> (ou 0.0.0.0 pour toutes interfaces)</li>
+              <li>Redémarrer le service : <code>service mysql restart</code></li>
+              <li>Dans l'invite MySQL, créer l'utilisateur PRTG avec les droits nécessaires :</li>
+              <li><code>GRANT ALL PRIVILEGES ON gsb_frais.* TO prtguser@172.30.230.91 IDENTIFIED BY 'secret';</code></li>
+              <li>Renseigner les credentials MySQL dans les paramètres de l'équipement LAMP dans PRTG (utilisateur : prtguser)</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag purple">✅ MySQL accessible depuis PRTG — utilisateur prtguser créé</span></div>
+        </div>
+      </div>
+
+      <div class="etape-item">
+        <div class="etape-header purple">
+          <div class="etape-num">8</div>
+          <div class="etape-title">Capteur Port TCP 3306 — Disponibilité du service MySQL</div>
+          <span class="etape-cat-badge">MySQL · Capteur Port</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Ce que j'ai configuré</div>
+            <p class="etape-text">Capteur <strong>Port-3306-MySQL</strong> surveillant l'ouverture du port TCP 3306. Ce capteur est le plus simple pour vérifier que le service MySQL est démarré et accessible, sans avoir besoin d'exécuter de requête.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Validation du comportement</div>
+            <ul class="etape-steps">
+              <li>État initial : <em>Disponible ✅</em> après 60 secondes d'intervalle</li>
+              <li>Arrêt du service : <code>service mysql stop</code> → passage en <em>Avertissement 🟠</em> (1 intervalle), puis <em>Erreur 🔴</em></li>
+              <li>Redémarrage : <code>service mysql start</code> → retour au vert automatiquement après 60 secondes</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag purple">✅ Alerte port 3306 validée — orange puis rouge en cas de panne</span></div>
+        </div>
+      </div>
+
+      <div class="etape-item">
+        <div class="etape-header purple">
+          <div class="etape-num">9</div>
+          <div class="etape-title">Capteur MySQL — Nombre de lignes retournées par une requête</div>
+          <span class="etape-cat-badge">MySQL · Capteur SELECT *</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Ce que j'ai configuré</div>
+            <p class="etape-text">Capteur <strong>Nb-Lignes-Table-Visiteur</strong> utilisant la requête <code>SELECT * FROM Visiteur;</code>. PRTG compte le nombre de lignes retournées et l'affiche comme valeur. Ce capteur permet de surveiller la croissance d'une table au fil du temps.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Étapes</div>
+            <ul class="etape-steps">
+              <li>Créer le fichier <code>Liste-Visiteurs.sql</code> dans <code>C:\Programme(x86)\PRTG Network Monitor\Custom Sensors\sql\mysql\</code> (Notepad en admin)</li>
+              <li>Ajouter un capteur MySQL v2 → base de données : gsb_frais · fichier SQL : Liste-Visiteurs.sql</li>
+              <li>Traitement des données : <strong>Compter les lignes du tableau</strong></li>
+              <li>Résultat : 27 lignes affichées → validation en ajoutant 2 visiteurs via phpMyAdmin → valeur passe à 29 ✅</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag purple">✅ Capteur MySQL — 29 visiteurs détectés en temps réel</span></div>
+        </div>
+      </div>
+
+      <div class="etape-item">
+        <div class="etape-header purple">
+          <div class="etape-num">10</div>
+          <div class="etape-title">Capteur MySQL — Résultat d'une requête COUNT(*)</div>
+          <span class="etape-cat-badge">MySQL · Capteur COUNT</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Ce que j'ai configuré</div>
+            <p class="etape-text">Capteur <strong>Compte-Nb-Visiteurs</strong> utilisant la requête <code>SELECT Count(*) FROM Visiteur;</code>. Contrairement au capteur précédent qui compte les lignes retournées, celui-ci récupère directement la <strong>valeur numérique</strong> renvoyée par la requête — plus efficace pour de grandes tables.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Paramétrage spécifique</div>
+            <ul class="etape-steps">
+              <li>Fichier SQL : Nb-Visiteurs.sql contenant <code>SELECT count(*) FROM Visiteur;</code></li>
+              <li>Traitement des données : <strong>Traiter le tableau de données</strong></li>
+              <li>Sélectionner la valeur de canal par : <strong>Numéro de colonne</strong> (colonne 0)</li>
+              <li>Nom du canal : Nb-Visiteurs-GSB</li>
+              <li>Résultat : valeur 29 affichée, identique au capteur précédent — cohérence validée ✅</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag purple">✅ Deux approches MySQL comparées et validées — valeur 29 cohérente</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SECTION 5 — ALERTES ══ -->
+    <div class="content-block">
+      <div class="content-block-title orange">Validation des alertes</div>
+
+      <div class="etape-item">
+        <div class="etape-header red">
+          <div class="etape-num">11</div>
+          <div class="etape-title">Test de détection des pannes — Arrêt de service et extinction machine</div>
+          <span class="etape-cat-badge">Alertes · Tests</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Tests réalisés</div>
+            <p class="etape-text">Avant d'approfondir la configuration, j'ai validé que les capteurs détectent bien les pannes dans deux scénarios : l'arrêt d'un service actif et l'extinction complète d'une machine.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Scénario 1 — Arrêt du service Apache</div>
+            <ul class="etape-steps">
+              <li>Commande : <code>service apache2 stop</code> sur la machine LAMP</li>
+              <li>Le capteur HTTP passe en <em>Avertissement 🟠</em> après 1 intervalle</li>
+              <li>Puis en <em>Erreur 🔴</em> — le Ping reste vert (machine joignable, service arrêté)</li>
+              <li>Redémarrage Apache → retour au vert automatique ✅</li>
+            </ul>
+          </div>
+          <div>
+            <div class="etape-section-label">Scénario 2 — Extinction de la machine SNMP</div>
+            <ul class="etape-steps">
+              <li>Machine SNMP éteinte → Ping passe en erreur</li>
+              <li>Tous les capteurs de la machine passent en <em>Suspendu par dépendance 🔵</em> — comportement attendu</li>
+              <li>PRTG ne lance plus d'analyses inutiles sur une machine injoignable</li>
+              <li>Redémarrage → tous les capteurs repassent progressivement au vert ✅</li>
+            </ul>
+          </div>
+          <div>
+            <div class="etape-section-label">Notification par email</div>
+            <p class="etape-text">Les alertes ont généré des notifications envoyées à l'adresse @lmdsio.fr renseignée lors de l'installation, confirmant le bon fonctionnement du système d'alertes de bout en bout.</p>
+          </div>
+          <div><span class="impact-tag red">✅ Alertes validées — panne détectée, notification envoyée, retour à la normale confirmé</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BILAN -->
+    <div class="content-block">
+      <div class="content-block-title">Bilan de l'atelier</div>
+      <table class="bilan-table">
+        <thead>
+          <tr>
+            <th>Étape</th>
+            <th>Réalisé</th>
+            <th>Résultat clé</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Installation PRTG sur VM Windows 11</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>IP fixe 172.30.2ee.50 · Passerelle supprimée · 11 capteurs actifs</td>
+          </tr>
+          <tr>
+            <td><strong>Arborescence Equipements-TP (3 sous-groupes)</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>Linux / Machines-AD / Windows-Autonomes · Credentials hérités</td>
+          </tr>
+          <tr>
+            <td><strong>Supervision machine LAMP (Linux)</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>Ping + HTTP + capteur HTTP personnalisé (sous-répertoire sitedd)</td>
+          </tr>
+          <tr>
+            <td><strong>Supervision machine SNMP (Linux)</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>23 capteurs SNMP découverts automatiquement</td>
+          </tr>
+          <tr>
+            <td><strong>Fournisseur WMI SNMP sur Windows Server AD</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>Fonctionnalité installée · Capteurs CPU, RAM, disque opérationnels</td>
+          </tr>
+          <tr>
+            <td><strong>Seuil d'alerte espace disque (60%/20%)</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>Capteur passé en orange à 51% disponible — comportement validé</td>
+          </tr>
+          <tr>
+            <td><strong>MySQL — Accès distant + 3 capteurs</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>Port 3306 · SELECT * (27→29 lignes) · SELECT Count(*) cohérent</td>
+          </tr>
+          <tr>
+            <td><strong>Tests d'alertes (Apache + machine SNMP)</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>Alerte email reçue · Capteurs suspendus par dépendance · Retour au vert</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- OUTILS -->
+    <div class="content-block">
+      <div class="content-block-title">Outils &amp; technologies utilisés</div>
+      <div class="chips" style="gap: 0.5rem;">
+        <span class="chip blue">PRTG Network Monitor</span>
+        <span class="chip blue">WMI</span>
+        <span class="chip blue">SNMP</span>
+        <span class="chip blue">MySQL / MariaDB</span>
+        <span class="chip">Windows Server AD</span>
+        <span class="chip">Apache2 / LAMP</span>
+        <span class="chip">Proxmox VE</span>
+        <span class="chip">phpMyAdmin</span>
+        <span class="chip">Windows 11</span>
+        <span class="chip">Debian Linux</span>
+      </div>
+    </div>
+
+    <div class="nav-bottom">
+      <a class="nav-btn" href="../../ateliers.html">← Retour aux Ateliers</a>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  Portfolio de <strong>Adrien Blaize</strong> &nbsp;·&nbsp; BTS SIO SISR &nbsp;·&nbsp; La Martinière Duchère &nbsp;·&nbsp; 2025
+</footer>
+<script src="../../../js/nav.js"></script>
+</body>
+</html>
