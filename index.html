@@ -8,6 +8,7 @@
   <style>
     body { padding-top: 0; }
 
+    /* ─── HERO ─── */
     .hero-wrapper {
       max-width: 1140px; margin: 0 auto; width: 100%;
       padding: 5rem 3rem 4rem;
@@ -47,7 +48,6 @@
 
     .hero-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 2.25rem; }
 
-    /* Nav cards droite */
     .hero-right { display: flex; flex-direction: column; gap: 0.75rem; }
 
     .nav-card {
@@ -73,9 +73,207 @@
     .nav-card-arrow { margin-left: auto; color: var(--light); font-size: 0.8rem; transition: transform 0.2s; }
     .nav-card:hover .nav-card-arrow { transform: translateX(3px); color: var(--accent); }
 
+    /* ─── SECTIONS COMMUNES ─── */
+    .home-section {
+      max-width: 1140px; margin: 0 auto;
+      padding: 5rem 3rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-eyebrow-line {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 0.85rem;
+    }
+    .section-eyebrow-line::before {
+      content: ''; display: block;
+      width: 22px; height: 2px;
+      background: var(--accent); border-radius: 1px;
+    }
+
+    .home-section-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 800; font-size: clamp(1.6rem, 3vw, 2.2rem);
+      color: var(--text); line-height: 1.15; margin-bottom: 0.6rem;
+    }
+    .home-section-sub {
+      color: var(--muted); font-size: 0.95rem; line-height: 1.75;
+      max-width: 620px; margin-bottom: 3rem;
+    }
+
+    /* ─── SECTION OBJECTIF ─── */
+    .objectif-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    .objectif-card {
+      background: white; border: 1px solid var(--border);
+      border-radius: 16px; padding: 1.75rem;
+      transition: all 0.2s;
+    }
+    .objectif-card:hover {
+      border-color: var(--accent-mid);
+      box-shadow: 0 4px 20px rgba(29,78,216,0.07);
+      transform: translateY(-2px);
+    }
+    .objectif-card-icon {
+      width: 44px; height: 44px;
+      background: var(--accent-light); border: 1px solid var(--accent-mid);
+      border-radius: 12px; display: flex; align-items: center;
+      justify-content: center; font-size: 1.2rem; margin-bottom: 1rem;
+    }
+    .objectif-card-title {
+      font-weight: 700; font-size: 0.95rem;
+      color: var(--text); margin-bottom: 0.5rem;
+    }
+    .objectif-card-text {
+      color: var(--muted); font-size: 0.85rem; line-height: 1.7;
+    }
+
+    .objectif-card.featured {
+      background: var(--accent); border-color: var(--accent);
+      grid-column: span 2;
+    }
+    .objectif-card.featured .objectif-card-icon {
+      background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.2);
+    }
+    .objectif-card.featured .objectif-card-title { color: white; font-size: 1.05rem; }
+    .objectif-card.featured .objectif-card-text { color: rgba(255,255,255,0.82); font-size: 0.9rem; }
+
+    /* ─── SECTION FORMATION ─── */
+    .formation-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    .formation-text { color: var(--muted); font-size: 0.92rem; line-height: 1.85; }
+    .formation-text p + p { margin-top: 1rem; }
+    .formation-text strong { color: var(--text); }
+
+    .formation-pills {
+      display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1.5rem;
+    }
+    .formation-pill {
+      background: var(--accent-light); border: 1px solid var(--accent-mid);
+      color: var(--accent); font-size: 0.75rem; font-weight: 600;
+      padding: 0.3rem 0.75rem; border-radius: 100px;
+    }
+
+    .formation-timeline { display: flex; flex-direction: column; gap: 0; }
+
+    .timeline-item {
+      display: flex; gap: 1.25rem;
+      position: relative;
+    }
+    .timeline-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 19px; top: 42px;
+      width: 2px; bottom: 0;
+      background: var(--border);
+    }
+
+    .timeline-dot {
+      width: 40px; height: 40px; flex-shrink: 0;
+      border-radius: 50%; border: 2px solid var(--border);
+      background: white; display: flex; align-items: center;
+      justify-content: center; font-size: 0.9rem;
+      position: relative; z-index: 1;
+    }
+    .timeline-item.active .timeline-dot {
+      border-color: var(--accent); background: var(--accent-light);
+    }
+
+    .timeline-body { padding: 0.35rem 0 2rem; }
+    .timeline-date {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--accent); margin-bottom: 0.2rem;
+    }
+    .timeline-title { font-weight: 700; font-size: 0.92rem; color: var(--text); }
+    .timeline-desc { color: var(--muted); font-size: 0.82rem; margin-top: 0.25rem; line-height: 1.6; }
+
+    /* ─── SECTION COMPÉTENCES ─── */
+    .competences-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .comp-card {
+      background: white; border: 1px solid var(--border);
+      border-radius: 14px; padding: 1.5rem;
+      transition: all 0.2s;
+    }
+    .comp-card:hover {
+      border-color: var(--accent-mid);
+      box-shadow: 0 4px 18px rgba(29,78,216,0.08);
+      transform: translateY(-2px);
+    }
+    .comp-card-icon {
+      width: 48px; height: 48px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; display: flex; align-items: center;
+      justify-content: center; font-size: 1.3rem; margin-bottom: 1rem;
+    }
+    .comp-card-title {
+      font-weight: 700; font-size: 0.88rem;
+      color: var(--text); margin-bottom: 0.4rem;
+    }
+    .comp-card-text {
+      color: var(--muted); font-size: 0.8rem; line-height: 1.65;
+    }
+
+    /* ─── CTA FINAL ─── */
+    .cta-band {
+      max-width: 1140px; margin: 0 auto 5rem;
+      padding: 0 3rem;
+    }
+    .cta-inner {
+      background: var(--accent); border-radius: 20px;
+      padding: 3rem; display: flex;
+      align-items: center; justify-content: space-between;
+      gap: 2rem; flex-wrap: wrap;
+    }
+    .cta-text-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 800; font-size: 1.5rem;
+      color: white; margin-bottom: 0.4rem;
+    }
+    .cta-text-sub { color: rgba(255,255,255,0.78); font-size: 0.9rem; }
+    .cta-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; flex-shrink: 0; }
+    .btn-white {
+      background: white; color: var(--accent);
+      padding: 0.75rem 1.5rem; border-radius: 9px;
+      font-weight: 700; font-size: 0.88rem;
+      text-decoration: none; transition: all 0.18s;
+    }
+    .btn-white:hover { background: var(--accent-light); transform: translateY(-1px); }
+    .btn-ghost-white {
+      background: rgba(255,255,255,0.12); color: white;
+      padding: 0.75rem 1.5rem; border-radius: 9px;
+      font-weight: 700; font-size: 0.88rem;
+      text-decoration: none; transition: all 0.18s;
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+    .btn-ghost-white:hover { background: rgba(255,255,255,0.22); transform: translateY(-1px); }
+
     @media (max-width: 860px) {
       .hero-wrapper { grid-template-columns: 1fr; }
       .hero-right { display: none; }
+      .objectif-grid { grid-template-columns: 1fr; }
+      .objectif-card.featured { grid-column: span 1; }
+      .formation-layout { grid-template-columns: 1fr; }
+      .competences-grid { grid-template-columns: 1fr 1fr; }
+      .home-section { padding: 3.5rem 1.5rem; }
+      .cta-band { padding: 0 1.5rem; }
+    }
+    @media (max-width: 560px) {
+      .competences-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -98,6 +296,7 @@
     </ul>
   </nav>
 
+  <!-- ══ HERO ══ -->
   <div class="hero-wrapper">
     <div class="hero-left">
       <div class="hero-eyebrow">Portfolio de stage · BTS Informatique</div>
@@ -105,14 +304,14 @@
         Bonjour, je suis
         <span class="highlight">Adrien BLAIZE</span>
       </h1>
-      <div class="hero-subtitle">Étudiant BTS Informatique · Lycée La Martinière Duchère</div>
+      <div class="hero-subtitle">Étudiant BTS SIO SISR · Lycée La Martinière Duchère · Lyon</div>
       <p class="hero-desc">
-        Bienvenue sur mon portfolio de stage. Vous y trouverez mon parcours, mes travaux pratiques réalisés en formation, mes expériences professionnelles et ma veille technologique.
+        Bienvenue sur mon portfolio. Vous y trouverez mes travaux pratiques, mes stages en entreprise, et ma montée en compétences tout au long de ma formation en services informatiques aux organisations.
       </p>
       <div class="hero-actions">
         <a href="pages/stages.html" class="btn btn-primary">🏢 Voir mes stages</a>
         <a href="pages/about.html" class="btn btn-outline">📄 Mon CV</a>
-        <a href="pages/veille.html" class="btn btn-outline">🔭 Veille techno</a>
+        <a href="pages/ateliers.html" class="btn btn-outline">🧪 Ateliers Pro</a>
       </div>
     </div>
 
@@ -149,6 +348,155 @@
         </div>
         <div class="nav-card-arrow">→</div>
       </a>
+    </div>
+  </div>
+
+  <!-- ══ SECTION OBJECTIFS ══ -->
+  <div class="home-section">
+    <div class="section-eyebrow-line">Ce portfolio</div>
+    <h2 class="home-section-title">Pourquoi ce portfolio ?</h2>
+    <p class="home-section-sub">Ce portfolio de compétences retrace l'ensemble des situations professionnelles rencontrées durant ma formation en BTS SIO. Il met en valeur mon évolution, les savoir-faire acquis et ma montée en compétences dans le domaine des services informatiques aux organisations.</p>
+
+    <div class="objectif-grid">
+      <div class="objectif-card featured">
+        <div class="objectif-card-icon">🎯</div>
+        <div class="objectif-card-title">Objectif principal</div>
+        <div class="objectif-card-text">Démontrer la cohérence de mon parcours technique à travers des travaux concrets : ateliers professionnels, stages en entreprise et veille technologique. Ce portfolio est destiné aux jurys d'examen, aux recruteurs, et à toute personne souhaitant évaluer mes compétences en administration systèmes et réseaux.</div>
+      </div>
+      <div class="objectif-card">
+        <div class="objectif-card-icon">📁</div>
+        <div class="objectif-card-title">Tracer mon évolution</div>
+        <div class="objectif-card-text">Garder une trace structurée de chaque atelier, de chaque mission de stage, pour mesurer la progression des compétences acquises d'une année à l'autre.</div>
+      </div>
+      <div class="objectif-card">
+        <div class="objectif-card-icon">🤝</div>
+        <div class="objectif-card-title">Valoriser mon profil</div>
+        <div class="objectif-card-text">Présenter mon travail de façon professionnelle aux recruteurs et au jury du BTS, en illustrant chaque compétence par des cas concrets documentés.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION FORMATION ══ -->
+  <div class="home-section">
+    <div class="section-eyebrow-line">Ma formation</div>
+    <h2 class="home-section-title">BTS SIO — Option SISR</h2>
+    <p class="home-section-sub">Le Brevet de Technicien Supérieur Services Informatiques aux Organisations, option Solutions d'Infrastructure, Systèmes et Réseaux.</p>
+
+    <div class="formation-layout">
+      <div>
+        <div class="formation-text">
+          <p>Le <strong>BTS SIO SISR</strong> est une formation de deux ans centrée sur l'administration et la sécurisation des infrastructures informatiques. Elle forme des techniciens capables de gérer des parcs machines, de configurer des équipements réseau, de mettre en place des solutions de sécurité et de superviser l'ensemble d'un système d'information.</p>
+          <p>Chaque année alterne entre cours théoriques, <strong>ateliers pratiques en laboratoire</strong> (virtualisation, réseaux, sécurité) et périodes de <strong>stage en entreprise</strong> permettant de confronter les compétences acquises à des situations professionnelles réelles.</p>
+          <p>La formation est dispensée au <strong>Lycée La Martinière Duchère</strong> à Lyon, dans un environnement équipé de serveurs Proxmox, de matériel Cisco et d'outils professionnels utilisés en entreprise.</p>
+        </div>
+        <div class="formation-pills">
+          <span class="formation-pill">Administration systèmes</span>
+          <span class="formation-pill">Réseaux & sécurité</span>
+          <span class="formation-pill">Virtualisation</span>
+          <span class="formation-pill">Active Directory</span>
+          <span class="formation-pill">Linux / Windows Server</span>
+          <span class="formation-pill">Supervision</span>
+          <span class="formation-pill">VPN & pare-feu</span>
+          <span class="formation-pill">Load Balancing</span>
+        </div>
+      </div>
+
+      <div class="formation-timeline">
+        <div class="timeline-item active">
+          <div class="timeline-dot">📚</div>
+          <div class="timeline-body">
+            <div class="timeline-date">2023 — Rentrée</div>
+            <div class="timeline-title">Entrée en BTS SIO SISR</div>
+            <div class="timeline-desc">Démarrage de la formation à La Martinière Duchère. Premiers ateliers sur Linux, Windows Server et les réseaux.</div>
+          </div>
+        </div>
+        <div class="timeline-item active">
+          <div class="timeline-dot">🏢</div>
+          <div class="timeline-body">
+            <div class="timeline-date">2024 — Année 1</div>
+            <div class="timeline-title">Stage 1 — Paredes Orapi</div>
+            <div class="timeline-desc">Premier stage en entreprise : administration du parc informatique, support utilisateurs et déploiement de postes.</div>
+          </div>
+        </div>
+        <div class="timeline-item active">
+          <div class="timeline-dot">🔧</div>
+          <div class="timeline-body">
+            <div class="timeline-date">2024 — Année 2</div>
+            <div class="timeline-title">Ateliers avancés</div>
+            <div class="timeline-desc">PingCastle, pfSense, OSPF/HSRP, PRTG, HAProxy — infrastructure complète sur Proxmox.</div>
+          </div>
+        </div>
+        <div class="timeline-item active">
+          <div class="timeline-dot">🏢</div>
+          <div class="timeline-body">
+            <div class="timeline-date">2025 — Année 2</div>
+            <div class="timeline-title">Stage 2 — SIA BDE INSA</div>
+            <div class="timeline-desc">Second stage : administration serveurs, gestion d'infrastructure et missions techniques en environnement professionnel.</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot">🎓</div>
+          <div class="timeline-body">
+            <div class="timeline-date">2025 — Juin</div>
+            <div class="timeline-title">Obtention du BTS SIO</div>
+            <div class="timeline-desc">Épreuves finales, présentation du portfolio et soutenance devant le jury.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION COMPÉTENCES ══ -->
+  <div class="home-section">
+    <div class="section-eyebrow-line">Compétences visées</div>
+    <h2 class="home-section-title">Ce que forme le BTS SIO SISR</h2>
+    <p class="home-section-sub">Six grands domaines de compétences couverts tout au long de la formation, illustrés par les ateliers et les stages de ce portfolio.</p>
+
+    <div class="competences-grid">
+      <div class="comp-card">
+        <div class="comp-card-icon">🖥️</div>
+        <div class="comp-card-title">Administration de systèmes</div>
+        <div class="comp-card-text">Installation, configuration et maintenance des systèmes d'exploitation Windows Server et Linux (Debian). Gestion des utilisateurs, des droits et des services.</div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-icon">🔒</div>
+        <div class="comp-card-title">Sécurité & gestion des accès</div>
+        <div class="comp-card-text">Mise en place de politiques de sécurité, audit Active Directory (PingCastle), pare-feu pfSense, VPN OpenVPN et gestion des droits par GPO.</div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-icon">🎧</div>
+        <div class="comp-card-title">Support & assistance</div>
+        <div class="comp-card-text">Résolution d'incidents, dépannage matériel et logiciel, accompagnement technique des utilisateurs finaux en situation professionnelle.</div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-icon">☁️</div>
+        <div class="comp-card-title">Virtualisation & sauvegarde</div>
+        <div class="comp-card-text">Création et gestion de machines virtuelles sur Proxmox VE, clonage, snapshots et stratégies de sauvegarde d'infrastructure.</div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-icon">🌐</div>
+        <div class="comp-card-title">Réseaux & infrastructure</div>
+        <div class="comp-card-text">Configuration d'équipements réseau Cisco, routage OSPF, redondance HSRP, NAT/PAT, VLANs et load balancing avec HAProxy.</div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-card-icon">📊</div>
+        <div class="comp-card-title">Supervision & monitoring</div>
+        <div class="comp-card-text">Déploiement de PRTG Network Monitor, capteurs WMI et SNMP, seuils d'alerte personnalisés et suivi de l'état de l'infrastructure en temps réel.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ CTA FINAL ══ -->
+  <div class="cta-band">
+    <div class="cta-inner">
+      <div>
+        <div class="cta-text-title">Prêt à explorer le portfolio ?</div>
+        <div class="cta-text-sub">Retrouvez l'ensemble des ateliers, des stages et de la veille technologique dans les sections dédiées.</div>
+      </div>
+      <div class="cta-actions">
+        <a href="pages/ateliers.html" class="btn-white">🧪 Ateliers Pro</a>
+        <a href="pages/stages.html" class="btn-ghost-white">🏢 Mes stages</a>
+      </div>
     </div>
   </div>
 
