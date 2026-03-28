@@ -314,10 +314,10 @@
       <div class="source-block">
         <div class="feed-header">
           <div class="feed-header-left">
-            <span class="feed-source-tag green">InfoQ DevOps · EN</span>
+            <span class="feed-source-tag green">DevOps.com · EN</span>
             <div>
-              <div class="feed-source-name">InfoQ — DevOps & Cloud</div>
-              <div class="feed-source-url">infoq.com · Architecture cloud, conteneurs, infrastructure as code</div>
+              <div class="feed-source-name">DevOps.com — Cloud & Automatisation</div>
+              <div class="feed-source-url">devops.com · CI/CD, conteneurs, cloud, infrastructure as code</div>
             </div>
           </div>
         </div>
@@ -349,10 +349,10 @@
       <div class="source-block">
         <div class="feed-header">
           <div class="feed-header-left">
-            <span class="feed-source-tag blue">Silicon.fr · FR</span>
+            <span class="feed-source-tag blue">Le Monde Info · FR</span>
             <div>
-              <div class="feed-source-name">Silicon.fr — Infrastructure & Réseaux</div>
-              <div class="feed-source-url">silicon.fr · Actualité IT, infrastructure, networking en français</div>
+              <div class="feed-source-name">Le Monde Informatique — Infrastructure</div>
+              <div class="feed-source-url">lemondeinformatique.fr · Réseaux, stockage, infrastructure IT en français</div>
             </div>
           </div>
         </div>
@@ -384,10 +384,10 @@
       <div class="source-block">
         <div class="feed-header">
           <div class="feed-header-left">
-            <span class="feed-source-tag purple">Krebs on Security · EN</span>
+            <span class="feed-source-tag purple">Dark Reading · EN</span>
             <div>
-              <div class="feed-source-name">Krebs on Security</div>
-              <div class="feed-source-url">krebsonsecurity.com · Investigations, cybercrime, IA & sécurité</div>
+              <div class="feed-source-name">Dark Reading — Cybersécurité & IA</div>
+              <div class="feed-source-url">darkreading.com · Menaces, IA appliquée à la sécurité, analyses</div>
             </div>
           </div>
         </div>
@@ -399,10 +399,10 @@
       <div class="source-block">
         <div class="feed-header">
           <div class="feed-header-left">
-            <span class="feed-source-tag purple">Schneier on Security · EN</span>
+            <span class="feed-source-tag purple">SANS ISC · EN</span>
             <div>
-              <div class="feed-source-name">Schneier on Security</div>
-              <div class="feed-source-url">schneier.com · Analyse de fond, IA, politique sécurité, cryptographie</div>
+              <div class="feed-source-name">SANS Internet Storm Center</div>
+              <div class="feed-source-url">isc.sans.edu · Alertes temps réel, IA & sécurité, analyses d'incidents</div>
             </div>
           </div>
         </div>
@@ -440,17 +440,17 @@ const FEEDS = {
   "feed-phoronix": { url: "https://lwn.net/headlines/rss",                                source: "LWN.net",              count: 6 },
   "feed-korben":   { url: "https://korben.info/feed",                                     source: "Korben",               count: 6 },
 
-  // ── Virtualisation & Cloud ── Cloudflare/Proxmox bloqués → InfoQ + Ars Technica
-  "feed-cloudflare": { url: "https://www.infoq.com/devops/rss/",                          source: "InfoQ DevOps",         count: 6 },
+  // ── Virtualisation & Cloud ── InfoQ bloqué → DevOps.com + The New Stack
+  "feed-cloudflare": { url: "https://devops.com/feed/",                                   source: "DevOps.com",           count: 6 },
   "feed-proxmox":    { url: "https://feeds.arstechnica.com/arstechnica/technology-lab",   source: "Ars Technica Tech",    count: 6 },
 
-  // ── Réseaux & Infrastructure ── NetworkWorld/LeMagIT bloqués → Silicon.fr + ZDNet FR
-  "feed-networkworld": { url: "https://www.silicon.fr/feed",                              source: "Silicon.fr",           count: 6 },
+  // ── Réseaux & Infrastructure ── Silicon.fr bloqué → Le Monde Informatique + ZDNet
+  "feed-networkworld": { url: "https://www.lemondeinformatique.fr/flux-rss/thematique/infrastructure-et-stockage/rss.xml", source: "Le Monde Informatique", count: 6 },
   "feed-lemagit":      { url: "https://www.zdnet.fr/feeds/rss/actualites/",               source: "ZDNet France",         count: 6 },
 
-  // ── IA & Sécurité ── (fonctionnels)
-  "feed-krebs":    { url: "https://krebsonsecurity.com/feed/",                            source: "Krebs on Security",    count: 6 },
-  "feed-schneier": { url: "https://www.schneier.com/feed/atom/",                          source: "Schneier on Security", count: 6 },
+  // ── IA & Sécurité ── Krebs + Schneier bloqués → Dark Reading + SANS Internet Storm Center
+  "feed-krebs":    { url: "https://www.darkreading.com/rss.xml",                          source: "Dark Reading",         count: 6 },
+  "feed-schneier": { url: "https://isc.sans.edu/rssfeed_full.xml",                        source: "SANS ISC",             count: 6 },
 };
 
 // ─── UTILITAIRES ───────────────────────────────────────────────────
