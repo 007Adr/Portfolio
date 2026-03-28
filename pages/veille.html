@@ -428,23 +428,28 @@
 <script src="../js/nav.js"></script>
 <script>
 // ─── CONFIG DES FLUX ───────────────────────────────────────────────
+// Proxy : AllOrigins — gratuit, sans clé, sans limite, compatible GitHub Pages
+const PROXY = "https://api.allorigins.win/get?url=";
+
 const FEEDS = {
-  "feed-anssi":       { url: "https://www.cert.ssi.gouv.fr/feed/",               source: "CERT-FR",          count: 6 },
-  "feed-thn":         { url: "https://feeds.feedburner.com/TheHackersNews",       source: "The Hacker News",  count: 6 },
-  "feed-phoronix":    { url: "https://www.phoronix.com/rss.php",                  source: "Phoronix",         count: 6 },
-  "feed-korben":      { url: "https://korben.info/feed",                          source: "Korben",           count: 6 },
-  "feed-cloudflare":  { url: "https://blog.cloudflare.com/rss/",                  source: "Cloudflare Blog",  count: 6 },
-  "feed-proxmox":     { url: "https://www.proxmox.com/en/?format=feed&type=rss",  source: "Proxmox",          count: 6 },
-  "feed-networkworld":{ url: "https://www.networkworld.com/feed/",                source: "Network World",    count: 6 },
-  "feed-lemagit":     { url: "https://www.lemagit.fr/rss/Infrastructure.xml",     source: "LeMagIT",          count: 6 },
-  "feed-krebs":       { url: "https://krebsonsecurity.com/feed/",                 source: "Krebs on Security",count: 6 },
-  "feed-schneier":    { url: "https://www.schneier.com/feed/atom/",               source: "Schneier",         count: 6 },
+  "feed-anssi":        { url: "https://www.cert.ssi.gouv.fr/feed/",              source: "CERT-FR",           count: 6 },
+  "feed-thn":          { url: "https://feeds.feedburner.com/TheHackersNews",      source: "The Hacker News",   count: 6 },
+  "feed-phoronix":     { url: "https://www.phoronix.com/rss.php",                 source: "Phoronix",          count: 6 },
+  "feed-korben":       { url: "https://korben.info/feed",                         source: "Korben",            count: 6 },
+  "feed-cloudflare":   { url: "https://blog.cloudflare.com/rss/",                 source: "Cloudflare Blog",   count: 6 },
+  "feed-proxmox":      { url: "https://www.proxmox.com/en/?format=feed&type=rss", source: "Proxmox",           count: 6 },
+  "feed-networkworld": { url: "https://www.networkworld.com/feed/",               source: "Network World",     count: 6 },
+  "feed-lemagit":      { url: "https://www.lemagit.fr/rss/Infrastructure.xml",    source: "LeMagIT",           count: 6 },
+  "feed-krebs":        { url: "https://krebsonsecurity.com/feed/",                source: "Krebs on Security", count: 6 },
+  "feed-schneier":     { url: "https://www.schneier.com/feed/atom/",              source: "Schneier",          count: 6 },
 };
 
 // ─── UTILITAIRES ───────────────────────────────────────────────────
 function stripHtml(html) {
   if (!html) return "";
-  return html.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').trim();
+  const tmp = document.createElement("div");
+  tmp.innerHTML = html;
+  return tmp.textContent || tmp.innerText || "";
 }
 
 function formatDate(dateStr) {
@@ -456,24 +461,68 @@ function formatDate(dateStr) {
 
 function truncate(str, n) {
   if (!str) return "";
+  str = str.trim();
   return str.length > n ? str.slice(0, n).trimEnd() + "…" : str;
+}
+
+// Récupère le texte d'un élément XML par tag, en gérant les namespaces
+function getText(el, ...tags) {
+  for (const tag of tags) {
+    const found = el.getElementsByTagName(tag)[0];
+    if (found) return found.textContent || "";
+  }
+  return "";
+}
+
+// ─── PARSING XML RSS/ATOM ──────────────────────────────────────────
+function parseXML(xmlStr) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(xmlStr, "text/xml");
+  const items = [];
+
+  // RSS 2.0
+  const rssItems = doc.querySelectorAll("item");
+  if (rssItems.length > 0) {
+    rssItems.forEach(el => {
+      items.push({
+        title:   getText(el, "title"),
+        link:    getText(el, "link") || el.querySelector("link")?.getAttribute("href") || "",
+        desc:    getText(el, "description", "content:encoded", "summary"),
+        date:    getText(el, "pubDate", "dc:date", "published"),
+      });
+    });
+    return items;
+  }
+
+  // Atom
+  const atomEntries = doc.querySelectorAll("entry");
+  atomEntries.forEach(el => {
+    const linkEl = el.querySelector("link[rel='alternate']") || el.querySelector("link");
+    items.push({
+      title: getText(el, "title"),
+      link:  linkEl ? (linkEl.getAttribute("href") || linkEl.textContent) : "",
+      desc:  getText(el, "summary", "content"),
+      date:  getText(el, "published", "updated"),
+    });
+  });
+
+  return items;
 }
 
 // ─── RENDU D'UN ARTICLE ────────────────────────────────────────────
 function renderCard(item, sourceName) {
-  const title   = truncate(stripHtml(item.title), 110);
-  const desc    = truncate(stripHtml(item.description || item.content || ""), 160);
-  const date    = formatDate(item.pubDate);
-  const link    = item.link || "#";
+  const title = truncate(stripHtml(item.title), 110);
+  const desc  = truncate(stripHtml(item.desc), 160);
+  const date  = formatDate(item.date);
+  const link  = item.link || "#";
 
   return `
     <a class="article-card" href="${link}" target="_blank" rel="noopener noreferrer">
       <div class="article-card-meta">
-        <span>${date}</span>
-        ${date ? '<span class="article-card-meta-dot"></span>' : ""}
+        ${date ? `<span>${date}</span><span class="article-card-meta-dot"></span>` : ""}
         <span>${sourceName}</span>
       </div>
-      <div class="article-card-title">${title}</div>
+      <div class="article-card-title">${title || "Article sans titre"}</div>
       ${desc ? `<div class="article-card-desc">${desc}</div>` : ""}
       <div class="article-card-footer">
         <span class="article-card-source">${sourceName}</span>
@@ -488,34 +537,33 @@ let totalLoaded = 0;
 async function loadFeed(containerId) {
   const config = FEEDS[containerId];
   if (!config) return;
-
   const container = document.getElementById(containerId);
   if (!container) return;
 
-  const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(config.url)}&count=${config.count}`;
+  const proxyUrl = PROXY + encodeURIComponent(config.url);
 
   try {
-    const res  = await fetch(apiUrl);
-    const data = await res.json();
+    const res  = await fetch(proxyUrl, { signal: AbortSignal.timeout(10000) });
+    const json = await res.json();
 
-    if (data.status !== "ok" || !data.items || data.items.length === 0) {
-      container.innerHTML = `
-        <div class="empty-card">
-          ⚠️ Flux temporairement indisponible.<br>
-          <a href="${config.url}" target="_blank" rel="noopener" style="color:var(--accent);font-size:0.78rem;">Voir la source directement →</a>
-        </div>`;
-      return;
-    }
+    if (!json.contents) throw new Error("Contenu vide");
 
-    container.innerHTML = data.items.map(item => renderCard(item, config.source)).join("");
-    totalLoaded += data.items.length;
+    const items = parseXML(json.contents).slice(0, config.count);
+
+    if (items.length === 0) throw new Error("Aucun article parsé");
+
+    container.innerHTML = items.map(item => renderCard(item, config.source)).join("");
+    totalLoaded += items.length;
     document.getElementById("total-articles").textContent = totalLoaded;
 
   } catch (err) {
     container.innerHTML = `
       <div class="empty-card">
-        ❌ Impossible de charger ce flux.<br>
-        <a href="${config.url}" target="_blank" rel="noopener" style="color:var(--accent);font-size:0.78rem;">Accéder à la source →</a>
+        ⚠️ Flux temporairement indisponible.
+        <br><a href="${config.url}" target="_blank" rel="noopener"
+          style="color:var(--accent);font-size:0.78rem;margin-top:0.35rem;display:inline-block;">
+          Voir la source directement →
+        </a>
       </div>`;
   }
 }
@@ -532,21 +580,18 @@ const TAB_MAP = {
 const loadedTabs = new Set();
 
 function switchTab(tab) {
-  // Hide all sections, deactivate all buttons
   document.querySelectorAll(".feed-section").forEach(s => s.classList.remove("active"));
   document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-
   document.getElementById("section-" + tab).classList.add("active");
   document.getElementById("tab-" + tab).classList.add("active");
 
-  // Load feeds only once per tab
   if (!loadedTabs.has(tab)) {
     loadedTabs.add(tab);
     TAB_MAP[tab].forEach(feedId => loadFeed(feedId));
   }
 }
 
-// ─── INIT : charger l'onglet actif au démarrage ────────────────────
+// ─── INIT ──────────────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
   loadedTabs.add("secu");
   TAB_MAP["secu"].forEach(feedId => loadFeed(feedId));
