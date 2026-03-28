@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP — HAProxy · BTS SIO SISR</title>
+<link rel="stylesheet" href="../../../css/style.css">
+<style>
+.breadcrumb { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; color: var(--light); margin-bottom: 0.75rem; flex-wrap: wrap; }
+.breadcrumb a { color: var(--light); text-decoration: none; }
+.breadcrumb a:hover { color: var(--accent); }
+.breadcrumb span { color: var(--accent); font-weight: 600; }
+
+/* ─── HERO ─── */
+.page-hero {
+  background: #1a0800; border: 1px solid #3a1a00;
+  border-radius: 16px; overflow: hidden; margin-bottom: 2rem;
+}
+.page-hero-banner {
+  height: 90px;
+  background: linear-gradient(135deg, #1a0800, #2e1200, #1a0a00, #1a0800);
+  display: flex; align-items: center; justify-content: center;
+  gap: 1.25rem; font-size: 2.2rem;
+  border-bottom: 1px solid #3a1a00;
+}
+.page-hero-body { padding: 1.5rem 2rem; }
+.page-hero-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #fb923c; margin-bottom: 0.4rem; }
+.page-hero-title { font-family: 'Playfair Display', serif; font-weight: 800; font-size: clamp(1.2rem, 2.5vw, 1.65rem); line-height: 1.2; color: white; }
+.page-hero-sub { color: #9ca3af; font-size: 0.85rem; margin-top: 0.3rem; }
+
+/* ─── STATS ─── */
+.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
+.stat-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem 1.25rem; text-align: center; }
+.stat-num { font-family: 'Playfair Display', serif; font-weight: 800; font-size: 1.8rem; color: #ea580c; line-height: 1; }
+.stat-num.green { color: #16a34a; }
+.stat-num.red { color: #dc2626; }
+.stat-label { color: var(--muted); font-size: 0.78rem; margin-top: 0.3rem; }
+
+/* ─── CONTENT BLOCKS ─── */
+.content-block { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 1.75rem 2rem; margin-bottom: 1.25rem; }
+.content-block-title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem; }
+.content-block-title::before { content: ''; display: block; width: 3px; height: 18px; background: #ea580c; border-radius: 2px; flex-shrink: 0; }
+.content-block-title.green::before { background: #16a34a; }
+.content-block-title.red::before { background: #dc2626; }
+.content-block-title.blue::before { background: #0284c7; }
+.content-text { color: var(--muted); font-size: 0.9rem; line-height: 1.85; }
+.content-text p + p { margin-top: 0.75rem; }
+
+/* ─── ÉTAPE ITEMS ─── */
+.etape-item { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 1rem; background: white; }
+
+.etape-header { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; }
+.etape-header.orange { background: linear-gradient(135deg, #fff7ed, #ffedd5); border-bottom: 1px solid #fed7aa; }
+.etape-header.red    { background: linear-gradient(135deg, #fef2f2, #fee2e2); border-bottom: 1px solid #fecaca; }
+.etape-header.blue   { background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border-bottom: 1px solid #bae6fd; }
+.etape-header.green  { background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-bottom: 1px solid #bbf7d0; }
+.etape-header.purple { background: linear-gradient(135deg, #faf5ff, #ede9fe); border-bottom: 1px solid #ddd6fe; }
+
+.etape-num {
+  width: 36px; height: 36px; flex-shrink: 0;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 0.95rem; color: white;
+}
+.etape-header.orange .etape-num { background: #ea580c; }
+.etape-header.red    .etape-num { background: #dc2626; }
+.etape-header.blue   .etape-num { background: #0284c7; }
+.etape-header.green  .etape-num { background: #16a34a; }
+.etape-header.purple .etape-num { background: #7c3aed; }
+
+.etape-title { font-weight: 700; font-size: 0.92rem; color: var(--text); }
+.etape-cat-badge {
+  margin-left: auto; font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 0.22rem 0.65rem; border-radius: 100px;
+}
+.etape-header.orange .etape-cat-badge { background: #ffedd5; color: #c2410c; }
+.etape-header.red    .etape-cat-badge { background: #fee2e2; color: #b91c1c; }
+.etape-header.blue   .etape-cat-badge { background: #e0f2fe; color: #0369a1; }
+.etape-header.green  .etape-cat-badge { background: #dcfce7; color: #15803d; }
+.etape-header.purple .etape-cat-badge { background: #ede9fe; color: #6d28d9; }
+
+.etape-body { padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 0.85rem; }
+.etape-section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem; }
+.etape-text { color: var(--muted); font-size: 0.87rem; line-height: 1.75; }
+
+.etape-steps { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; margin-top: 0.25rem; }
+.etape-steps li { font-size: 0.86rem; color: var(--muted); line-height: 1.6; padding-left: 1.4rem; position: relative; }
+.etape-steps li::before { content: '›'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+
+.impact-tag {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  background: #fff7ed; border: 1px solid #fed7aa; color: #ea580c;
+  padding: 0.3rem 0.85rem; border-radius: 100px;
+  font-size: 0.73rem; font-weight: 700;
+}
+.impact-tag.green  { background: #f0fdf4; border-color: #bbf7d0; color: #16a34a; }
+.impact-tag.red    { background: #fef2f2; border-color: #fecaca; color: #b91c1c; }
+.impact-tag.blue   { background: #f0f9ff; border-color: #bae6fd; color: #0284c7; }
+.impact-tag.purple { background: #faf5ff; border-color: #ddd6fe; color: #6d28d9; }
+
+/* ─── BILAN TABLE ─── */
+.bilan-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.bilan-table th { background: #1e1e1e; color: white; text-align: left; padding: 0.65rem 1rem; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.bilan-table td { padding: 0.6rem 1rem; color: var(--muted); border-bottom: 1px solid var(--border); }
+.bilan-table tr:last-child td { border-bottom: none; background: #fff7ed; color: #ea580c; font-weight: 700; }
+.bilan-table tr:nth-child(even) td { background: var(--surface); }
+.badge-ok { background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; padding: 0.15rem 0.55rem; border-radius: 100px; font-size: 0.72rem; font-weight: 700; }
+
+/* ─── PDF EMBED ─── */
+.pdf-section { background: white; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 1.25rem; }
+.pdf-header { padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); gap: 1rem; flex-wrap: wrap; }
+.pdf-header-left { display: flex; align-items: center; gap: 1rem; }
+.pdf-header-icon { width: 42px; height: 42px; background: #fff7ed; border: 1px solid #fed7aa; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+.pdf-header-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #ea580c; margin-bottom: 0.2rem; }
+.pdf-header-title { font-weight: 600; font-size: 0.92rem; color: var(--text); }
+.pdf-embed { width: 100%; height: 860px; border: none; display: block; }
+.dl-btn { display: inline-flex; align-items: center; gap: 0.5rem; background: #ea580c; color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 9px; font-weight: 700; font-size: 0.88rem; white-space: nowrap; transition: all 0.18s; flex-shrink: 0; }
+.dl-btn:hover { background: #c2410c; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(234,88,12,0.35); }
+
+/* ─── NAV BOTTOM ─── */
+.nav-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+.nav-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.83rem; font-weight: 600; color: var(--muted); text-decoration: none; transition: color 0.18s; }
+.nav-btn:hover { color: var(--accent); }
+
+@media (max-width: 700px) { .stats-row { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../../../index.html" class="nav-logo">Adrien <span>Blaize</span></a>
+  <ul class="nav-links">
+    <li><a href="../../../index.html">Accueil</a></li>
+    <li><a href="../../about.html">À propos de moi</a></li>
+    <li><a href="../../ateliers.html" class="active">Ateliers Pro</a></li>
+    <li class="nav-dropdown">
+      <a href="../../stages.html">Stages</a>
+      <div class="dropdown-menu">
+        <a href="../../stages/stage1.html">🏢 Stage 1 — Paredes Orapi</a>
+        <a href="../../stages/stage2.html">🏢 Stage 2 — SIA BDE INSA</a>
+      </div>
+    </li>
+    <li><a href="../../veille.html">Veille techno</a></li>
+  </ul>
+</nav>
+
+<div class="page-content">
+  <div class="section">
+
+    <div class="breadcrumb">
+      <a href="../../ateliers.html">Ateliers Professionnels</a> ›
+      <a href="../../ateliers.html">Année 2</a> ›
+      <span>AP — HAProxy</span>
+    </div>
+
+    <!-- HERO -->
+    <div class="page-hero">
+      <div class="page-hero-banner">⚖️ 🌐 🛡️</div>
+      <div class="page-hero-body">
+        <div class="page-hero-label">Atelier de Professionnalisation — Année 2 · BTS SIO SISR</div>
+        <div class="page-hero-title">HAProxy — Répartition de charge &amp; Protection contre les attaques DoS</div>
+        <div class="page-hero-sub">HAProxy · Load Balancing · Round-Robin · Cookies de session · Slowloris · DoS</div>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-num">5</div><div class="stat-label">Scénarios réalisés</div></div>
+      <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">VMs déployées</div></div>
+      <div class="stat-card"><div class="stat-num green">✓</div><div class="stat-label">Cookies de session</div></div>
+      <div class="stat-card"><div class="stat-num red">DoS</div><div class="stat-label">Attaque Slowloris testée</div></div>
+    </div>
+
+    <!-- PDF SUJET -->
+    <div class="pdf-section">
+      <div class="pdf-header">
+        <div class="pdf-header-left">
+          <div class="pdf-header-icon">📋</div>
+          <div>
+            <div class="pdf-header-label">Sujet de l'atelier</div>
+            <div class="pdf-header-title">TP2 — HAProxy · BTS SIO 2ème année</div>
+          </div>
+        </div>
+        <a href="../../../files/TP2_-_HAProxy.pdf" download class="dl-btn">⬇&nbsp; Télécharger</a>
+      </div>
+      <iframe class="pdf-embed" src="../../../files/TP2_-_HAProxy.pdf" title="Sujet HAProxy"></iframe>
+    </div>
+
+    <!-- PDF COMPTE-RENDU -->
+    <div class="pdf-section">
+      <div class="pdf-header">
+        <div class="pdf-header-left">
+          <div class="pdf-header-icon">📄</div>
+          <div>
+            <div class="pdf-header-label">Compte-rendu</div>
+            <div class="pdf-header-title">AP HAProxy — Compte-rendu Adrien Blaize</div>
+          </div>
+        </div>
+        <a href="../../../files/BLAIZE-cr-haproxy.pdf" download class="dl-btn">⬇&nbsp; Télécharger</a>
+      </div>
+      <iframe class="pdf-embed" src="../../../files/BLAIZE-cr-haproxy.pdf" title="CR HAProxy Adrien Blaize"></iframe>
+    </div>
+
+    <!-- CONTEXTE -->
+    <div class="content-block">
+      <div class="content-block-title">Contexte de l'atelier</div>
+      <div class="content-text">
+        <p>Cet atelier consiste à mettre en place un serveur de <strong>répartition de charge (load balancing)</strong> avec HAProxy, le logiciel libre le plus utilisé dans ce domaine. L'objectif est de distribuer intelligemment le trafic HTTP entre plusieurs serveurs web backend, tout en garantissant la cohérence des sessions utilisateurs.</p>
+        <p>L'infrastructure repose sur trois machines virtuelles : un serveur <strong>HAProxy</strong> avec deux cartes réseau (réseau public 172.30.206.0/24 et réseau privé 172.20.206.0/24), et deux copies du serveur LAMP (<strong>web1</strong> : 172.20.206.81 et <strong>web2</strong> : 172.20.206.82) placées sur le réseau privé. Une machine <em>slowloris</em> est également utilisée pour simuler une attaque DoS et en mesurer l'impact.</p>
+      </div>
+    </div>
+
+    <!-- ══ SECTION 1 — LOAD BALANCING ══ -->
+    <div class="content-block">
+      <div class="content-block-title">Mise en place de la répartition de charge</div>
+
+      <div class="etape-item">
+        <div class="etape-header orange">
+          <div class="etape-num">1</div>
+          <div class="etape-title">Scénario n°1 — Répartition de charge avec pondération (weight)</div>
+          <span class="etape-cat-badge">Load Balancing · Round-Robin</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Le problème</div>
+            <p class="etape-text">Sans répartition de charge, un seul serveur web absorbe l'intégralité du trafic. Si ce serveur tombe ou sature, le service est interrompu. L'objectif est de distribuer les requêtes entre deux serveurs, en envoyant <strong>deux fois plus de charge sur web1 que sur web2</strong>.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Configuration HAProxy</div>
+            <p class="etape-text">La section <code>frontend</code> écoute sur l'IP publique <code>172.30.206.206:80</code> et redirige vers le backend. La section <code>backend</code> utilise l'algorithme <strong>roundrobin</strong> avec pondération : <code>weight 2</code> pour web1 et <code>weight 1</code> pour web2. La commande <code>option httpchk HEAD / HTTP/1.0</code> vérifie la disponibilité de chaque serveur avant d'envoyer du trafic.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Étapes</div>
+            <ul class="etape-steps">
+              <li>Modifier <code>/etc/haproxy/haproxy.cfg</code> — section frontend : <code>bind 172.30.206.206:80</code> · <code>default_backend mon_backend</code></li>
+              <li>Section backend : <code>balance roundrobin</code> · <code>server web1 172.20.206.81:80 weight 2 check</code> · <code>server web2 172.20.206.82:80 weight 1 check</code></li>
+              <li>Différencier les pages HTML des deux serveurs (fond rouge pour web1, fond bleu pour web2)</li>
+              <li>Tester depuis le navigateur : rechargements successifs → web1 apparaît 2x plus souvent que web2 ✅</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag">✅ Répartition 2:1 validée — web1 reçoit deux fois plus de requêtes</span></div>
+        </div>
+      </div>
+
+      <div class="etape-item">
+        <div class="etape-header blue">
+          <div class="etape-num">2</div>
+          <div class="etape-title">Scénario n°2 — Statistiques de répartition en temps réel</div>
+          <span class="etape-cat-badge">Monitoring · Stats</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Le problème</div>
+            <p class="etape-text">Sans interface de supervision, il est impossible de vérifier en temps réel si la charge est bien répartie, de repérer un serveur saturé ou hors ligne, ou d'analyser le volume de trafic échangé par chaque backend.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Solution mise en place</div>
+            <p class="etape-text">Activation de la page de statistiques HAProxy via une section <code>listen stats</code> dans le fichier de configuration. La page est accessible sur le port <strong>8404</strong> à l'adresse <code>172.30.206.206:8404/stats</code>, protégée par une authentification HTTP Basic (<code>ablai:Sio2025</code>). Un rafraîchissement automatique toutes les 10 secondes permet un monitoring en temps réel.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Ce que la page permet de surveiller</div>
+            <ul class="etape-steps">
+              <li><strong>Sessions actives</strong> — nombre de connexions en cours par frontend et backend</li>
+              <li><strong>Bytes In/Out</strong> — volume de trafic échangé par chaque serveur, pour vérifier la répartition</li>
+              <li><strong>Erreurs et avertissements</strong> — surcharge, configuration ou problème réseau détectés instantanément</li>
+              <li><strong>Statut détaillé</strong> — état UP/DOWN de chaque serveur backend, durée depuis le dernier check</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag blue">✅ Page stats opérationnelle — monitoring temps réel sur port 8404</span></div>
+        </div>
+      </div>
+
+      <div class="etape-item">
+        <div class="etape-header orange">
+          <div class="etape-num">3</div>
+          <div class="etape-title">Scénario n°3 — États incohérents de session sans cookie</div>
+          <span class="etape-cat-badge">Sessions · Incohérence</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Le problème</div>
+            <p class="etape-text">Sans mécanisme de persistance de session, le load balancer envoie chaque nouvelle requête vers un serveur différent selon l'algorithme round-robin. Puisque chaque serveur gère ses propres sessions PHP indépendamment, un utilisateur peut se retrouver connecté avec un profil différent selon le backend qui répond à sa requête.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Observation</div>
+            <p class="etape-text">Deux fenêtres de navigateur pointant vers la même URL <code>172.30.206.206/siteFrais</code> affichent des profils différents : <em>« Cottin Vincenne »</em> sur web1 et <em>« Duduit Frédéric »</em> sur web2. En rechargeant la page, l'identité change selon le serveur qui répond — comportement incohérent inacceptable en production.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Cause</div>
+            <ul class="etape-steps">
+              <li>Aucun cookie de session partagé entre les serveurs</li>
+              <li>Chaque backend attribue une session PHP indépendante à l'utilisateur</li>
+              <li>L'utilisateur change « d'identité » à chaque changement de backend</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag red">⚠️ États incohérents prouvés — cookie de session nécessaire</span></div>
+        </div>
+      </div>
+
+      <div class="etape-item">
+        <div class="etape-header green">
+          <div class="etape-num">4</div>
+          <div class="etape-title">Scénario n°4 — Persistance de session par cookie HAProxy</div>
+          <span class="etape-cat-badge">Cookies · Persistance</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Le problème</div>
+            <p class="etape-text">Pour corriger les états incohérents du scénario 3, il faut garantir qu'un utilisateur reste connecté <strong>sur le même serveur backend</strong> pour toute la durée de sa session. Sans cette persistance, les applications nécessitant une authentification (comme l'intranet GSB) sont inutilisables en environnement load balancé.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Solution mise en place</div>
+            <p class="etape-text">Ajout de la directive <code>cookie SRVNAME insert indirect nocache</code> dans la section backend. HAProxy insère un cookie nommé <code>SRVNAME</code> dans la réponse HTTP avec la valeur <code>web1</code> ou <code>web2</code> selon le serveur choisi. Toutes les requêtes suivantes du même client sont ensuite systématiquement routées vers ce serveur.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Options appliquées</div>
+            <ul class="etape-steps">
+              <li><code>insert</code> — HAProxy insère le cookie dans la réponse envoyée au client</li>
+              <li><code>indirect</code> — le cookie n'est pas transmis aux serveurs backends (transparent)</li>
+              <li><code>nocache</code> — empêche les proxies intermédiaires de mettre en cache les réponses contenant ce cookie</li>
+              <li>Validation : le cookie <code>SRVWEB=web1</code> apparaît dans les outils développeur du navigateur · session constante après rechargement ✅</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag green">✅ Persistance de session validée — même profil après rechargement</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SECTION 2 — ATTAQUE ══ -->
+    <div class="content-block">
+      <div class="content-block-title red">Simulation d'une attaque Slowloris</div>
+
+      <div class="etape-item">
+        <div class="etape-header red">
+          <div class="etape-num">5</div>
+          <div class="etape-title">Scénario n°5 — Impact d'une attaque Slowloris sur le serveur WEB1</div>
+          <span class="etape-cat-badge">DoS · Slowloris · Sécurité</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Qu'est-ce que Slowloris ?</div>
+            <p class="etape-text">Slowloris est une attaque de type <strong>Denial of Service (DoS)</strong> particulièrement efficace. Le script ouvre jusqu'à 1000 connexions HTTP simultanées vers la cible, en envoyant des requêtes partielles très lentement et en injectant périodiquement de faux en-têtes HTTP pour maintenir les connexions ouvertes. Le serveur sature ses ressources et ne peut plus répondre aux vraies requêtes. C'est une attaque silencieuse qui consomme peu de bande passante mais provoque un déni de service complet.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Déroulé de l'attaque</div>
+            <ul class="etape-steps">
+              <li>Lancement de deux instances simultanées du script : <code>./slowloris.pl -dns 172.20.206.81</code></li>
+              <li>Message confirmant l'attaque : <em>« Connecting to 172.20.206.81:80 every 100 seconds with 1000 sockets »</em></li>
+              <li>Commande de surveillance sur web1 : <code>ss -anp | grep 80 | wc -l</code> → résultats affichés : 805, 791, 790, 799… connexions simultanées</li>
+              <li>Nombre de connexions anormalement élevé — serveur saturé, incapable de traiter les requêtes légitimes</li>
+            </ul>
+          </div>
+          <div>
+            <div class="etape-section-label">Lecture de la page de statistiques HAProxy</div>
+            <ul class="etape-steps">
+              <li><strong>web1</strong> : couleur rose · statut <code>DOWN</code> · sessions élevées · erreurs et refus visibles</li>
+              <li><strong>web2</strong> : statut <code>UP</code> · sessions faibles · HAProxy bascule automatiquement tout le trafic vers web2</li>
+              <li>Le load balancer absorbe l'attaque et maintient le service accessible via web2 — résilience prouvée</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag red">🔴 web1 DOWN sous attaque — web2 UP · service maintenu par HAProxy</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BILAN -->
+    <div class="content-block">
+      <div class="content-block-title">Bilan de l'atelier</div>
+      <table class="bilan-table">
+        <thead>
+          <tr>
+            <th>Scénario</th>
+            <th>Réalisé</th>
+            <th>Résultat clé</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Infrastructure — Serveur HAProxy + 2 VMs LAMP</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>HAProxy 172.30.206.206 · web1 .81 · web2 .82 · réseau privé 172.20.206.0/24</td>
+          </tr>
+          <tr>
+            <td><strong>Scénario 1 — Répartition pondérée (weight 2:1)</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>Round-robin avec weight · web1 reçoit 2× plus de requêtes que web2</td>
+          </tr>
+          <tr>
+            <td><strong>Scénario 2 — Page de statistiques HAProxy</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>Port 8404 · Auth HTTP Basic · Refresh 10s · Sessions, bytes, statuts visibles</td>
+          </tr>
+          <tr>
+            <td><strong>Scénario 3 — États incohérents sans cookie</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>Deux profils différents sur la même URL · cause : sessions PHP indépendantes par backend</td>
+          </tr>
+          <tr>
+            <td><strong>Scénario 4 — Persistance par cookie SRVNAME</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>Cookie SRVWEB=web1 visible · session constante · problème d'incohérence résolu</td>
+          </tr>
+          <tr>
+            <td><strong>Scénario 5 — Attaque Slowloris sur web1</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>800+ connexions simultanées · web1 DOWN · HAProxy bascule sur web2 · service maintenu</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- OUTILS -->
+    <div class="content-block">
+      <div class="content-block-title">Outils &amp; technologies utilisés</div>
+      <div class="chips" style="gap: 0.5rem;">
+        <span class="chip blue">HAProxy</span>
+        <span class="chip blue">Load Balancing</span>
+        <span class="chip blue">Round-Robin</span>
+        <span class="chip blue">Cookies HTTP</span>
+        <span class="chip">Apache2 / LAMP</span>
+        <span class="chip">Debian Linux</span>
+        <span class="chip">Slowloris (DoS)</span>
+        <span class="chip">ss / netstat</span>
+        <span class="chip">Proxmox VE</span>
+        <span class="chip">phpMyAdmin</span>
+      </div>
+    </div>
+
+    <div class="nav-bottom">
+      <a class="nav-btn" href="../../ateliers.html">← Retour aux Ateliers</a>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  Portfolio de <strong>Adrien Blaize</strong> &nbsp;·&nbsp; BTS SIO SISR &nbsp;·&nbsp; La Martinière Duchère &nbsp;·&nbsp; 2025
+</footer>
+<script src="../../../js/nav.js"></script>
+</body>
+</html>
