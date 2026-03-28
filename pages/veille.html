@@ -1,136 +1,556 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Veille Technologique — [Prénom Nom]</title>
-  <link rel="stylesheet" href="../css/style.css">
-  <style>
-    .veille-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.25rem;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Veille Technologique — Adrien BLAIZE</title>
+<link rel="stylesheet" href="../css/style.css">
+<style>
 
-    .veille-card {
-      background: white; border: 1px solid var(--border);
-      border-radius: 14px; overflow: hidden; transition: all 0.2s;
-    }
-    .veille-card:hover {
-      border-color: var(--accent-mid); transform: translateY(-3px);
-      box-shadow: 0 6px 24px rgba(29,78,216,0.1);
-    }
+/* ─── HERO ─── */
+.page-hero {
+  background: #0a0f1a; border: 1px solid #1a2a3a;
+  border-radius: 16px; overflow: hidden; margin-bottom: 2rem;
+}
+.page-hero-banner {
+  height: 90px;
+  background: linear-gradient(135deg, #0a0f1a, #0d1f35, #0a1520, #0a0f1a);
+  display: flex; align-items: center; justify-content: center;
+  gap: 1.25rem; font-size: 2.2rem;
+  border-bottom: 1px solid #1a2a3a;
+}
+.page-hero-body { padding: 1.5rem 2rem; }
+.page-hero-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #38bdf8; margin-bottom: 0.4rem; }
+.page-hero-title { font-family: 'Playfair Display', serif; font-weight: 800; font-size: clamp(1.2rem, 2.5vw, 1.65rem); line-height: 1.2; color: white; }
+.page-hero-sub { color: #9ca3af; font-size: 0.85rem; margin-top: 0.3rem; }
 
-    .veille-banner {
-      height: 120px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 2.5rem;
-    }
-    .vb1 { background: linear-gradient(135deg, #eff4ff, #c7d9ff); }
-    .vb2 { background: linear-gradient(135deg, #f0fdf4, #bbf7d0); }
-    .vb3 { background: linear-gradient(135deg, #fffbeb, #fde68a); }
-    .vb4 { background: linear-gradient(135deg, #fdf4ff, #e9d5ff); }
+.breadcrumb { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; color: var(--light); margin-bottom: 0.75rem; flex-wrap: wrap; }
+.breadcrumb a { color: var(--light); text-decoration: none; }
+.breadcrumb a:hover { color: var(--accent); }
+.breadcrumb span { color: var(--accent); font-weight: 600; }
 
-    .veille-body { padding: 1.2rem 1.3rem; }
-    .veille-cat {
-      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
-      text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem;
-    }
-    .veille-title {
-      font-family: 'Playfair Display', serif; font-weight: 700;
-      font-size: 0.98rem; margin-bottom: 0.5rem; line-height: 1.3;
-    }
-    .veille-desc { color: var(--muted); font-size: 0.81rem; line-height: 1.6; }
-    .veille-footer {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-top: 0.9rem; padding-top: 0.75rem;
-      border-top: 1px solid var(--border); font-size: 0.75rem; color: var(--light);
-    }
-  </style>
+/* ─── TABS ─── */
+.tabs-wrapper {
+  display: flex; gap: 0.5rem; flex-wrap: wrap;
+  margin-bottom: 1.75rem;
+}
+.tab-btn {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.55rem 1.1rem; border-radius: 100px;
+  border: 1px solid var(--border); background: white;
+  font-size: 0.82rem; font-weight: 600; color: var(--muted);
+  cursor: pointer; transition: all 0.18s; white-space: nowrap;
+}
+.tab-btn:hover { border-color: var(--accent-mid); color: var(--accent); background: var(--accent-light); }
+.tab-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+.tab-btn .tab-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: currentColor; opacity: 0.7; flex-shrink: 0;
+}
+
+/* ─── FEED GRID ─── */
+.feed-section { display: none; }
+.feed-section.active { display: block; }
+
+.feed-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;
+}
+.feed-header-left { display: flex; align-items: center; gap: 0.75rem; }
+.feed-source-tag {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; padding: 0.2rem 0.65rem;
+  border-radius: 100px; border: 1px solid;
+}
+.feed-source-tag.red    { background: #fef2f2; border-color: #fecaca; color: #b91c1c; }
+.feed-source-tag.orange { background: #fff7ed; border-color: #fed7aa; color: #c2410c; }
+.feed-source-tag.green  { background: #f0fdf4; border-color: #bbf7d0; color: #15803d; }
+.feed-source-tag.blue   { background: #f0f9ff; border-color: #bae6fd; color: #0369a1; }
+.feed-source-tag.purple { background: #faf5ff; border-color: #ddd6fe; color: #6d28d9; }
+
+.feed-source-name { font-weight: 700; font-size: 0.88rem; color: var(--text); }
+.feed-source-url  { font-size: 0.75rem; color: var(--muted); }
+
+.feed-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.article-card {
+  background: white; border: 1px solid var(--border);
+  border-radius: 14px; padding: 1.25rem;
+  display: flex; flex-direction: column; gap: 0.6rem;
+  transition: all 0.18s; text-decoration: none; color: inherit;
+}
+.article-card:hover {
+  border-color: var(--accent-mid);
+  box-shadow: 0 4px 18px rgba(29,78,216,0.09);
+  transform: translateY(-2px);
+}
+.article-card-meta {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 0.7rem; color: var(--muted);
+}
+.article-card-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--muted); }
+.article-card-title {
+  font-weight: 700; font-size: 0.88rem;
+  color: var(--text); line-height: 1.45;
+  display: -webkit-box; -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical; overflow: hidden;
+}
+.article-card-desc {
+  font-size: 0.8rem; color: var(--muted); line-height: 1.6;
+  display: -webkit-box; -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical; overflow: hidden;
+  flex: 1;
+}
+.article-card-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: auto; padding-top: 0.6rem;
+  border-top: 1px solid var(--border);
+}
+.article-card-source { font-size: 0.7rem; font-weight: 600; color: var(--accent); }
+.article-card-link {
+  font-size: 0.72rem; font-weight: 600; color: var(--muted);
+  text-decoration: none; transition: color 0.15s;
+}
+.article-card-link:hover { color: var(--accent); }
+
+/* ─── LOADING / ERROR STATES ─── */
+.feed-loading {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0.75rem; padding: 3rem 1rem;
+  color: var(--muted); font-size: 0.88rem;
+}
+.spinner {
+  width: 20px; height: 20px; border-radius: 50%;
+  border: 2px solid var(--border);
+  border-top-color: var(--accent);
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.feed-error {
+  background: #fef2f2; border: 1px solid #fecaca;
+  border-radius: 12px; padding: 1.25rem 1.5rem;
+  color: #b91c1c; font-size: 0.85rem; margin-bottom: 1rem;
+}
+
+.empty-card {
+  background: var(--surface); border: 1px dashed var(--border);
+  border-radius: 14px; padding: 2rem 1.5rem;
+  text-align: center; color: var(--muted); font-size: 0.85rem;
+  grid-column: 1 / -1;
+}
+
+/* ─── MULTI-SOURCE SECTION ─── */
+.source-block { margin-bottom: 2.5rem; }
+.source-block:last-child { margin-bottom: 0; }
+
+/* ─── STATS BAR ─── */
+.stats-bar {
+  display: flex; gap: 1rem; flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+.stat-pill {
+  background: white; border: 1px solid var(--border);
+  border-radius: 10px; padding: 0.65rem 1.1rem;
+  display: flex; align-items: center; gap: 0.6rem;
+  font-size: 0.8rem;
+}
+.stat-pill-num { font-weight: 800; font-size: 1.1rem; color: var(--accent); font-family: 'Playfair Display', serif; }
+.stat-pill-label { color: var(--muted); }
+
+/* ─── BOTTOM NAV ─── */
+.nav-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+.nav-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.83rem; font-weight: 600; color: var(--muted); text-decoration: none; transition: color 0.18s; }
+.nav-btn:hover { color: var(--accent); }
+
+@media (max-width: 600px) {
+  .feed-grid { grid-template-columns: 1fr; }
+}
+</style>
 </head>
 <body>
 
-  <nav>
-    <a href="../index.html" class="nav-logo">Adrien <span>Blaize</span></a>
-    <ul class="nav-links">
-      <li><a href="../index.html">Accueil</a></li>
-      <li><a href="about.html">À propos de moi</a></li>
-      <li><a href="ateliers.html">Ateliers Pro</a></li>
-      <li class="nav-dropdown"><a href="stages.html">Stages</a><div class="dropdown-menu"><a href="stages/stage1.html">🏢 Stage 1 — Paredes Orapi</a><a href="stages/stage2.html">🏢 Stage 2 — SIA BDE INSA</a></div></li>
-      <li><a href="veille.html">Veille techno</a></li>
-    </ul>
-  </nav>
-
-  <div class="page-content">
-    <div class="section">
-      <div class="section-header">
-        <div class="section-eyebrow">Actualités & recherches</div>
-        <h2 class="section-title">Veille Technologique</h2>
-        <p class="section-sub">Suivi des évolutions et tendances dans mon domaine de formation.</p>
+<nav>
+  <a href="../index.html" class="nav-logo">Adrien <span>Blaize</span></a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Accueil</a></li>
+    <li><a href="about.html">À propos de moi</a></li>
+    <li><a href="ateliers.html">Ateliers Pro</a></li>
+    <li class="nav-dropdown">
+      <a href="stages.html">Stages</a>
+      <div class="dropdown-menu">
+        <a href="stages/stage1.html">🏢 Stage 1 — Paredes Orapi</a>
+        <a href="stages/stage2.html">🏢 Stage 2 — SIA BDE INSA</a>
       </div>
+    </li>
+    <li><a href="veille.html" class="active">Veille techno</a></li>
+  </ul>
+</nav>
 
-      <div class="veille-grid">
+<div class="page-content">
+  <div class="section">
 
-        <div class="veille-card">
-          <div class="veille-banner vb1">💻</div>
-          <div class="veille-body">
-            <div class="veille-cat">[Catégorie · ex : Développement Web]</div>
-            <div class="veille-title">[Titre du sujet de veille 1]</div>
-            <div class="veille-desc">[Résumé en 2-3 phrases : de quoi s'agit-il, pourquoi c'est important pour ton domaine, qu'est-ce que ça change.]</div>
-            <div class="veille-footer">
-              <span>📅 [Date · ex : Fév. 2025]</span>
-              <span>Source : [Nom du site]</span>
-            </div>
-          </div>
-        </div>
+    <div class="breadcrumb">
+      <a href="../index.html">Accueil</a> ›
+      <span>Veille Technologique</span>
+    </div>
 
-        <div class="veille-card">
-          <div class="veille-banner vb2">🔐</div>
-          <div class="veille-body">
-            <div class="veille-cat">[Catégorie · ex : Cybersécurité]</div>
-            <div class="veille-title">[Titre du sujet de veille 2]</div>
-            <div class="veille-desc">[Résumé du sujet 2.]</div>
-            <div class="veille-footer">
-              <span>📅 [Date]</span>
-              <span>Source : [Nom du site]</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="veille-card">
-          <div class="veille-banner vb3">☁️</div>
-          <div class="veille-body">
-            <div class="veille-cat">[Catégorie · ex : Cloud & DevOps]</div>
-            <div class="veille-title">[Titre du sujet de veille 3]</div>
-            <div class="veille-desc">[Résumé du sujet 3.]</div>
-            <div class="veille-footer">
-              <span>📅 [Date]</span>
-              <span>Source : [Nom du site]</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="veille-card">
-          <div class="veille-banner vb4">🤖</div>
-          <div class="veille-body">
-            <div class="veille-cat">[Catégorie · ex : Intelligence Artificielle]</div>
-            <div class="veille-title">[Titre du sujet de veille 4]</div>
-            <div class="veille-desc">[Résumé du sujet 4.]</div>
-            <div class="veille-footer">
-              <span>📅 [Date]</span>
-              <span>Source : [Nom du site]</span>
-            </div>
-          </div>
-        </div>
-
+    <!-- HERO -->
+    <div class="page-hero">
+      <div class="page-hero-banner">📡 🔍 🛡️</div>
+      <div class="page-hero-body">
+        <div class="page-hero-label">Veille technologique — BTS SIO SISR · Mise à jour automatique</div>
+        <div class="page-hero-title">Flux d'actualités — Cybersécurité, Linux, Cloud, Réseaux & IA</div>
+        <div class="page-hero-sub">Sources RSS sélectionnées · Agrégation automatique · 5 thématiques · Actualisé à chaque visite</div>
       </div>
     </div>
+
+    <!-- STATS -->
+    <div class="stats-bar">
+      <div class="stat-pill"><span class="stat-pill-num">5</span><span class="stat-pill-label">thématiques surveillées</span></div>
+      <div class="stat-pill"><span class="stat-pill-num">10</span><span class="stat-pill-label">sources RSS actives</span></div>
+      <div class="stat-pill"><span class="stat-pill-num" id="total-articles">—</span><span class="stat-pill-label">articles chargés</span></div>
+      <div class="stat-pill"><span class="stat-pill-num">🔄</span><span class="stat-pill-label">Actualisé à chaque visite</span></div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs-wrapper">
+      <button class="tab-btn active" onclick="switchTab('secu')" id="tab-secu">
+        <span class="tab-dot"></span> 🛡️ Cybersécurité
+      </button>
+      <button class="tab-btn" onclick="switchTab('linux')" id="tab-linux">
+        <span class="tab-dot"></span> 🐧 Linux & Open Source
+      </button>
+      <button class="tab-btn" onclick="switchTab('cloud')" id="tab-cloud">
+        <span class="tab-dot"></span> ☁️ Virtualisation & Cloud
+      </button>
+      <button class="tab-btn" onclick="switchTab('reseau')" id="tab-reseau">
+        <span class="tab-dot"></span> 🌐 Réseaux & Infra
+      </button>
+      <button class="tab-btn" onclick="switchTab('ia')" id="tab-ia">
+        <span class="tab-dot"></span> 🤖 IA & Sécurité
+      </button>
+    </div>
+
+    <!-- ══ TAB CYBERSÉCURITÉ ══ -->
+    <div class="feed-section active" id="section-secu">
+
+      <div class="source-block">
+        <div class="feed-header">
+          <div class="feed-header-left">
+            <span class="feed-source-tag red">ANSSI · FR</span>
+            <div>
+              <div class="feed-source-name">CERT-FR — Alertes & Avis de sécurité</div>
+              <div class="feed-source-url">cert.ssi.gouv.fr · Agence Nationale de la Sécurité des SI</div>
+            </div>
+          </div>
+        </div>
+        <div class="feed-grid" id="feed-anssi">
+          <div class="feed-loading"><div class="spinner"></div> Chargement des alertes ANSSI…</div>
+        </div>
+      </div>
+
+      <div class="source-block">
+        <div class="feed-header">
+          <div class="feed-header-left">
+            <span class="feed-source-tag red">The Hacker News · EN</span>
+            <div>
+              <div class="feed-source-name">The Hacker News</div>
+              <div class="feed-source-url">thehackernews.com · Actualité cybersécurité mondiale</div>
+            </div>
+          </div>
+        </div>
+        <div class="feed-grid" id="feed-thn">
+          <div class="feed-loading"><div class="spinner"></div> Chargement…</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ══ TAB LINUX ══ -->
+    <div class="feed-section" id="section-linux">
+
+      <div class="source-block">
+        <div class="feed-header">
+          <div class="feed-header-left">
+            <span class="feed-source-tag orange">Phoronix · EN</span>
+            <div>
+              <div class="feed-source-name">Phoronix — Linux Hardware & Benchmarks</div>
+              <div class="feed-source-url">phoronix.com · Actualité Linux, kernel, performances</div>
+            </div>
+          </div>
+        </div>
+        <div class="feed-grid" id="feed-phoronix">
+          <div class="feed-loading"><div class="spinner"></div> Chargement…</div>
+        </div>
+      </div>
+
+      <div class="source-block">
+        <div class="feed-header">
+          <div class="feed-header-left">
+            <span class="feed-source-tag orange">Korben · FR</span>
+            <div>
+              <div class="feed-source-name">Korben — Tech & Open Source</div>
+              <div class="feed-source-url">korben.info · Outils, Linux, logiciels libres en français</div>
+            </div>
+          </div>
+        </div>
+        <div class="feed-grid" id="feed-korben">
+          <div class="feed-loading"><div class="spinner"></div> Chargement…</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ══ TAB CLOUD / VIRTUALISATION ══ -->
+    <div class="feed-section" id="section-cloud">
+
+      <div class="source-block">
+        <div class="feed-header">
+          <div class="feed-header-left">
+            <span class="feed-source-tag green">Cloudflare Blog · EN</span>
+            <div>
+              <div class="feed-source-name">Cloudflare Blog</div>
+              <div class="feed-source-url">blog.cloudflare.com · Infrastructure, CDN, sécurité réseau</div>
+            </div>
+          </div>
+        </div>
+        <div class="feed-grid" id="feed-cloudflare">
+          <div class="feed-loading"><div class="spinner"></div> Chargement…</div>
+        </div>
+      </div>
+
+      <div class="source-block">
+        <div class="feed-header">
+          <div class="feed-header-left">
+            <span class="feed-source-tag green">Proxmox · EN</span>
+            <div>
+              <div class="feed-source-name">Proxmox Blog</div>
+              <div class="feed-source-url">proxmox.com · Virtualisation, mises à jour, nouvelles fonctionnalités</div>
+            </div>
+          </div>
+        </div>
+        <div class="feed-grid" id="feed-proxmox">
+          <div class="feed-loading"><div class="spinner"></div> Chargement…</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ══ TAB RÉSEAUX ══ -->
+    <div class="feed-section" id="section-reseau">
+
+      <div class="source-block">
+        <div class="feed-header">
+          <div class="feed-header-left">
+            <span class="feed-source-tag blue">Network World · EN</span>
+            <div>
+              <div class="feed-source-name">Network World</div>
+              <div class="feed-source-url">networkworld.com · Réseaux d'entreprise, SDN, infrastructure</div>
+            </div>
+          </div>
+        </div>
+        <div class="feed-grid" id="feed-networkworld">
+          <div class="feed-loading"><div class="spinner"></div> Chargement…</div>
+        </div>
+      </div>
+
+      <div class="source-block">
+        <div class="feed-header">
+          <div class="feed-header-left">
+            <span class="feed-source-tag blue">LeMagIT · FR</span>
+            <div>
+              <div class="feed-source-name">LeMagIT — Infrastructure & Réseaux</div>
+              <div class="feed-source-url">lemagit.fr · Actualité infra, datacenter, networking en français</div>
+            </div>
+          </div>
+        </div>
+        <div class="feed-grid" id="feed-lemagit">
+          <div class="feed-loading"><div class="spinner"></div> Chargement…</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ══ TAB IA & SÉCURITÉ ══ -->
+    <div class="feed-section" id="section-ia">
+
+      <div class="source-block">
+        <div class="feed-header">
+          <div class="feed-header-left">
+            <span class="feed-source-tag purple">Krebs on Security · EN</span>
+            <div>
+              <div class="feed-source-name">Krebs on Security</div>
+              <div class="feed-source-url">krebsonsecurity.com · Investigations, cybercrime, IA & sécurité</div>
+            </div>
+          </div>
+        </div>
+        <div class="feed-grid" id="feed-krebs">
+          <div class="feed-loading"><div class="spinner"></div> Chargement…</div>
+        </div>
+      </div>
+
+      <div class="source-block">
+        <div class="feed-header">
+          <div class="feed-header-left">
+            <span class="feed-source-tag purple">Schneier on Security · EN</span>
+            <div>
+              <div class="feed-source-name">Schneier on Security</div>
+              <div class="feed-source-url">schneier.com · Analyse de fond, IA, politique sécurité, cryptographie</div>
+            </div>
+          </div>
+        </div>
+        <div class="feed-grid" id="feed-schneier">
+          <div class="feed-loading"><div class="spinner"></div> Chargement…</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="nav-bottom">
+      <a class="nav-btn" href="../index.html">← Retour à l'accueil</a>
+      <span style="font-size:0.75rem; color:var(--muted);">Flux RSS via rss2json.com · Données en temps réel</span>
+    </div>
+
   </div>
+</div>
 
-  <footer>
-    Portfolio de <strong>Adrien Blaize</strong> &nbsp;·&nbsp; BTS SIO SISR &nbsp;·&nbsp; La Martinière Duchère &nbsp;·&nbsp; 2025
-  </footer>
+<footer>
+  Portfolio de <strong>Adrien Blaize</strong> &nbsp;·&nbsp; BTS SIO SISR &nbsp;·&nbsp; La Martinière Duchère &nbsp;·&nbsp; 2025
+</footer>
 
-  <script src="../js/nav.js"></script>
+<script src="../js/nav.js"></script>
+<script>
+// ─── CONFIG DES FLUX ───────────────────────────────────────────────
+const FEEDS = {
+  "feed-anssi":       { url: "https://www.cert.ssi.gouv.fr/feed/",               source: "CERT-FR",          count: 6 },
+  "feed-thn":         { url: "https://feeds.feedburner.com/TheHackersNews",       source: "The Hacker News",  count: 6 },
+  "feed-phoronix":    { url: "https://www.phoronix.com/rss.php",                  source: "Phoronix",         count: 6 },
+  "feed-korben":      { url: "https://korben.info/feed",                          source: "Korben",           count: 6 },
+  "feed-cloudflare":  { url: "https://blog.cloudflare.com/rss/",                  source: "Cloudflare Blog",  count: 6 },
+  "feed-proxmox":     { url: "https://www.proxmox.com/en/?format=feed&type=rss",  source: "Proxmox",          count: 6 },
+  "feed-networkworld":{ url: "https://www.networkworld.com/feed/",                source: "Network World",    count: 6 },
+  "feed-lemagit":     { url: "https://www.lemagit.fr/rss/Infrastructure.xml",     source: "LeMagIT",          count: 6 },
+  "feed-krebs":       { url: "https://krebsonsecurity.com/feed/",                 source: "Krebs on Security",count: 6 },
+  "feed-schneier":    { url: "https://www.schneier.com/feed/atom/",               source: "Schneier",         count: 6 },
+};
+
+// ─── UTILITAIRES ───────────────────────────────────────────────────
+function stripHtml(html) {
+  if (!html) return "";
+  return html.replace(/<[^>]*>/g, "").replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').trim();
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return "";
+  const d = new Date(dateStr);
+  if (isNaN(d)) return "";
+  return d.toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" });
+}
+
+function truncate(str, n) {
+  if (!str) return "";
+  return str.length > n ? str.slice(0, n).trimEnd() + "…" : str;
+}
+
+// ─── RENDU D'UN ARTICLE ────────────────────────────────────────────
+function renderCard(item, sourceName) {
+  const title   = truncate(stripHtml(item.title), 110);
+  const desc    = truncate(stripHtml(item.description || item.content || ""), 160);
+  const date    = formatDate(item.pubDate);
+  const link    = item.link || "#";
+
+  return `
+    <a class="article-card" href="${link}" target="_blank" rel="noopener noreferrer">
+      <div class="article-card-meta">
+        <span>${date}</span>
+        ${date ? '<span class="article-card-meta-dot"></span>' : ""}
+        <span>${sourceName}</span>
+      </div>
+      <div class="article-card-title">${title}</div>
+      ${desc ? `<div class="article-card-desc">${desc}</div>` : ""}
+      <div class="article-card-footer">
+        <span class="article-card-source">${sourceName}</span>
+        <span class="article-card-link">Lire l'article →</span>
+      </div>
+    </a>`;
+}
+
+// ─── CHARGEMENT D'UN FLUX ──────────────────────────────────────────
+let totalLoaded = 0;
+
+async function loadFeed(containerId) {
+  const config = FEEDS[containerId];
+  if (!config) return;
+
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(config.url)}&count=${config.count}`;
+
+  try {
+    const res  = await fetch(apiUrl);
+    const data = await res.json();
+
+    if (data.status !== "ok" || !data.items || data.items.length === 0) {
+      container.innerHTML = `
+        <div class="empty-card">
+          ⚠️ Flux temporairement indisponible.<br>
+          <a href="${config.url}" target="_blank" rel="noopener" style="color:var(--accent);font-size:0.78rem;">Voir la source directement →</a>
+        </div>`;
+      return;
+    }
+
+    container.innerHTML = data.items.map(item => renderCard(item, config.source)).join("");
+    totalLoaded += data.items.length;
+    document.getElementById("total-articles").textContent = totalLoaded;
+
+  } catch (err) {
+    container.innerHTML = `
+      <div class="empty-card">
+        ❌ Impossible de charger ce flux.<br>
+        <a href="${config.url}" target="_blank" rel="noopener" style="color:var(--accent);font-size:0.78rem;">Accéder à la source →</a>
+      </div>`;
+  }
+}
+
+// ─── TABS ──────────────────────────────────────────────────────────
+const TAB_MAP = {
+  secu:   ["feed-anssi",        "feed-thn"],
+  linux:  ["feed-phoronix",     "feed-korben"],
+  cloud:  ["feed-cloudflare",   "feed-proxmox"],
+  reseau: ["feed-networkworld",  "feed-lemagit"],
+  ia:     ["feed-krebs",         "feed-schneier"],
+};
+
+const loadedTabs = new Set();
+
+function switchTab(tab) {
+  // Hide all sections, deactivate all buttons
+  document.querySelectorAll(".feed-section").forEach(s => s.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+
+  document.getElementById("section-" + tab).classList.add("active");
+  document.getElementById("tab-" + tab).classList.add("active");
+
+  // Load feeds only once per tab
+  if (!loadedTabs.has(tab)) {
+    loadedTabs.add(tab);
+    TAB_MAP[tab].forEach(feedId => loadFeed(feedId));
+  }
+}
+
+// ─── INIT : charger l'onglet actif au démarrage ────────────────────
+document.addEventListener("DOMContentLoaded", () => {
+  loadedTabs.add("secu");
+  TAB_MAP["secu"].forEach(feedId => loadFeed(feedId));
+});
+</script>
 </body>
 </html>
