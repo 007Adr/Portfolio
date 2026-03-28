@@ -279,10 +279,10 @@
       <div class="source-block">
         <div class="feed-header">
           <div class="feed-header-left">
-            <span class="feed-source-tag orange">Phoronix · EN</span>
+            <span class="feed-source-tag orange">LWN.net · EN</span>
             <div>
-              <div class="feed-source-name">Phoronix — Linux Hardware & Benchmarks</div>
-              <div class="feed-source-url">phoronix.com · Actualité Linux, kernel, performances</div>
+              <div class="feed-source-name">LWN.net — Linux & Kernel News</div>
+              <div class="feed-source-url">lwn.net · Référence mondiale du kernel Linux et de l'open source</div>
             </div>
           </div>
         </div>
@@ -314,10 +314,10 @@
       <div class="source-block">
         <div class="feed-header">
           <div class="feed-header-left">
-            <span class="feed-source-tag green">Cloudflare Blog · EN</span>
+            <span class="feed-source-tag green">InfoQ DevOps · EN</span>
             <div>
-              <div class="feed-source-name">Cloudflare Blog</div>
-              <div class="feed-source-url">blog.cloudflare.com · Infrastructure, CDN, sécurité réseau</div>
+              <div class="feed-source-name">InfoQ — DevOps & Cloud</div>
+              <div class="feed-source-url">infoq.com · Architecture cloud, conteneurs, infrastructure as code</div>
             </div>
           </div>
         </div>
@@ -329,10 +329,10 @@
       <div class="source-block">
         <div class="feed-header">
           <div class="feed-header-left">
-            <span class="feed-source-tag green">Proxmox · EN</span>
+            <span class="feed-source-tag green">Ars Technica · EN</span>
             <div>
-              <div class="feed-source-name">Proxmox Blog</div>
-              <div class="feed-source-url">proxmox.com · Virtualisation, mises à jour, nouvelles fonctionnalités</div>
+              <div class="feed-source-name">Ars Technica — Technology Lab</div>
+              <div class="feed-source-url">arstechnica.com · Cloud, virtualisation, hardware, systèmes</div>
             </div>
           </div>
         </div>
@@ -349,10 +349,10 @@
       <div class="source-block">
         <div class="feed-header">
           <div class="feed-header-left">
-            <span class="feed-source-tag blue">Network World · EN</span>
+            <span class="feed-source-tag blue">Silicon.fr · FR</span>
             <div>
-              <div class="feed-source-name">Network World</div>
-              <div class="feed-source-url">networkworld.com · Réseaux d'entreprise, SDN, infrastructure</div>
+              <div class="feed-source-name">Silicon.fr — Infrastructure & Réseaux</div>
+              <div class="feed-source-url">silicon.fr · Actualité IT, infrastructure, networking en français</div>
             </div>
           </div>
         </div>
@@ -364,10 +364,10 @@
       <div class="source-block">
         <div class="feed-header">
           <div class="feed-header-left">
-            <span class="feed-source-tag blue">LeMagIT · FR</span>
+            <span class="feed-source-tag blue">ZDNet France · FR</span>
             <div>
-              <div class="feed-source-name">LeMagIT — Infrastructure & Réseaux</div>
-              <div class="feed-source-url">lemagit.fr · Actualité infra, datacenter, networking en français</div>
+              <div class="feed-source-name">ZDNet France — Actualités IT</div>
+              <div class="feed-source-url">zdnet.fr · Réseaux, datacenter, technologies entreprise en français</div>
             </div>
           </div>
         </div>
@@ -415,7 +415,7 @@
 
     <div class="nav-bottom">
       <a class="nav-btn" href="../index.html">← Retour à l'accueil</a>
-      <span style="font-size:0.75rem; color:var(--muted);">Flux RSS via rss2json.com · Données en temps réel</span>
+      <span style="font-size:0.75rem; color:var(--muted);">Flux RSS via AllOrigins · Données en temps réel</span>
     </div>
 
   </div>
@@ -432,16 +432,25 @@
 const PROXY = "https://api.allorigins.win/get?url=";
 
 const FEEDS = {
-  "feed-anssi":        { url: "https://www.cert.ssi.gouv.fr/feed/",              source: "CERT-FR",           count: 6 },
-  "feed-thn":          { url: "https://feeds.feedburner.com/TheHackersNews",      source: "The Hacker News",   count: 6 },
-  "feed-phoronix":     { url: "https://www.phoronix.com/rss.php",                 source: "Phoronix",          count: 6 },
-  "feed-korben":       { url: "https://korben.info/feed",                         source: "Korben",            count: 6 },
-  "feed-cloudflare":   { url: "https://blog.cloudflare.com/rss/",                 source: "Cloudflare Blog",   count: 6 },
-  "feed-proxmox":      { url: "https://www.proxmox.com/en/?format=feed&type=rss", source: "Proxmox",           count: 6 },
-  "feed-networkworld": { url: "https://www.networkworld.com/feed/",               source: "Network World",     count: 6 },
-  "feed-lemagit":      { url: "https://www.lemagit.fr/rss/Infrastructure.xml",    source: "LeMagIT",           count: 6 },
-  "feed-krebs":        { url: "https://krebsonsecurity.com/feed/",                source: "Krebs on Security", count: 6 },
-  "feed-schneier":     { url: "https://www.schneier.com/feed/atom/",              source: "Schneier",          count: 6 },
+  // ── Cybersécurité ── (fonctionnels)
+  "feed-anssi": { url: "https://www.cert.ssi.gouv.fr/feed/",                              source: "CERT-FR",              count: 6 },
+  "feed-thn":   { url: "https://feeds.feedburner.com/TheHackersNews",                     source: "The Hacker News",      count: 6 },
+
+  // ── Linux & Open Source ── Phoronix bloqué → LWN.net (référence kernel Linux)
+  "feed-phoronix": { url: "https://lwn.net/headlines/rss",                                source: "LWN.net",              count: 6 },
+  "feed-korben":   { url: "https://korben.info/feed",                                     source: "Korben",               count: 6 },
+
+  // ── Virtualisation & Cloud ── Cloudflare/Proxmox bloqués → InfoQ + Ars Technica
+  "feed-cloudflare": { url: "https://www.infoq.com/devops/rss/",                          source: "InfoQ DevOps",         count: 6 },
+  "feed-proxmox":    { url: "https://feeds.arstechnica.com/arstechnica/technology-lab",   source: "Ars Technica Tech",    count: 6 },
+
+  // ── Réseaux & Infrastructure ── NetworkWorld/LeMagIT bloqués → Silicon.fr + ZDNet FR
+  "feed-networkworld": { url: "https://www.silicon.fr/feed",                              source: "Silicon.fr",           count: 6 },
+  "feed-lemagit":      { url: "https://www.zdnet.fr/feeds/rss/actualites/",               source: "ZDNet France",         count: 6 },
+
+  // ── IA & Sécurité ── (fonctionnels)
+  "feed-krebs":    { url: "https://krebsonsecurity.com/feed/",                            source: "Krebs on Security",    count: 6 },
+  "feed-schneier": { url: "https://www.schneier.com/feed/atom/",                          source: "Schneier on Security", count: 6 },
 };
 
 // ─── UTILITAIRES ───────────────────────────────────────────────────
