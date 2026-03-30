@@ -353,7 +353,7 @@
 
     <div class="nav-bottom">
       <a class="nav-btn" href="../index.html">← Retour à l'accueil</a>
-      <span style="font-size:0.75rem; color:var(--muted);">Flux RSS via AllOrigins · Actualisé à chaque visite</span>
+      <span style="font-size:0.75rem; color:var(--muted);">Flux RSS · Actualisé à chaque visite</span>
     </div>
 
   </div>
@@ -365,14 +365,81 @@
 
 <script src="../js/nav.js"></script>
 <script>
-const PROXY = "https://api.allorigins.win/get?url=";
+// ═══════════════════════════════════════════════════════
+//  SYSTÈME MULTI-PROXY RSS — FALLBACK AUTOMATIQUE
+//  Essaie chaque proxy dans l'ordre jusqu'à succès
+// ═══════════════════════════════════════════════════════
 
+// Liste de proxys CORS publics — tentés dans l'ordre
+const PROXIES = [
+  url => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,
+  url => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`,
+  url => `https://corsproxy.io/?${encodeURIComponent(url)}`,
+  url => `https://cors-anywhere.herokuapp.com/${url}`,
+];
+
+// Adaptateur : chaque proxy renvoie le XML différemment
+async function fetchViaProxy(feedUrl, proxyIndex) {
+  const proxyUrl = PROXIES[proxyIndex](feedUrl);
+  const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(8000) });
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+  // allorigins et codetabs renvoient du JSON avec .contents
+  const contentType = res.headers.get("content-type") || "";
+  if (contentType.includes("application/json") || proxyIndex <= 1) {
+    const json = await res.json();
+    // allorigins : { contents: "..." }
+    // codetabs   : renvoie parfois directement le XML en string dans un champ
+    const xml = json.contents ?? json;
+    if (!xml || typeof xml !== "string" || xml.length < 50) throw new Error("Réponse vide");
+    return xml;
+  }
+
+  // corsproxy.io et cors-anywhere renvoient directement le XML
+  const text = await res.text();
+  if (!text || text.length < 50) throw new Error("Réponse vide");
+  return text;
+}
+
+// Tente tous les proxys en cascade
+async function fetchRSS(feedUrl) {
+  let lastErr;
+  for (let i = 0; i < PROXIES.length; i++) {
+    try {
+      const xml = await fetchViaProxy(feedUrl, i);
+      return xml;
+    } catch (e) {
+      lastErr = e;
+      // Continue avec le proxy suivant
+    }
+  }
+  throw lastErr ?? new Error("Tous les proxys ont échoué");
+}
+
+// ═══════════════════════════════════════════════════════
+//  FLUX RSS CONFIGURÉS
+// ═══════════════════════════════════════════════════════
 const LIVE_FEEDS = {
-  "feed-certfr": { url: "https://www.cert.ssi.gouv.fr/feed/",          source: "CERT-FR",         tab: "certfr" },
-  "feed-thn":    { url: "https://feeds.feedburner.com/TheHackersNews", source: "The Hacker News", tab: "thn"    },
-  "feed-record": { url: "https://therecord.media/feed",                source: "The Record",      tab: "record" },
+  "feed-certfr": {
+    url: "https://www.cert.ssi.gouv.fr/feed/",
+    source: "CERT-FR",
+    tab: "certfr"
+  },
+  "feed-thn": {
+    url: "https://feeds.feedburner.com/TheHackersNews",
+    source: "The Hacker News",
+    tab: "thn"
+  },
+  "feed-record": {
+    url: "https://therecord.media/feed",
+    source: "The Record",
+    tab: "record"
+  },
 };
 
+// ═══════════════════════════════════════════════════════
+//  UTILITAIRES
+// ═══════════════════════════════════════════════════════
 function stripHtml(html) {
   if (!html) return "";
   const d = document.createElement("div");
@@ -392,37 +459,69 @@ function truncate(s, n) {
   return s.length > n ? s.slice(0, n).trimEnd() + "…" : s;
 }
 
+// ═══════════════════════════════════════════════════════
+//  PARSING XML (RSS 2.0 + Atom)
+// ═══════════════════════════════════════════════════════
 function parseXML(xml) {
-  const doc = new DOMParser().parseFromString(xml, "text/xml");
+  // Nettoyage du XML avant parsing (certains flux ont des caractères invalides)
+  const cleaned = xml.replace(/&(?!(amp|lt|gt|quot|apos|#\d+|#x[\da-fA-F]+);)/g, "&amp;");
+
+  let doc;
+  try {
+    doc = new DOMParser().parseFromString(cleaned, "text/xml");
+  } catch (e) {
+    doc = new DOMParser().parseFromString(xml, "text/html");
+  }
+
+  // Vérifie erreur de parsing
+  const parseError = doc.querySelector("parsererror");
+  if (parseError) {
+    // Tente un parsing HTML en fallback
+    doc = new DOMParser().parseFromString(xml, "text/html");
+  }
+
   const items = [];
+
+  // ── RSS 2.0 ──
   doc.querySelectorAll("item").forEach(el => {
     const linkEl = el.querySelector("link");
+    // <link> peut être un nœud texte ou un attribut href
+    const link = linkEl?.textContent?.trim()
+      || linkEl?.nextSibling?.textContent?.trim()
+      || linkEl?.getAttribute("href")
+      || "";
     items.push({
-      title: el.getElementsByTagName("title")[0]?.textContent || "",
-      link:  linkEl?.textContent || linkEl?.nextSibling?.textContent || "",
+      title: el.getElementsByTagName("title")[0]?.textContent?.trim() || "",
+      link,
       desc:  el.getElementsByTagName("description")[0]?.textContent || "",
       date:  el.getElementsByTagName("pubDate")[0]?.textContent || "",
     });
   });
   if (items.length) return items;
+
+  // ── Atom ──
   doc.querySelectorAll("entry").forEach(el => {
     const linkEl = el.querySelector("link[rel='alternate']") || el.querySelector("link");
     items.push({
-      title: el.getElementsByTagName("title")[0]?.textContent || "",
+      title: el.getElementsByTagName("title")[0]?.textContent?.trim() || "",
       link:  linkEl?.getAttribute("href") || "",
-      desc:  el.getElementsByTagName("summary")[0]?.textContent || "",
+      desc:  el.getElementsByTagName("summary")[0]?.textContent || el.getElementsByTagName("content")[0]?.textContent || "",
       date:  el.getElementsByTagName("published")[0]?.textContent || el.getElementsByTagName("updated")[0]?.textContent || "",
     });
   });
   return items;
 }
 
+// ═══════════════════════════════════════════════════════
+//  RENDU D'UNE CARTE ARTICLE
+// ═══════════════════════════════════════════════════════
 function renderCard(item, source) {
   const title = truncate(stripHtml(item.title), 100);
   const desc  = truncate(stripHtml(item.desc),  140);
   const date  = formatDate(item.date);
+  const href  = item.link || "#";
   return `
-    <a class="feed-card" href="${item.link || '#'}" target="_blank" rel="noopener noreferrer">
+    <a class="feed-card" href="${href}" target="_blank" rel="noopener noreferrer">
       <div class="feed-card-meta">
         ${date ? `<span>${date}</span><span class="feed-card-meta-dot"></span>` : ""}
         <span>${source}</span>
@@ -436,37 +535,56 @@ function renderCard(item, source) {
     </a>`;
 }
 
+// ═══════════════════════════════════════════════════════
+//  CHARGEMENT D'UN FLUX
+// ═══════════════════════════════════════════════════════
 const loadedFeeds = new Set();
 
 async function loadFeed(feedId) {
   if (loadedFeeds.has(feedId)) return;
   loadedFeeds.add(feedId);
+
   const cfg = LIVE_FEEDS[feedId];
   const container = document.getElementById(feedId);
   if (!cfg || !container) return;
+
   try {
-    const res  = await fetch(PROXY + encodeURIComponent(cfg.url), { signal: AbortSignal.timeout(10000) });
-    const json = await res.json();
-    if (!json.contents) throw new Error("vide");
-    const items = parseXML(json.contents).slice(0, 6);
-    if (!items.length) throw new Error("aucun article");
+    const xml   = await fetchRSS(cfg.url);
+    const items = parseXML(xml).slice(0, 6);
+
+    if (!items.length) throw new Error("Aucun article trouvé dans le flux");
+
     container.innerHTML = items.map(i => renderCard(i, cfg.source)).join("");
-  } catch {
-    container.innerHTML = `<div class="feed-empty">⚠️ Flux indisponible pour le moment.<br>
-      <a href="${cfg.url}" target="_blank" rel="noopener" style="color:#dc2626;font-size:0.78rem;margin-top:0.3rem;display:inline-block;">
-        Voir la source directement →</a></div>`;
+  } catch (err) {
+    console.warn(`[RSS] Échec pour ${feedId}:`, err);
+    container.innerHTML = `
+      <div class="feed-empty">
+        ⚠️ Flux temporairement indisponible.<br>
+        <a href="${cfg.url}" target="_blank" rel="noopener"
+           style="color:#dc2626;font-size:0.78rem;margin-top:0.3rem;display:inline-block;">
+          Voir la source directement →
+        </a>
+      </div>`;
   }
 }
 
+// ═══════════════════════════════════════════════════════
+//  NAVIGATION PAR ONGLETS
+// ═══════════════════════════════════════════════════════
 function switchFlux(tab) {
   document.querySelectorAll(".flux-section").forEach(s => s.classList.remove("active"));
   document.querySelectorAll(".flux-tab-btn").forEach(b => b.classList.remove("active"));
-  document.getElementById("flux-" + tab).classList.add("active");
-  document.getElementById("ftab-" + tab).classList.add("active");
+  const section = document.getElementById("flux-" + tab);
+  const btn     = document.getElementById("ftab-" + tab);
+  if (section) section.classList.add("active");
+  if (btn)     btn.classList.add("active");
   const feedId = Object.keys(LIVE_FEEDS).find(k => LIVE_FEEDS[k].tab === tab);
   if (feedId) loadFeed(feedId);
 }
 
+// ═══════════════════════════════════════════════════════
+//  INIT — charge le premier flux au démarrage
+// ═══════════════════════════════════════════════════════
 document.addEventListener("DOMContentLoaded", () => {
   loadFeed("feed-certfr");
 });
