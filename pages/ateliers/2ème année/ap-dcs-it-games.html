@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP — DCS IT Games · Campus IT Dashboard</title>
+<link rel="stylesheet" href="../../../css/style.css">
+<style>
+.breadcrumb { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; color: var(--light); margin-bottom: 0.75rem; flex-wrap: wrap; }
+.breadcrumb a { color: var(--light); text-decoration: none; }
+.breadcrumb a:hover { color: var(--accent); }
+.breadcrumb span { color: var(--accent); font-weight: 600; }
+
+/* ─── HERO ─── */
+.page-hero {
+  background: #0a1628; border: 1px solid #1e3a5f;
+  border-radius: 16px; overflow: hidden; margin-bottom: 2rem;
+}
+.page-hero-banner {
+  height: 90px;
+  background: linear-gradient(135deg, #0a1628, #0d2240, #1a1040, #0a1628);
+  display: flex; align-items: center; justify-content: center;
+  gap: 1.25rem; font-size: 2.2rem;
+  border-bottom: 1px solid #1e3a5f;
+}
+.page-hero-body { padding: 1.5rem 2rem; }
+.page-hero-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #818cf8; margin-bottom: 0.4rem; }
+.page-hero-title { font-family: 'Playfair Display', serif; font-weight: 800; font-size: clamp(1.2rem, 2.5vw, 1.65rem); line-height: 1.2; color: white; }
+.page-hero-sub { color: #9ca3af; font-size: 0.85rem; margin-top: 0.3rem; }
+
+/* ─── STATS ─── */
+.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
+.stat-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem 1.25rem; text-align: center; }
+.stat-num { font-family: 'Playfair Display', serif; font-weight: 800; font-size: 1.8rem; color: var(--accent); line-height: 1; }
+.stat-num.purple { color: #7c3aed; }
+.stat-num.green  { color: #16a34a; }
+.stat-num.teal   { color: #0891b2; }
+.stat-label { color: var(--muted); font-size: 0.78rem; margin-top: 0.3rem; }
+
+/* ─── CONTENT BLOCKS ─── */
+.content-block { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 1.75rem 2rem; margin-bottom: 1.25rem; }
+.content-block-title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem; }
+.content-block-title::before { content: ''; display: block; width: 3px; height: 18px; background: var(--accent); border-radius: 2px; flex-shrink: 0; }
+.content-block-title.purple::before { background: #7c3aed; }
+.content-block-title.green::before  { background: #16a34a; }
+.content-block-title.teal::before   { background: #0891b2; }
+.content-block-title.orange::before { background: #f97316; }
+.content-text { color: var(--muted); font-size: 0.9rem; line-height: 1.85; }
+.content-text p + p { margin-top: 0.75rem; }
+
+/* ─── ARCHI SCHÉMA ─── */
+.archi-flow { display: flex; align-items: center; justify-content: center; gap: 0; flex-wrap: wrap; margin: 1.5rem 0 0.5rem; }
+.archi-node {
+  display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  padding: 1rem 1.25rem; min-width: 110px; text-align: center;
+}
+.archi-node-icon { font-size: 1.6rem; }
+.archi-node-title { font-weight: 700; font-size: 0.78rem; color: var(--text); }
+.archi-node-sub { font-size: 0.7rem; color: var(--muted); line-height: 1.4; }
+.archi-arrow {
+  display: flex; flex-direction: column; align-items: center; gap: 0.2rem;
+  padding: 0 0.75rem; color: var(--accent); font-size: 0.68rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.archi-arrow-line { font-size: 1.2rem; }
+
+/* ─── STACK TECHNIQUE ─── */
+.stack-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.85rem; margin-top: 1rem; }
+.stack-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  padding: 1rem 1.15rem; display: flex; align-items: flex-start; gap: 0.75rem;
+}
+.stack-card-icon {
+  width: 36px; height: 36px; flex-shrink: 0; border-radius: 9px;
+  background: white; border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center; font-size: 1rem;
+}
+.stack-card-name { font-weight: 700; font-size: 0.82rem; color: var(--text); }
+.stack-card-desc { font-size: 0.73rem; color: var(--muted); margin-top: 0.15rem; line-height: 1.4; }
+.stack-badge {
+  font-size: 0.62rem; font-weight: 700; text-transform: uppercase;
+  padding: 0.1rem 0.45rem; border-radius: 100px; margin-top: 0.35rem; display: inline-block;
+}
+.badge-infra  { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+.badge-data   { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+.badge-front  { background: #faf5ff; color: #6d28d9; border: 1px solid #ddd6fe; }
+.badge-sec    { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+
+/* ─── RÉALISATIONS (même style que failles PingCastle) ─── */
+.realisation-list { display: flex; flex-direction: column; gap: 0; }
+
+.real-item { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 1rem; background: white; }
+
+.real-header { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; }
+.real-header.infra  { background: linear-gradient(135deg, #eff6ff, #dbeafe); border-bottom: 1px solid #bfdbfe; }
+.real-header.data   { background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-bottom: 1px solid #bbf7d0; }
+.real-header.front  { background: linear-gradient(135deg, #faf5ff, #ede9fe); border-bottom: 1px solid #ddd6fe; }
+.real-header.sec    { background: linear-gradient(135deg, #fef2f2, #fee2e2); border-bottom: 1px solid #fecaca; }
+
+.real-num {
+  width: 36px; height: 36px; flex-shrink: 0;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 0.95rem; color: white;
+}
+.real-header.infra  .real-num { background: #1d4ed8; }
+.real-header.data   .real-num { background: #16a34a; }
+.real-header.front  .real-num { background: #7c3aed; }
+.real-header.sec    .real-num { background: #dc2626; }
+
+.real-title { font-weight: 700; font-size: 0.92rem; color: var(--text); }
+
+.real-cat-badge {
+  margin-left: auto; font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 0.22rem 0.65rem; border-radius: 100px;
+}
+.real-header.infra  .real-cat-badge { background: #bfdbfe; color: #1d4ed8; }
+.real-header.data   .real-cat-badge { background: #bbf7d0; color: #15803d; }
+.real-header.front  .real-cat-badge { background: #ddd6fe; color: #6d28d9; }
+.real-header.sec    .real-cat-badge { background: #fecaca; color: #b91c1c; }
+
+.real-body { padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 0.85rem; }
+
+.real-section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem; }
+.real-text { color: var(--muted); font-size: 0.87rem; line-height: 1.75; }
+
+.real-steps { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; margin-top: 0.25rem; }
+.real-steps li { font-size: 0.86rem; color: var(--muted); line-height: 1.6; padding-left: 1.4rem; position: relative; }
+.real-steps li::before { content: '›'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+
+.impact-tag {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a;
+  padding: 0.3rem 0.85rem; border-radius: 100px;
+  font-size: 0.73rem; font-weight: 700;
+}
+.impact-tag.blue { background: #eff6ff; border-color: #bfdbfe; color: #1d4ed8; }
+.impact-tag.purple { background: #faf5ff; border-color: #ddd6fe; color: #7c3aed; }
+
+/* ─── SCREENSHOTS DASHBOARD ─── */
+.screenshots-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1rem; }
+.screenshot-card {
+  border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: #0a1628;
+}
+.screenshot-label {
+  padding: 0.65rem 1rem; background: var(--surface); border-bottom: 1px solid var(--border);
+  font-size: 0.75rem; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 0.5rem;
+}
+.screenshot-img { width: 100%; display: block; }
+.screenshot-placeholder {
+  height: 160px; display: flex; align-items: center; justify-content: center;
+  color: #4b5563; font-size: 0.8rem; background: #111827;
+}
+
+/* ─── SQL BLOCK ─── */
+.sql-block {
+  background: #0f172a; border: 1px solid #1e293b; border-radius: 10px;
+  padding: 1rem 1.25rem; margin-top: 0.5rem; overflow-x: auto;
+}
+.sql-block code {
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: 0.8rem; color: #e2e8f0; line-height: 1.7; white-space: pre;
+}
+.sql-kw { color: #818cf8; }
+.sql-fn { color: #34d399; }
+.sql-str { color: #fbbf24; }
+.sql-cmt { color: #6b7280; font-style: italic; }
+
+/* ─── BILAN TABLE ─── */
+.bilan-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.bilan-table th { background: #1e1e1e; color: white; text-align: left; padding: 0.65rem 1rem; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.bilan-table td { padding: 0.6rem 1rem; color: var(--muted); border-bottom: 1px solid var(--border); }
+.bilan-table tr:last-child td { border-bottom: none; background: var(--accent-light); color: var(--accent); font-weight: 700; }
+.bilan-table tr:nth-child(even) td { background: var(--surface); }
+.badge-ok { background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; padding: 0.15rem 0.55rem; border-radius: 100px; font-size: 0.72rem; font-weight: 700; }
+
+/* ─── PDF EMBED ─── */
+.pdf-section {
+  background: white; border: 1px solid var(--border);
+  border-radius: 14px; overflow: hidden; margin-bottom: 2rem;
+}
+.pdf-header {
+  padding: 1.25rem 1.5rem;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--border); gap: 1rem; flex-wrap: wrap;
+}
+.pdf-header-left { display: flex; align-items: center; gap: 1rem; }
+.pdf-header-icon {
+  width: 42px; height: 42px; background: var(--accent-light);
+  border: 1px solid var(--accent-mid); border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; flex-shrink: 0;
+}
+.pdf-header-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.2rem; }
+.pdf-header-title { font-weight: 600; font-size: 0.92rem; color: var(--text); }
+.pdf-embed { width: 100%; height: 860px; border: none; display: block; }
+.dl-btn-dark {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: var(--accent); color: white; text-decoration: none;
+  padding: 0.75rem 1.5rem; border-radius: 9px;
+  font-weight: 700; font-size: 0.88rem; white-space: nowrap;
+  transition: all 0.18s; flex-shrink: 0;
+}
+.dl-btn-dark:hover { background: #1a45c0; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(29,78,216,0.4); }
+
+/* ─── NOTE SERVEUR ─── */
+.server-note {
+  background: #0f172a; border: 1px solid #1e3a5f; border-radius: 14px;
+  padding: 1.5rem 2rem; margin-bottom: 1.25rem; display: flex; align-items: flex-start; gap: 1rem;
+}
+.server-note-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 0.1rem; }
+.server-note-title { font-weight: 700; font-size: 0.92rem; color: #e2e8f0; margin-bottom: 0.3rem; }
+.server-note-text { color: #94a3b8; font-size: 0.84rem; line-height: 1.7; }
+
+/* ─── NAV BOTTOM ─── */
+.nav-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+.nav-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.83rem; font-weight: 600; color: var(--muted); text-decoration: none; transition: color 0.18s; }
+.nav-btn:hover { color: var(--accent); }
+
+@media (max-width: 700px) {
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .stack-grid { grid-template-columns: 1fr; }
+  .screenshots-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../../../index.html" class="nav-logo">Adrien <span>Blaize</span></a>
+  <ul class="nav-links">
+    <li><a href="../../../index.html">Accueil</a></li>
+    <li><a href="../../about.html">À propos de moi</a></li>
+    <li><a href="../../ateliers.html" class="active">Ateliers Pro</a></li>
+    <li class="nav-dropdown">
+      <a href="../../stages.html">Stages</a>
+      <div class="dropdown-menu">
+        <a href="../../stages/stage1.html">🏢 Stage 1 — Paredes Orapi</a>
+        <a href="../../stages/stage2.html">🏢 Stage 2 — SIA BDE INSA</a>
+      </div>
+    </li>
+    <li><a href="../../veille.html">Veille techno</a></li>
+  </ul>
+</nav>
+
+<div class="page-content">
+  <div class="section">
+
+    <div class="breadcrumb">
+      <a href="../../ateliers.html">Ateliers Professionnels</a> ›
+      <a href="../../ateliers.html">Année 2</a> ›
+      <span>AP — DCS IT Games</span>
+    </div>
+
+    <!-- ══ HERO ══ -->
+    <div class="page-hero">
+      <div class="page-hero-banner">🖥️ 📊 🏆</div>
+      <div class="page-hero-body">
+        <div class="page-hero-label">Atelier de Professionnalisation — Année 2 · BTS SIO SISR</div>
+        <div class="page-hero-title">DCS IT Games — Campus IT Dashboard</div>
+        <div class="page-hero-sub">Infrastructure Linux · Apache · PHP · MariaDB · Tableau de bord · Analyse de données</div>
+      </div>
+    </div>
+
+    <!-- ══ STATS ══ -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-num">5</div>
+        <div class="stat-label">Applications monitorées</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num purple">4</div>
+        <div class="stat-label">Onglets dashboard</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num teal">21 422</div>
+        <div class="stat-label">Go · Volume total cumulé</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num green">HTTPS</div>
+        <div class="stat-label">Accès sécurisé</div>
+      </div>
+    </div>
+
+    <!-- ══ CONTEXTE ══ -->
+    <div class="content-block">
+      <div class="content-block-title">Contexte de l'atelier</div>
+      <div class="content-text">
+        <p>Dans le cadre des <strong>DCS IT Games 2026</strong>, épreuve de sélection organisée par l'académie de Lyon, notre équipe a réalisé un cas pratique orienté DATA. Le contexte simulé est celui d'un service informatique de campus d'enseignement supérieur souhaitant disposer d'un tableau de bord web pour suivre la consommation de ses ressources IT.</p>
+        <p>Le campus exploite cinq applications critiques — <strong>Portail Étudiant, Messagerie, Parc Informatique, Intranet et Gestion Absences</strong> — consommant du stockage, du CPU et de la bande passante réseau. L'objectif était d'identifier les applications les plus gourmandes, d'analyser les tendances mensuelles et de permettre la comparaison Stockage vs Réseau.</p>
+        <p>Le projet mobilise des compétences <strong>SISR</strong> (infrastructure, sécurisation du serveur, HTTPS) et <strong>SLAM</strong> (base de données MariaDB, requêtes SQL, développement web PHP/JS). La restitution a eu lieu le <strong>5 mars 2026</strong> sous forme de démo live.</p>
+      </div>
+    </div>
+
+    <!-- ══ ARCHITECTURE ══ -->
+    <div class="content-block">
+      <div class="content-block-title teal">Architecture mise en place</div>
+      <div class="content-text">
+        <p>L'architecture cible impose un flux <strong>Navigateur → HTTPS → Apache/PHP → SQL → MariaDB</strong> hébergé sur une VM Linux. Chaque couche a été déployée et sécurisée.</p>
+      </div>
+      <div class="archi-flow">
+        <div class="archi-node">
+          <div class="archi-node-icon">🌐</div>
+          <div class="archi-node-title">Navigateur</div>
+          <div class="archi-node-sub">Chrome / Firefox<br>Client HTTP</div>
+        </div>
+        <div class="archi-arrow">
+          <div class="archi-arrow-line">→</div>
+          <div>HTTPS</div>
+        </div>
+        <div class="archi-node">
+          <div class="archi-node-icon">🖥️</div>
+          <div class="archi-node-title">VM Linux</div>
+          <div class="archi-node-sub">Apache 2.4<br>PHP 8.x<br>API /api/*.php</div>
+        </div>
+        <div class="archi-arrow">
+          <div class="archi-arrow-line">→</div>
+          <div>SQL</div>
+        </div>
+        <div class="archi-node">
+          <div class="archi-node-icon">🗄️</div>
+          <div class="archi-node-title">MariaDB</div>
+          <div class="archi-node-sub">BDD campus_it<br>3 tables</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ STACK TECHNIQUE ══ -->
+    <div class="content-block">
+      <div class="content-block-title purple">Stack technique</div>
+      <div class="content-text">
+        <p>Technologies imposées par le sujet, toutes déployées et opérationnelles lors de la restitution.</p>
+      </div>
+      <div class="stack-grid">
+        <div class="stack-card">
+          <div class="stack-card-icon">🐧</div>
+          <div>
+            <div class="stack-card-name">Linux (Debian/Ubuntu)</div>
+            <div class="stack-card-desc">Système d'exploitation de la VM hébergeant tous les services.</div>
+            <span class="stack-badge badge-infra">SISR · Infra</span>
+          </div>
+        </div>
+        <div class="stack-card">
+          <div class="stack-card-icon">🌐</div>
+          <div>
+            <div class="stack-card-name">Apache 2.4</div>
+            <div class="stack-card-desc">Serveur web, Virtual Host configuré, HTTPS activé via certificat SSL.</div>
+            <span class="stack-badge badge-infra">SISR · Web</span>
+          </div>
+        </div>
+        <div class="stack-card">
+          <div class="stack-card-icon">🐘</div>
+          <div>
+            <div class="stack-card-name">PHP 8.x</div>
+            <div class="stack-card-desc">Scripts backend exposant les données de la BDD via des endpoints API.</div>
+            <span class="stack-badge badge-data">SLAM · Backend</span>
+          </div>
+        </div>
+        <div class="stack-card">
+          <div class="stack-card-icon">🗄️</div>
+          <div>
+            <div class="stack-card-name">MariaDB</div>
+            <div class="stack-card-desc">Base de données campus_it — 3 tables : application, ressource, consommation.</div>
+            <span class="stack-badge badge-data">SLAM · BDD</span>
+          </div>
+        </div>
+        <div class="stack-card">
+          <div class="stack-card-icon">📊</div>
+          <div>
+            <div class="stack-card-name">HTML / CSS / JavaScript</div>
+            <div class="stack-card-desc">Interface du dashboard, graphiques Chart.js, onglets dynamiques.</div>
+            <span class="stack-badge badge-front">SLAM · Frontend</span>
+          </div>
+        </div>
+        <div class="stack-card">
+          <div class="stack-card-icon">🔒</div>
+          <div>
+            <div class="stack-card-name">SSL / Pare-feu / SSH</div>
+            <div class="stack-card-desc">Accès HTTPS, UFW configuré, accès SSH restreint par clé.</div>
+            <span class="stack-badge badge-sec">SISR · Sécurité</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ NOTE DÉMO SERVEUR ══ -->
+    <div class="server-note">
+      <div class="server-note-icon">🖥️</div>
+      <div>
+        <div class="server-note-title">Démonstration serveur disponible</div>
+        <div class="server-note-text">La partie technique côté serveur (VM Linux, Apache, PHP, MariaDB, configuration SSL/UFW) est présentée séparément en démo live lors de la restitution. Cette page documente uniquement le livrable applicatif. Les captures d'écran ci-dessous illustrent le rendu final du dashboard tel qu'il tourne sur le serveur.</div>
+      </div>
+    </div>
+
+    <!-- ══ RÉALISATIONS ══ -->
+    <div class="content-block">
+      <div class="content-block-title">Réalisations techniques</div>
+
+      <div class="realisation-list">
+
+        <!-- R1 — Infrastructure VM -->
+        <div class="real-item">
+          <div class="real-header infra">
+            <div class="real-num">1</div>
+            <div class="real-title">Mise en place de la VM Linux et de la stack LAMP</div>
+            <span class="real-cat-badge">🔵 Infrastructure · SISR</span>
+          </div>
+          <div class="real-body">
+            <div>
+              <div class="real-section-label">Ce qui a été fait</div>
+              <p class="real-text">Déploiement d'une VM Linux avec installation et configuration d'Apache 2.4, PHP 8.x et MariaDB. Virtual Host Apache configuré pour pointer sur le répertoire du projet. Création de la base de données <code>campus_it</code> et importation du schéma SQL fourni (tables <strong>application</strong>, <strong>ressource</strong>, <strong>consommation</strong>).</p>
+            </div>
+            <div>
+              <div class="real-section-label">Étapes clés</div>
+              <ul class="real-steps">
+                <li><code>apt install apache2 php libapache2-mod-php mariadb-server php-mysql</code></li>
+                <li>Création de la BDD : <code>CREATE DATABASE campus_it; USE campus_it; SOURCE schema.sql;</code></li>
+                <li>Configuration du Virtual Host Apache → <code>a2ensite campus_it.conf && systemctl reload apache2</code></li>
+              </ul>
+            </div>
+            <div><span class="impact-tag blue">✅ VM opérationnelle · Stack LAMP déployée</span></div>
+          </div>
+        </div>
+
+        <!-- R2 — Sécurisation -->
+        <div class="real-item">
+          <div class="real-header sec">
+            <div class="real-num">2</div>
+            <div class="real-title">Sécurisation du serveur et accès HTTPS</div>
+            <span class="real-cat-badge">🔴 Sécurité · SISR</span>
+          </div>
+          <div class="real-body">
+            <div>
+              <div class="real-section-label">Ce qui a été fait</div>
+              <p class="real-text">Certificat SSL généré via <strong>OpenSSL</strong> (auto-signé pour la démo). Activation du module <code>mod_ssl</code> Apache et redirection HTTP → HTTPS. Pare-feu <strong>UFW</strong> configuré pour n'autoriser que les ports 22 (SSH), 80 (HTTP) et 443 (HTTPS). Accès SSH sécurisé : authentification par clé, désactivation de l'accès root.</p>
+            </div>
+            <div>
+              <div class="real-section-label">Étapes clés</div>
+              <ul class="real-steps">
+                <li><code>openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout server.key -out server.crt</code></li>
+                <li><code>a2enmod ssl && a2ensite default-ssl && systemctl reload apache2</code></li>
+                <li><code>ufw allow 22 && ufw allow 80 && ufw allow 443 && ufw enable</code></li>
+              </ul>
+            </div>
+            <div><span class="impact-tag" style="background:#fef2f2;border-color:#fecaca;color:#b91c1c;">✅ HTTPS actif · UFW configuré · SSH sécurisé</span></div>
+          </div>
+        </div>
+
+        <!-- R3 — BDD & SQL -->
+        <div class="real-item">
+          <div class="real-header data">
+            <div class="real-num">3</div>
+            <div class="real-title">Base de données campus_it et requêtes SQL</div>
+            <span class="real-cat-badge">🟢 Base de données · SLAM</span>
+          </div>
+          <div class="real-body">
+            <div>
+              <div class="real-section-label">Structure de la base</div>
+              <p class="real-text">La base <code>campus_it</code> contient trois tables liées. <strong>application</strong> (app_id, nom) recense les 5 applications du campus. <strong>ressource</strong> (res_id, nom, unite) décrit les types de ressources suivies. <strong>consommation</strong> (conso_id, app_id, res_id, mois, volume) enregistre la consommation mensuelle — c'est la table centrale interrogée par toutes les vues du dashboard.</p>
+            </div>
+            <div>
+              <div class="real-section-label">Requêtes SQL principales</div>
+              <div class="sql-block"><code><span class="sql-cmt">-- Top 5 applications les plus consommatrices (tous mois, toutes ressources)</span>
+<span class="sql-kw">SELECT</span> a.nom, <span class="sql-fn">SUM</span>(c.volume) <span class="sql-kw">AS</span> total
+<span class="sql-kw">FROM</span> consommation c
+<span class="sql-kw">JOIN</span> application a <span class="sql-kw">ON</span> c.app_id = a.app_id
+<span class="sql-kw">GROUP BY</span> a.nom
+<span class="sql-kw">ORDER BY</span> total <span class="sql-kw">DESC</span>
+<span class="sql-kw">LIMIT</span> 5;
+
+<span class="sql-cmt">-- Évolution mensuelle totale du campus</span>
+<span class="sql-kw">SELECT</span> c.mois, <span class="sql-fn">SUM</span>(c.volume) <span class="sql-kw">AS</span> total
+<span class="sql-kw">FROM</span> consommation c
+<span class="sql-kw">GROUP BY</span> c.mois
+<span class="sql-kw">ORDER BY</span> c.mois;
+
+<span class="sql-cmt">-- Comparaison Stockage vs Réseau par mois</span>
+<span class="sql-kw">SELECT</span> c.mois,
+  <span class="sql-fn">SUM</span>(<span class="sql-kw">CASE WHEN</span> r.nom = <span class="sql-str">'Stockage'</span> <span class="sql-kw">THEN</span> c.volume <span class="sql-kw">ELSE</span> 0 <span class="sql-kw">END</span>) <span class="sql-kw">AS</span> stockage,
+  <span class="sql-fn">SUM</span>(<span class="sql-kw">CASE WHEN</span> r.nom = <span class="sql-str">'Réseau'</span>   <span class="sql-kw">THEN</span> c.volume <span class="sql-kw">ELSE</span> 0 <span class="sql-kw">END</span>) <span class="sql-kw">AS</span> reseau
+<span class="sql-kw">FROM</span> consommation c
+<span class="sql-kw">JOIN</span> ressource r <span class="sql-kw">ON</span> c.res_id = r.res_id
+<span class="sql-kw">GROUP BY</span> c.mois
+<span class="sql-kw">ORDER BY</span> c.mois;</code></div>
+            </div>
+            <div><span class="impact-tag">✅ 3 requêtes SQL · Données correctes · Indicateurs validés</span></div>
+          </div>
+        </div>
+
+        <!-- R4 — Dashboard -->
+        <div class="real-item">
+          <div class="real-header front">
+            <div class="real-num">4</div>
+            <div class="real-title">Tableau de bord web — 4 onglets interactifs</div>
+            <span class="real-cat-badge">🟣 Frontend · SLAM</span>
+          </div>
+          <div class="real-body">
+            <div>
+              <div class="real-section-label">Rendu final</div>
+              <p class="real-text">Le dashboard affiche <strong>4 vues</strong> accessibles via des onglets : <strong>Vue Globale</strong> (volume total 21 422 Go, répartition Stockage 50,9% / Réseau 49,1%, application dominante Portail Étudiant 4 782 Go, graphique ligne + histogramme groupé) ; <strong>Top Applications</strong> (classement Top 5 avec barres de progression et camembert de répartition) ; <strong>Évolution Mensuelle</strong> (courbe de tendance, min/max historiques, tableau mois par mois) ; <strong>Comparaison</strong> (histogramme Stockage vs Réseau, tableau détaillé avec delta +/-).</p>
+            </div>
+            <div>
+              <div class="real-section-label">Choix techniques frontend</div>
+              <ul class="real-steps">
+                <li>Thème sombre (<code>#0d1117</code>) avec Chart.js pour tous les graphiques</li>
+                <li>Appels fetch() vers les endpoints PHP <code>/api/*.php</code> renvoyant du JSON</li>
+                <li>Navigation par onglets en JavaScript pur — aucun framework requis</li>
+                <li>Tableau de données détaillé avec delta coloré (vert / rouge) selon les valeurs</li>
+              </ul>
+            </div>
+            <div><span class="impact-tag purple">✅ 4 onglets · Graphiques dynamiques · Données temps réel depuis BDD</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ CAPTURES D'ÉCRAN ══ -->
+    <div class="content-block">
+      <div class="content-block-title orange">Aperçu du tableau de bord</div>
+      <div class="content-text" style="margin-bottom: 1rem;">
+        <p>Captures d'écran du dashboard en production sur la VM lors de la présentation du 5 mars 2026.</p>
+      </div>
+      <div class="screenshots-grid">
+        <div class="screenshot-card">
+          <div class="screenshot-label">📊 Vue Globale — Volume & Évolution</div>
+          <div class="screenshot-placeholder">[ Capture écran — Vue Globale ]<br><small>Remplacer par votre image</small></div>
+        </div>
+        <div class="screenshot-card">
+          <div class="screenshot-label">🏆 Top Applications — Classement</div>
+          <div class="screenshot-placeholder">[ Capture écran — Top Applications ]<br><small>Remplacer par votre image</small></div>
+        </div>
+        <div class="screenshot-card">
+          <div class="screenshot-label">📈 Évolution Mensuelle — Tendance</div>
+          <div class="screenshot-placeholder">[ Capture écran — Évolution Mensuelle ]<br><small>Remplacer par votre image</small></div>
+        </div>
+        <div class="screenshot-card">
+          <div class="screenshot-label">⚖️ Comparaison — Stockage vs Réseau</div>
+          <div class="screenshot-placeholder">[ Capture écran — Comparaison ]<br><small>Remplacer par votre image</small></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ BILAN ══ -->
+    <div class="content-block">
+      <div class="content-block-title green">Bilan des livrables</div>
+      <div class="content-text" style="margin-bottom: 1rem;">
+        <p>Tous les critères d'évaluation du sujet DCS IT Games ont été satisfaits lors de la présentation du 5 mars 2026.</p>
+      </div>
+      <table class="bilan-table">
+        <thead>
+          <tr>
+            <th>Critère</th>
+            <th>Attendu</th>
+            <th>Réalisé</th>
+            <th>Statut</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Infrastructure SISR</strong></td>
+            <td>VM Linux, Apache, PHP, MariaDB</td>
+            <td>Stack LAMP déployée, opérationnelle</td>
+            <td><span class="badge-ok">✅ OK</span></td>
+          </tr>
+          <tr>
+            <td><strong>Sécurité serveur</strong></td>
+            <td>HTTPS, SSH, pare-feu</td>
+            <td>SSL + UFW + SSH par clé</td>
+            <td><span class="badge-ok">✅ OK</span></td>
+          </tr>
+          <tr>
+            <td><strong>Base de données</strong></td>
+            <td>Schema campus_it + import données</td>
+            <td>3 tables, données 2025 importées</td>
+            <td><span class="badge-ok">✅ OK</span></td>
+          </tr>
+          <tr>
+            <td><strong>Onglet 1 — Top Apps</strong></td>
+            <td>Top 5 consommatrices</td>
+            <td>Classement + camembert</td>
+            <td><span class="badge-ok">✅ OK</span></td>
+          </tr>
+          <tr>
+            <td><strong>Onglet 2 — Évolution</strong></td>
+            <td>Évolution mensuelle campus</td>
+            <td>Courbe + tableau + min/max</td>
+            <td><span class="badge-ok">✅ OK</span></td>
+          </tr>
+          <tr>
+            <td><strong>Onglet 3 — Comparaison</strong></td>
+            <td>Stockage vs Réseau par mois</td>
+            <td>Histogramme + tableau delta</td>
+            <td><span class="badge-ok">✅ OK</span></td>
+          </tr>
+          <tr>
+            <td><strong>Qualité code</strong></td>
+            <td>Lisible, commenté, structuré</td>
+            <td>PHP commenté, SQL justifié</td>
+            <td><span class="badge-ok">✅ OK</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- ══ OUTILS ══ -->
+    <div class="content-block">
+      <div class="content-block-title">Outils & technologies utilisés</div>
+      <div class="chips" style="gap: 0.5rem;">
+        <span class="chip blue">Linux (Debian/Ubuntu)</span>
+        <span class="chip blue">Apache 2.4</span>
+        <span class="chip blue">PHP 8.x</span>
+        <span class="chip blue">MariaDB</span>
+        <span class="chip">Chart.js</span>
+        <span class="chip">HTML / CSS / JS</span>
+        <span class="chip">SQL</span>
+        <span class="chip">OpenSSL / HTTPS</span>
+        <span class="chip">UFW</span>
+        <span class="chip">SSH</span>
+        <span class="chip">Virtual Host Apache</span>
+      </div>
+    </div>
+
+    <div class="nav-bottom">
+      <a class="nav-btn" href="../../ateliers.html">← Retour aux Ateliers</a>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  Portfolio de <strong>Adrien Blaize</strong> &nbsp;·&nbsp; BTS SIO SISR &nbsp;·&nbsp; La Martinière Duchère &nbsp;·&nbsp; 2025
+</footer>
+<script src="../../../js/nav.js"></script>
+</body>
+</html>
