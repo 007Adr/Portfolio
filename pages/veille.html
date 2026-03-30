@@ -7,170 +7,110 @@
 <link rel="stylesheet" href="../css/style.css">
 <style>
 
-/* ─── HERO ─── */
-.page-hero {
-  background: #0a0f1a; border: 1px solid #1a2a3a;
-  border-radius: 16px; overflow: hidden; margin-bottom: 2rem;
-}
-.page-hero-banner {
-  height: 90px;
-  background: linear-gradient(135deg, #0a0f1a, #0d1f35, #0a1520, #0a0f1a);
-  display: flex; align-items: center; justify-content: center;
-  gap: 1.25rem; font-size: 2.2rem;
-  border-bottom: 1px solid #1a2a3a;
-}
-.page-hero-body { padding: 1.5rem 2rem; }
-.page-hero-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #38bdf8; margin-bottom: 0.4rem; }
-.page-hero-title { font-family: 'Playfair Display', serif; font-weight: 800; font-size: clamp(1.2rem, 2.5vw, 1.65rem); line-height: 1.2; color: white; }
-.page-hero-sub { color: #9ca3af; font-size: 0.85rem; margin-top: 0.3rem; }
-
 .breadcrumb { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; color: var(--light); margin-bottom: 0.75rem; flex-wrap: wrap; }
 .breadcrumb a { color: var(--light); text-decoration: none; }
 .breadcrumb a:hover { color: var(--accent); }
 .breadcrumb span { color: var(--accent); font-weight: 600; }
 
-/* ─── TABS ─── */
-.tabs-wrapper {
-  display: flex; gap: 0.5rem; flex-wrap: wrap;
-  margin-bottom: 1.75rem;
-}
-.tab-btn {
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  padding: 0.55rem 1.1rem; border-radius: 100px;
-  border: 1px solid var(--border); background: white;
-  font-size: 0.82rem; font-weight: 600; color: var(--muted);
-  cursor: pointer; transition: all 0.18s; white-space: nowrap;
-}
-.tab-btn:hover { border-color: var(--accent-mid); color: var(--accent); background: var(--accent-light); }
-.tab-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
-.tab-btn .tab-dot {
-  width: 8px; height: 8px; border-radius: 50%;
-  background: currentColor; opacity: 0.7; flex-shrink: 0;
-}
+/* ─── HERO ─── */
+.page-hero { background: #0f0a0a; border: 1px solid #2a1010; border-radius: 16px; overflow: hidden; margin-bottom: 2rem; }
+.page-hero-banner { height: 90px; background: linear-gradient(135deg, #0f0a0a, #1f0d0d, #150808, #0f0a0a); display: flex; align-items: center; justify-content: center; gap: 1.25rem; font-size: 2.2rem; border-bottom: 1px solid #2a1010; }
+.page-hero-body { padding: 1.5rem 2rem; }
+.page-hero-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #f87171; margin-bottom: 0.4rem; }
+.page-hero-title { font-family: 'Playfair Display', serif; font-weight: 800; font-size: clamp(1.2rem, 2.5vw, 1.65rem); line-height: 1.2; color: white; }
+.page-hero-sub { color: #9ca3af; font-size: 0.85rem; margin-top: 0.3rem; }
 
-/* ─── FEED GRID ─── */
-.feed-section { display: none; }
-.feed-section.active { display: block; }
+/* ─── STATS ─── */
+.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
+.stat-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem 1.25rem; text-align: center; }
+.stat-num { font-family: 'Playfair Display', serif; font-weight: 800; font-size: 1.8rem; color: #dc2626; line-height: 1; }
+.stat-num.green { color: #16a34a; }
+.stat-num.blue  { color: #0284c7; }
+.stat-label { color: var(--muted); font-size: 0.78rem; margin-top: 0.3rem; }
 
-.feed-header {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;
-}
-.feed-header-left { display: flex; align-items: center; gap: 0.75rem; }
-.feed-source-tag {
-  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em;
-  text-transform: uppercase; padding: 0.2rem 0.65rem;
-  border-radius: 100px; border: 1px solid;
-}
-.feed-source-tag.red    { background: #fef2f2; border-color: #fecaca; color: #b91c1c; }
-.feed-source-tag.orange { background: #fff7ed; border-color: #fed7aa; color: #c2410c; }
-.feed-source-tag.green  { background: #f0fdf4; border-color: #bbf7d0; color: #15803d; }
-.feed-source-tag.blue   { background: #f0f9ff; border-color: #bae6fd; color: #0369a1; }
-.feed-source-tag.purple { background: #faf5ff; border-color: #ddd6fe; color: #6d28d9; }
+/* ─── CONTENT BLOCKS ─── */
+.content-block { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 1.75rem 2rem; margin-bottom: 1.25rem; }
+.content-block-title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem; }
+.content-block-title::before { content: ''; display: block; width: 3px; height: 18px; background: #dc2626; border-radius: 2px; flex-shrink: 0; }
+.content-block-title.blue::before   { background: #0284c7; }
+.content-block-title.green::before  { background: #16a34a; }
+.content-block-title.orange::before { background: #ea580c; }
+.content-text { color: var(--muted); font-size: 0.9rem; line-height: 1.85; }
+.content-text p + p { margin-top: 0.75rem; }
 
-.feed-source-name { font-weight: 700; font-size: 0.88rem; color: var(--text); }
-.feed-source-url  { font-size: 0.75rem; color: var(--muted); }
+/* ─── DÉMARCHE ─── */
+.demarche-steps { display: flex; flex-direction: column; gap: 0; margin-top: 1.5rem; }
+.demarche-step { display: flex; gap: 1.25rem; position: relative; }
+.demarche-step:not(:last-child)::after { content: ''; position: absolute; left: 19px; top: 42px; width: 2px; bottom: 0; background: var(--border); }
+.demarche-dot { width: 40px; height: 40px; flex-shrink: 0; border-radius: 50%; background: #fef2f2; border: 2px solid #fecaca; display: flex; align-items: center; justify-content: center; font-size: 0.95rem; position: relative; z-index: 1; }
+.demarche-body { padding: 0.4rem 0 2rem; }
+.demarche-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #dc2626; margin-bottom: 0.2rem; }
+.demarche-title { font-weight: 700; font-size: 0.92rem; color: var(--text); margin-bottom: 0.3rem; }
+.demarche-desc  { color: var(--muted); font-size: 0.83rem; line-height: 1.65; }
 
-.feed-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
+/* ─── SOURCES ─── */
+.sources-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.85rem; margin-top: 1rem; }
+.source-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.15rem; text-decoration: none; color: inherit; transition: all 0.18s; display: flex; align-items: flex-start; gap: 0.75rem; }
+.source-card:hover { border-color: #fecaca; background: #fef2f2; transform: translateY(-1px); }
+.source-card-icon { width: 36px; height: 36px; flex-shrink: 0; border-radius: 9px; background: white; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+.source-card-name { font-weight: 700; font-size: 0.82rem; color: var(--text); }
+.source-card-desc { font-size: 0.75rem; color: var(--muted); margin-top: 0.15rem; line-height: 1.5; }
+.source-card-badge { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; padding: 0.1rem 0.45rem; border-radius: 100px; margin-top: 0.35rem; display: inline-block; }
+.badge-fr   { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+.badge-en   { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+.badge-live { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
 
-.article-card {
-  background: white; border: 1px solid var(--border);
-  border-radius: 14px; padding: 1.25rem;
-  display: flex; flex-direction: column; gap: 0.6rem;
-  transition: all 0.18s; text-decoration: none; color: inherit;
-}
-.article-card:hover {
-  border-color: var(--accent-mid);
-  box-shadow: 0 4px 18px rgba(29,78,216,0.09);
-  transform: translateY(-2px);
-}
-.article-card-meta {
-  display: flex; align-items: center; gap: 0.5rem;
-  font-size: 0.7rem; color: var(--muted);
-}
-.article-card-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--muted); }
-.article-card-title {
-  font-weight: 700; font-size: 0.88rem;
-  color: var(--text); line-height: 1.45;
-  display: -webkit-box; -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical; overflow: hidden;
-}
-.article-card-desc {
-  font-size: 0.8rem; color: var(--muted); line-height: 1.6;
-  display: -webkit-box; -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical; overflow: hidden;
-  flex: 1;
-}
-.article-card-footer {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-top: auto; padding-top: 0.6rem;
-  border-top: 1px solid var(--border);
-}
-.article-card-source { font-size: 0.7rem; font-weight: 600; color: var(--accent); }
-.article-card-link {
-  font-size: 0.72rem; font-weight: 600; color: var(--muted);
-  text-decoration: none; transition: color 0.15s;
-}
-.article-card-link:hover { color: var(--accent); }
+/* ─── SYNTHÈSES ─── */
+.synthese-grid { display: flex; flex-direction: column; gap: 1.25rem; }
+.synthese-card { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; background: white; }
+.synthese-header { background: linear-gradient(135deg, #fef2f2, #fff5f5); border-bottom: 1px solid #fecaca; padding: 1rem 1.5rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.synthese-month { background: #dc2626; color: white; font-weight: 800; font-size: 0.82rem; padding: 0.3rem 0.85rem; border-radius: 8px; white-space: nowrap; flex-shrink: 0; }
+.synthese-title { font-weight: 700; font-size: 0.95rem; color: var(--text); flex: 1; }
+.synthese-count { font-size: 0.72rem; color: var(--muted); white-space: nowrap; }
+.synthese-body { padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
 
-/* ─── LOADING / ERROR STATES ─── */
-.feed-loading {
-  display: flex; align-items: center; justify-content: center;
-  gap: 0.75rem; padding: 3rem 1rem;
-  color: var(--muted); font-size: 0.88rem;
-}
-.spinner {
-  width: 20px; height: 20px; border-radius: 50%;
-  border: 2px solid var(--border);
-  border-top-color: var(--accent);
-  animation: spin 0.7s linear infinite;
-  flex-shrink: 0;
-}
+.article-item { border: 1px solid var(--border); border-radius: 11px; padding: 1rem 1.25rem; background: var(--surface); text-decoration: none; color: inherit; display: block; transition: all 0.18s; }
+.article-item:hover { border-color: #fecaca; background: #fef2f2; transform: translateY(-1px); }
+.article-item-top { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.6rem; }
+.article-item-tag { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; padding: 0.15rem 0.55rem; border-radius: 100px; white-space: nowrap; flex-shrink: 0; margin-top: 0.1rem; }
+.tag-red    { background: #fef2f2; border: 1px solid #fecaca; color: #b91c1c; }
+.tag-blue   { background: #eff6ff; border: 1px solid #bfdbfe; color: #1d4ed8; }
+.tag-purple { background: #faf5ff; border: 1px solid #ddd6fe; color: #6d28d9; }
+.article-item-title { font-weight: 700; font-size: 0.87rem; color: var(--text); line-height: 1.4; }
+.article-item-source { font-size: 0.72rem; color: var(--muted); margin-top: 0.25rem; }
+.article-item-analyse { background: white; border-left: 3px solid #dc2626; padding: 0.65rem 0.85rem; border-radius: 0 8px 8px 0; font-size: 0.82rem; color: var(--muted); line-height: 1.65; }
+.article-item-analyse strong { color: var(--text); }
+
+/* ─── FLUX LIVE ─── */
+.flux-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.25rem; flex-wrap: wrap; }
+.flux-tab-btn { padding: 0.45rem 1rem; border-radius: 100px; border: 1px solid var(--border); background: white; font-size: 0.8rem; font-weight: 600; color: var(--muted); cursor: pointer; transition: all 0.18s; }
+.flux-tab-btn:hover { border-color: #fecaca; color: #dc2626; }
+.flux-tab-btn.active { background: #dc2626; border-color: #dc2626; color: white; }
+.flux-section { display: none; }
+.flux-section.active { display: block; }
+.feed-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.85rem; }
+.feed-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; text-decoration: none; color: inherit; transition: all 0.18s; }
+.feed-card:hover { border-color: #fecaca; background: #fef2f2; transform: translateY(-1px); }
+.feed-card-meta { font-size: 0.7rem; color: var(--muted); display: flex; gap: 0.4rem; align-items: center; }
+.feed-card-meta-dot { width: 3px; height: 3px; border-radius: 50%; background: var(--muted); }
+.feed-card-title { font-weight: 700; font-size: 0.85rem; color: var(--text); line-height: 1.45; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.feed-card-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; flex: 1; }
+.feed-card-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 0.5rem; border-top: 1px solid var(--border); margin-top: auto; }
+.feed-card-source { font-size: 0.7rem; font-weight: 700; color: #dc2626; }
+.feed-card-link   { font-size: 0.7rem; color: var(--muted); }
+.feed-loading { display: flex; align-items: center; justify-content: center; gap: 0.75rem; padding: 3rem; color: var(--muted); font-size: 0.85rem; grid-column: 1/-1; }
+.spinner { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--border); border-top-color: #dc2626; animation: spin 0.7s linear infinite; flex-shrink: 0; }
 @keyframes spin { to { transform: rotate(360deg); } }
+.feed-empty { background: var(--surface); border: 1px dashed var(--border); border-radius: 12px; padding: 2rem; text-align: center; color: var(--muted); font-size: 0.82rem; grid-column: 1/-1; }
 
-.feed-error {
-  background: #fef2f2; border: 1px solid #fecaca;
-  border-radius: 12px; padding: 1.25rem 1.5rem;
-  color: #b91c1c; font-size: 0.85rem; margin-bottom: 1rem;
-}
-
-.empty-card {
-  background: var(--surface); border: 1px dashed var(--border);
-  border-radius: 14px; padding: 2rem 1.5rem;
-  text-align: center; color: var(--muted); font-size: 0.85rem;
-  grid-column: 1 / -1;
-}
-
-/* ─── MULTI-SOURCE SECTION ─── */
-.source-block { margin-bottom: 2.5rem; }
-.source-block:last-child { margin-bottom: 0; }
-
-/* ─── STATS BAR ─── */
-.stats-bar {
-  display: flex; gap: 1rem; flex-wrap: wrap;
-  margin-bottom: 2rem;
-}
-.stat-pill {
-  background: white; border: 1px solid var(--border);
-  border-radius: 10px; padding: 0.65rem 1.1rem;
-  display: flex; align-items: center; gap: 0.6rem;
-  font-size: 0.8rem;
-}
-.stat-pill-num { font-weight: 800; font-size: 1.1rem; color: var(--accent); font-family: 'Playfair Display', serif; }
-.stat-pill-label { color: var(--muted); }
-
-/* ─── BOTTOM NAV ─── */
+/* ─── NAV ─── */
 .nav-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
 .nav-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.83rem; font-weight: 600; color: var(--muted); text-decoration: none; transition: color 0.18s; }
 .nav-btn:hover { color: var(--accent); }
 
-@media (max-width: 600px) {
-  .feed-grid { grid-template-columns: 1fr; }
+@media (max-width: 700px) {
+  .stats-row { grid-template-columns: repeat(2,1fr); }
+  .sources-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
@@ -203,219 +143,217 @@
 
     <!-- HERO -->
     <div class="page-hero">
-      <div class="page-hero-banner">📡 🔍 🛡️</div>
+      <div class="page-hero-banner">🔐 💀 📡</div>
       <div class="page-hero-body">
-        <div class="page-hero-label">Veille technologique — BTS SIO SISR · Mise à jour automatique</div>
-        <div class="page-hero-title">Flux d'actualités — Cybersécurité, Linux, Cloud, Réseaux & IA</div>
-        <div class="page-hero-sub">Sources RSS sélectionnées · Agrégation automatique · 5 thématiques · Actualisé à chaque visite</div>
+        <div class="page-hero-label">Veille Technologique — BTS SIO SISR · Épreuve E4</div>
+        <div class="page-hero-title">Ransomware & Cybercriminalité — Tendances 2025-2026</div>
+        <div class="page-hero-sub">Thème de veille · Outil : Feedly · Synthèses mensuelles · Flux d'actualités en temps réel</div>
       </div>
     </div>
 
     <!-- STATS -->
-    <div class="stats-bar">
-      <div class="stat-pill"><span class="stat-pill-num">5</span><span class="stat-pill-label">thématiques surveillées</span></div>
-      <div class="stat-pill"><span class="stat-pill-num">10</span><span class="stat-pill-label">sources RSS actives</span></div>
-      <div class="stat-pill"><span class="stat-pill-num" id="total-articles">—</span><span class="stat-pill-label">articles chargés</span></div>
-      <div class="stat-pill"><span class="stat-pill-num">🔄</span><span class="stat-pill-label">Actualisé à chaque visite</span></div>
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-num">1</div><div class="stat-label">Thème de veille suivi</div></div>
+      <div class="stat-card"><div class="stat-num">5</div><div class="stat-label">Sources surveillées</div></div>
+      <div class="stat-card"><div class="stat-num green">1</div><div class="stat-label">Synthèses publiées</div></div>
+      <div class="stat-card"><div class="stat-num blue">🔄</div><div class="stat-label">Flux temps réel</div></div>
     </div>
 
-    <!-- TABS -->
-    <div class="tabs-wrapper">
-      <button class="tab-btn active" onclick="switchTab('secu')" id="tab-secu">
-        <span class="tab-dot"></span> 🛡️ Cybersécurité
-      </button>
-      <button class="tab-btn" onclick="switchTab('linux')" id="tab-linux">
-        <span class="tab-dot"></span> 🐧 Linux & Open Source
-      </button>
-      <button class="tab-btn" onclick="switchTab('cloud')" id="tab-cloud">
-        <span class="tab-dot"></span> ☁️ Virtualisation & Cloud
-      </button>
-      <button class="tab-btn" onclick="switchTab('reseau')" id="tab-reseau">
-        <span class="tab-dot"></span> 🌐 Réseaux & Infra
-      </button>
-      <button class="tab-btn" onclick="switchTab('ia')" id="tab-ia">
-        <span class="tab-dot"></span> 🤖 IA & Sécurité
-      </button>
-    </div>
-
-    <!-- ══ TAB CYBERSÉCURITÉ ══ -->
-    <div class="feed-section active" id="section-secu">
-
-      <div class="source-block">
-        <div class="feed-header">
-          <div class="feed-header-left">
-            <span class="feed-source-tag red">ANSSI · FR</span>
-            <div>
-              <div class="feed-source-name">CERT-FR — Alertes & Avis de sécurité</div>
-              <div class="feed-source-url">cert.ssi.gouv.fr · Agence Nationale de la Sécurité des SI</div>
-            </div>
+    <!-- ══ BLOC 1 — DÉMARCHE ══ -->
+    <div class="content-block">
+      <div class="content-block-title">Ma démarche de veille</div>
+      <div class="content-text">
+        <p>J'ai choisi de centrer ma veille sur les <strong>ransomwares et la cybercriminalité</strong>, un domaine directement lié aux compétences SISR — sécurisation d'infrastructure, gestion des incidents, politique de sauvegarde. En 2026, les ransomwares représentent la première menace pesant sur les entreprises françaises selon l'ANSSI.</p>
+        <p>Ma démarche repose sur un processus en quatre étapes : <strong>collecter</strong> via des sources fiables, <strong>trier</strong> les informations pertinentes, <strong>analyser</strong> les tendances, puis <strong>diffuser</strong> mes conclusions sous forme de synthèses mensuelles publiées ici.</p>
+        <p>J'utilise <strong>Feedly</strong> comme agrégateur RSS pour centraliser mes sources dans une collection dédiée. Je consulte mes flux chaque semaine, je marque les articles importants, puis je publie une synthèse commentée chaque mois.</p>
+      </div>
+      <div class="demarche-steps">
+        <div class="demarche-step">
+          <div class="demarche-dot">📥</div>
+          <div class="demarche-body">
+            <div class="demarche-label">Étape 1 · Collecte</div>
+            <div class="demarche-title">Surveillance hebdomadaire via Feedly</div>
+            <div class="demarche-desc">Mes 5 sources sont regroupées dans une collection Feedly "Ransomware & Cybercriminalité". Je consulte les flux chaque semaine et je marque les articles significatifs avec l'étoile Feedly pour les retrouver facilement.</div>
           </div>
         </div>
-        <div class="feed-grid" id="feed-anssi">
-          <div class="feed-loading"><div class="spinner"></div> Chargement des alertes ANSSI…</div>
+        <div class="demarche-step">
+          <div class="demarche-dot">🔍</div>
+          <div class="demarche-body">
+            <div class="demarche-label">Étape 2 · Tri</div>
+            <div class="demarche-title">Sélection des articles pertinents</div>
+            <div class="demarche-desc">Je retiens les articles apportant une information nouvelle : nouvelle technique d'attaque, victime française ou européenne, nouveau groupe criminel actif, ou solution de défense innovante.</div>
+          </div>
+        </div>
+        <div class="demarche-step">
+          <div class="demarche-dot">🧠</div>
+          <div class="demarche-body">
+            <div class="demarche-label">Étape 3 · Analyse</div>
+            <div class="demarche-title">Mise en perspective avec mes compétences SISR</div>
+            <div class="demarche-desc">Je relis chaque article, j'identifie les tendances et je formule une analyse en lien avec ce que j'ai pratiqué en formation : segmentation réseau, gestion des droits AD, supervision, pare-feu pfSense.</div>
+          </div>
+        </div>
+        <div class="demarche-step">
+          <div class="demarche-dot">📢</div>
+          <div class="demarche-body">
+            <div class="demarche-label">Étape 4 · Diffusion</div>
+            <div class="demarche-title">Publication mensuelle sur ce portfolio</div>
+            <div class="demarche-desc">Chaque mois, je publie une synthèse de 3 à 5 articles avec mon analyse personnelle. Ces synthèses me serviront de support pour la présentation orale de l'épreuve E4.</div>
+          </div>
         </div>
       </div>
+    </div>
 
-      <div class="source-block">
-        <div class="feed-header">
-          <div class="feed-header-left">
-            <span class="feed-source-tag red">The Hacker News · EN</span>
-            <div>
-              <div class="feed-source-name">The Hacker News</div>
-              <div class="feed-source-url">thehackernews.com · Actualité cybersécurité mondiale</div>
-            </div>
+    <!-- ══ BLOC 2 — SOURCES ══ -->
+    <div class="content-block">
+      <div class="content-block-title blue">Mes sources de veille</div>
+      <div class="content-text">
+        <p>Cinq sources complémentaires : deux françaises officielles, deux anglaises de référence mondiale, et un tracker spécialisé ransomware en temps réel.</p>
+      </div>
+      <div class="sources-grid">
+        <a class="source-card" href="https://www.cert.ssi.gouv.fr" target="_blank" rel="noopener">
+          <div class="source-card-icon">🇫🇷</div>
+          <div>
+            <div class="source-card-name">CERT-FR / ANSSI</div>
+            <div class="source-card-desc">Alertes officielles françaises. Référence nationale pour les incidents et vulnérabilités actives.</div>
+            <span class="source-card-badge badge-fr">Français · Officiel</span>
+          </div>
+        </a>
+        <a class="source-card" href="https://thehackernews.com" target="_blank" rel="noopener">
+          <div class="source-card-icon">📰</div>
+          <div>
+            <div class="source-card-name">The Hacker News</div>
+            <div class="source-card-desc">Actualité cybersécurité mondiale quotidienne. Couverture exhaustive des attaques et groupes ransomware.</div>
+            <span class="source-card-badge badge-en">Anglais · Quotidien</span>
+          </div>
+        </a>
+        <a class="source-card" href="https://krebsonsecurity.com" target="_blank" rel="noopener">
+          <div class="source-card-icon">🔎</div>
+          <div>
+            <div class="source-card-name">Krebs on Security</div>
+            <div class="source-card-desc">Investigations approfondies sur les groupes criminels et leurs modes opératoires.</div>
+            <span class="source-card-badge badge-en">Anglais · Analyses</span>
+          </div>
+        </a>
+        <a class="source-card" href="https://ransomfeed.it" target="_blank" rel="noopener">
+          <div class="source-card-icon">💀</div>
+          <div>
+            <div class="source-card-name">Ransomfeed.it</div>
+            <div class="source-card-desc">Tracker temps réel des victimes mondiales. Mesure l'ampleur et les secteurs ciblés.</div>
+            <span class="source-card-badge badge-live">Temps réel · Tracker</span>
+          </div>
+        </a>
+        <a class="source-card" href="https://therecord.media" target="_blank" rel="noopener">
+          <div class="source-card-icon">📡</div>
+          <div>
+            <div class="source-card-name">The Record</div>
+            <div class="source-card-desc">Actualité cybercriminalité par Recorded Future. Groupes APT, négociations, arrestations.</div>
+            <span class="source-card-badge badge-en">Anglais · Cybercrime</span>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <!-- ══ BLOC 3 — SYNTHÈSES ══ -->
+    <div class="content-block">
+      <div class="content-block-title orange">Synthèses mensuelles</div>
+      <div class="content-text" style="margin-bottom: 1.5rem;">
+        <p>Chaque mois, je sélectionne les articles les plus significatifs et je les commente avec mon analyse personnelle. Ces synthèses constituent le cœur de ma veille — c'est ici que je montre ma capacité à comprendre et à contextualiser l'information.</p>
+      </div>
+
+      <div class="synthese-grid">
+
+        <!-- ── MARS 2026 ── -->
+        <div class="synthese-card">
+          <div class="synthese-header">
+            <span class="synthese-month">Mars 2026</span>
+            <div class="synthese-title">Multiplication des attaques sur les hôpitaux et les collectivités françaises</div>
+            <span class="synthese-count">3 articles analysés</span>
+          </div>
+          <div class="synthese-body">
+
+            <a class="article-item" href="https://www.cert.ssi.gouv.fr" target="_blank" rel="noopener">
+              <div class="article-item-top">
+                <span class="article-item-tag tag-red">CERT-FR</span>
+                <div>
+                  <div class="article-item-title">Multiples vulnérabilités dans les produits Microsoft — Patch Tuesday mars 2026</div>
+                  <div class="article-item-source">cert.ssi.gouv.fr · 23 mars 2026</div>
+                </div>
+              </div>
+              <div class="article-item-analyse">
+                <strong>Mon analyse :</strong> Ce Patch Tuesday corrige notamment une vulnérabilité critique dans le service NTLM, fréquemment exploitée comme vecteur d'entrée initial par les groupes ransomware avant déploiement de la charge utile. Cela rappelle l'importance fondamentale de la gestion des correctifs : une infrastructure à jour est la première ligne de défense. En stage, j'ai pu constater que les retards de patching sont l'une des causes principales de compromission.
+              </div>
+            </a>
+
+            <a class="article-item" href="https://thehackernews.com" target="_blank" rel="noopener">
+              <div class="article-item-top">
+                <span class="article-item-tag tag-blue">The Hacker News</span>
+                <div>
+                  <div class="article-item-title">LockBit 4.0 : le groupe revient avec une infrastructure décentralisée résistante aux saisies</div>
+                  <div class="article-item-source">thehackernews.com · 15 mars 2026</div>
+                </div>
+              </div>
+              <div class="article-item-analyse">
+                <strong>Mon analyse :</strong> Après le démantèlement de LockBit par Europol en 2024, le groupe a restructuré son modèle en distribuant son infrastructure sur plusieurs juridictions. Cela illustre la résilience des organisations criminelles et montre que compter sur les seules arrestations est insuffisant. La défense proactive — segmentation réseau, supervision, sauvegardes hors ligne — reste indispensable indépendamment des opérations policières.
+              </div>
+            </a>
+
+            <a class="article-item" href="https://therecord.media" target="_blank" rel="noopener">
+              <div class="article-item-top">
+                <span class="article-item-tag tag-purple">The Record</span>
+                <div>
+                  <div class="article-item-title">Ransomware-as-a-Service : les affiliés ciblent désormais les PME françaises via les MSP</div>
+                  <div class="article-item-source">therecord.media · 8 mars 2026</div>
+                </div>
+              </div>
+              <div class="article-item-analyse">
+                <strong>Mon analyse :</strong> La compromission des prestataires informatiques (MSP) comme vecteur d'attaque en cascade vers leurs clients PME est une tendance préoccupante. Un seul accès MSP compromis peut affecter des dizaines d'entreprises simultanément. Cela met en lumière l'importance de segmenter les accès distants, de monitorer les connexions des tiers et d'appliquer le principe du moindre privilège — des notions que j'ai directement pratiquées avec pfSense et Active Directory.
+              </div>
+            </a>
+
           </div>
         </div>
+
+        <!-- Placeholder mois suivants -->
+        <div style="padding: 1.25rem; background: var(--surface); border: 1px dashed var(--border); border-radius: 12px; text-align: center; color: var(--muted); font-size: 0.83rem;">
+          📅 Prochaine synthèse — <strong>Avril 2026</strong> · Publication en fin de mois
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ══ BLOC 4 — FLUX LIVE ══ -->
+    <div class="content-block">
+      <div class="content-block-title">Flux d'actualités en direct</div>
+      <div class="content-text" style="margin-bottom: 1.25rem;">
+        <p>Les dernières actualités issues de mes sources de veille, chargées automatiquement à chaque visite pour rester à jour en permanence.</p>
+      </div>
+
+      <div class="flux-tabs">
+        <button class="flux-tab-btn active" onclick="switchFlux('certfr')" id="ftab-certfr">🇫🇷 CERT-FR</button>
+        <button class="flux-tab-btn" onclick="switchFlux('thn')" id="ftab-thn">📰 The Hacker News</button>
+        <button class="flux-tab-btn" onclick="switchFlux('record')" id="ftab-record">📡 The Record</button>
+      </div>
+
+      <div class="flux-section active" id="flux-certfr">
+        <div class="feed-grid" id="feed-certfr">
+          <div class="feed-loading"><div class="spinner"></div> Chargement des alertes CERT-FR…</div>
+        </div>
+      </div>
+      <div class="flux-section" id="flux-thn">
         <div class="feed-grid" id="feed-thn">
-          <div class="feed-loading"><div class="spinner"></div> Chargement…</div>
+          <div class="feed-loading"><div class="spinner"></div> Chargement de The Hacker News…</div>
         </div>
       </div>
-
-    </div>
-
-    <!-- ══ TAB LINUX ══ -->
-    <div class="feed-section" id="section-linux">
-
-      <div class="source-block">
-        <div class="feed-header">
-          <div class="feed-header-left">
-            <span class="feed-source-tag orange">LWN.net · EN</span>
-            <div>
-              <div class="feed-source-name">LWN.net — Linux & Kernel News</div>
-              <div class="feed-source-url">lwn.net · Référence mondiale du kernel Linux et de l'open source</div>
-            </div>
-          </div>
-        </div>
-        <div class="feed-grid" id="feed-phoronix">
-          <div class="feed-loading"><div class="spinner"></div> Chargement…</div>
+      <div class="flux-section" id="flux-record">
+        <div class="feed-grid" id="feed-record">
+          <div class="feed-loading"><div class="spinner"></div> Chargement de The Record…</div>
         </div>
       </div>
-
-      <div class="source-block">
-        <div class="feed-header">
-          <div class="feed-header-left">
-            <span class="feed-source-tag orange">Korben · FR</span>
-            <div>
-              <div class="feed-source-name">Korben — Tech & Open Source</div>
-              <div class="feed-source-url">korben.info · Outils, Linux, logiciels libres en français</div>
-            </div>
-          </div>
-        </div>
-        <div class="feed-grid" id="feed-korben">
-          <div class="feed-loading"><div class="spinner"></div> Chargement…</div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- ══ TAB CLOUD / VIRTUALISATION ══ -->
-    <div class="feed-section" id="section-cloud">
-
-      <div class="source-block">
-        <div class="feed-header">
-          <div class="feed-header-left">
-            <span class="feed-source-tag green">DevOps.com · EN</span>
-            <div>
-              <div class="feed-source-name">DevOps.com — Cloud & Automatisation</div>
-              <div class="feed-source-url">devops.com · CI/CD, conteneurs, cloud, infrastructure as code</div>
-            </div>
-          </div>
-        </div>
-        <div class="feed-grid" id="feed-cloudflare">
-          <div class="feed-loading"><div class="spinner"></div> Chargement…</div>
-        </div>
-      </div>
-
-      <div class="source-block">
-        <div class="feed-header">
-          <div class="feed-header-left">
-            <span class="feed-source-tag green">Ars Technica · EN</span>
-            <div>
-              <div class="feed-source-name">Ars Technica — Technology Lab</div>
-              <div class="feed-source-url">arstechnica.com · Cloud, virtualisation, hardware, systèmes</div>
-            </div>
-          </div>
-        </div>
-        <div class="feed-grid" id="feed-proxmox">
-          <div class="feed-loading"><div class="spinner"></div> Chargement…</div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- ══ TAB RÉSEAUX ══ -->
-    <div class="feed-section" id="section-reseau">
-
-      <div class="source-block">
-        <div class="feed-header">
-          <div class="feed-header-left">
-            <span class="feed-source-tag blue">Le Monde Info · FR</span>
-            <div>
-              <div class="feed-source-name">Le Monde Informatique — Infrastructure</div>
-              <div class="feed-source-url">lemondeinformatique.fr · Réseaux, stockage, infrastructure IT en français</div>
-            </div>
-          </div>
-        </div>
-        <div class="feed-grid" id="feed-networkworld">
-          <div class="feed-loading"><div class="spinner"></div> Chargement…</div>
-        </div>
-      </div>
-
-      <div class="source-block">
-        <div class="feed-header">
-          <div class="feed-header-left">
-            <span class="feed-source-tag blue">ZDNet France · FR</span>
-            <div>
-              <div class="feed-source-name">ZDNet France — Actualités IT</div>
-              <div class="feed-source-url">zdnet.fr · Réseaux, datacenter, technologies entreprise en français</div>
-            </div>
-          </div>
-        </div>
-        <div class="feed-grid" id="feed-lemagit">
-          <div class="feed-loading"><div class="spinner"></div> Chargement…</div>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- ══ TAB IA & SÉCURITÉ ══ -->
-    <div class="feed-section" id="section-ia">
-
-      <div class="source-block">
-        <div class="feed-header">
-          <div class="feed-header-left">
-            <span class="feed-source-tag purple">Dark Reading · EN</span>
-            <div>
-              <div class="feed-source-name">Dark Reading — Cybersécurité & IA</div>
-              <div class="feed-source-url">darkreading.com · Menaces, IA appliquée à la sécurité, analyses</div>
-            </div>
-          </div>
-        </div>
-        <div class="feed-grid" id="feed-krebs">
-          <div class="feed-loading"><div class="spinner"></div> Chargement…</div>
-        </div>
-      </div>
-
-      <div class="source-block">
-        <div class="feed-header">
-          <div class="feed-header-left">
-            <span class="feed-source-tag purple">SANS ISC · EN</span>
-            <div>
-              <div class="feed-source-name">SANS Internet Storm Center</div>
-              <div class="feed-source-url">isc.sans.edu · Alertes temps réel, IA & sécurité, analyses d'incidents</div>
-            </div>
-          </div>
-        </div>
-        <div class="feed-grid" id="feed-schneier">
-          <div class="feed-loading"><div class="spinner"></div> Chargement…</div>
-        </div>
-      </div>
-
     </div>
 
     <div class="nav-bottom">
       <a class="nav-btn" href="../index.html">← Retour à l'accueil</a>
-      <span style="font-size:0.75rem; color:var(--muted);">Flux RSS via AllOrigins · Données en temps réel</span>
+      <span style="font-size:0.75rem; color:var(--muted);">Flux RSS via AllOrigins · Actualisé à chaque visite</span>
     </div>
 
   </div>
@@ -427,183 +365,110 @@
 
 <script src="../js/nav.js"></script>
 <script>
-// ─── CONFIG DES FLUX ───────────────────────────────────────────────
-// Proxy : AllOrigins — gratuit, sans clé, sans limite, compatible GitHub Pages
 const PROXY = "https://api.allorigins.win/get?url=";
 
-const FEEDS = {
-  // ── Cybersécurité ── (fonctionnels)
-  "feed-anssi": { url: "https://www.cert.ssi.gouv.fr/feed/",                              source: "CERT-FR",              count: 6 },
-  "feed-thn":   { url: "https://feeds.feedburner.com/TheHackersNews",                     source: "The Hacker News",      count: 6 },
-
-  // ── Linux & Open Source ── Phoronix bloqué → LWN.net (référence kernel Linux)
-  "feed-phoronix": { url: "https://lwn.net/headlines/rss",                                source: "LWN.net",              count: 6 },
-  "feed-korben":   { url: "https://korben.info/feed",                                     source: "Korben",               count: 6 },
-
-  // ── Virtualisation & Cloud ── InfoQ bloqué → DevOps.com + The New Stack
-  "feed-cloudflare": { url: "https://devops.com/feed/",                                   source: "DevOps.com",           count: 6 },
-  "feed-proxmox":    { url: "https://feeds.arstechnica.com/arstechnica/technology-lab",   source: "Ars Technica Tech",    count: 6 },
-
-  // ── Réseaux & Infrastructure ── Silicon.fr bloqué → Le Monde Informatique + ZDNet
-  "feed-networkworld": { url: "https://www.lemondeinformatique.fr/flux-rss/thematique/infrastructure-et-stockage/rss.xml", source: "Le Monde Informatique", count: 6 },
-  "feed-lemagit":      { url: "https://www.zdnet.fr/feeds/rss/actualites/",               source: "ZDNet France",         count: 6 },
-
-  // ── IA & Sécurité ── Krebs + Schneier bloqués → Dark Reading + SANS Internet Storm Center
-  "feed-krebs":    { url: "https://www.darkreading.com/rss.xml",                          source: "Dark Reading",         count: 6 },
-  "feed-schneier": { url: "https://isc.sans.edu/rssfeed_full.xml",                        source: "SANS ISC",             count: 6 },
+const LIVE_FEEDS = {
+  "feed-certfr": { url: "https://www.cert.ssi.gouv.fr/feed/",          source: "CERT-FR",         tab: "certfr" },
+  "feed-thn":    { url: "https://feeds.feedburner.com/TheHackersNews", source: "The Hacker News", tab: "thn"    },
+  "feed-record": { url: "https://therecord.media/feed",                source: "The Record",      tab: "record" },
 };
 
-// ─── UTILITAIRES ───────────────────────────────────────────────────
 function stripHtml(html) {
   if (!html) return "";
-  const tmp = document.createElement("div");
-  tmp.innerHTML = html;
-  return tmp.textContent || tmp.innerText || "";
+  const d = document.createElement("div");
+  d.innerHTML = html;
+  return (d.textContent || d.innerText || "").trim();
 }
 
-function formatDate(dateStr) {
-  if (!dateStr) return "";
-  const d = new Date(dateStr);
-  if (isNaN(d)) return "";
-  return d.toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" });
-}
-
-function truncate(str, n) {
+function formatDate(str) {
   if (!str) return "";
-  str = str.trim();
-  return str.length > n ? str.slice(0, n).trimEnd() + "…" : str;
+  const d = new Date(str);
+  return isNaN(d) ? "" : d.toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" });
 }
 
-// Récupère le texte d'un élément XML par tag, en gérant les namespaces
-function getText(el, ...tags) {
-  for (const tag of tags) {
-    const found = el.getElementsByTagName(tag)[0];
-    if (found) return found.textContent || "";
-  }
-  return "";
+function truncate(s, n) {
+  if (!s) return "";
+  s = s.trim();
+  return s.length > n ? s.slice(0, n).trimEnd() + "…" : s;
 }
 
-// ─── PARSING XML RSS/ATOM ──────────────────────────────────────────
-function parseXML(xmlStr) {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(xmlStr, "text/xml");
+function parseXML(xml) {
+  const doc = new DOMParser().parseFromString(xml, "text/xml");
   const items = [];
-
-  // RSS 2.0
-  const rssItems = doc.querySelectorAll("item");
-  if (rssItems.length > 0) {
-    rssItems.forEach(el => {
-      items.push({
-        title:   getText(el, "title"),
-        link:    getText(el, "link") || el.querySelector("link")?.getAttribute("href") || "",
-        desc:    getText(el, "description", "content:encoded", "summary"),
-        date:    getText(el, "pubDate", "dc:date", "published"),
-      });
-    });
-    return items;
-  }
-
-  // Atom
-  const atomEntries = doc.querySelectorAll("entry");
-  atomEntries.forEach(el => {
-    const linkEl = el.querySelector("link[rel='alternate']") || el.querySelector("link");
+  doc.querySelectorAll("item").forEach(el => {
+    const linkEl = el.querySelector("link");
     items.push({
-      title: getText(el, "title"),
-      link:  linkEl ? (linkEl.getAttribute("href") || linkEl.textContent) : "",
-      desc:  getText(el, "summary", "content"),
-      date:  getText(el, "published", "updated"),
+      title: el.getElementsByTagName("title")[0]?.textContent || "",
+      link:  linkEl?.textContent || linkEl?.nextSibling?.textContent || "",
+      desc:  el.getElementsByTagName("description")[0]?.textContent || "",
+      date:  el.getElementsByTagName("pubDate")[0]?.textContent || "",
     });
   });
-
+  if (items.length) return items;
+  doc.querySelectorAll("entry").forEach(el => {
+    const linkEl = el.querySelector("link[rel='alternate']") || el.querySelector("link");
+    items.push({
+      title: el.getElementsByTagName("title")[0]?.textContent || "",
+      link:  linkEl?.getAttribute("href") || "",
+      desc:  el.getElementsByTagName("summary")[0]?.textContent || "",
+      date:  el.getElementsByTagName("published")[0]?.textContent || el.getElementsByTagName("updated")[0]?.textContent || "",
+    });
+  });
   return items;
 }
 
-// ─── RENDU D'UN ARTICLE ────────────────────────────────────────────
-function renderCard(item, sourceName) {
-  const title = truncate(stripHtml(item.title), 110);
-  const desc  = truncate(stripHtml(item.desc), 160);
+function renderCard(item, source) {
+  const title = truncate(stripHtml(item.title), 100);
+  const desc  = truncate(stripHtml(item.desc),  140);
   const date  = formatDate(item.date);
-  const link  = item.link || "#";
-
   return `
-    <a class="article-card" href="${link}" target="_blank" rel="noopener noreferrer">
-      <div class="article-card-meta">
-        ${date ? `<span>${date}</span><span class="article-card-meta-dot"></span>` : ""}
-        <span>${sourceName}</span>
+    <a class="feed-card" href="${item.link || '#'}" target="_blank" rel="noopener noreferrer">
+      <div class="feed-card-meta">
+        ${date ? `<span>${date}</span><span class="feed-card-meta-dot"></span>` : ""}
+        <span>${source}</span>
       </div>
-      <div class="article-card-title">${title || "Article sans titre"}</div>
-      ${desc ? `<div class="article-card-desc">${desc}</div>` : ""}
-      <div class="article-card-footer">
-        <span class="article-card-source">${sourceName}</span>
-        <span class="article-card-link">Lire l'article →</span>
+      <div class="feed-card-title">${title || "Article"}</div>
+      ${desc ? `<div class="feed-card-desc">${desc}</div>` : ""}
+      <div class="feed-card-footer">
+        <span class="feed-card-source">${source}</span>
+        <span class="feed-card-link">Lire →</span>
       </div>
     </a>`;
 }
 
-// ─── CHARGEMENT D'UN FLUX ──────────────────────────────────────────
-let totalLoaded = 0;
+const loadedFeeds = new Set();
 
-async function loadFeed(containerId) {
-  const config = FEEDS[containerId];
-  if (!config) return;
-  const container = document.getElementById(containerId);
-  if (!container) return;
-
-  const proxyUrl = PROXY + encodeURIComponent(config.url);
-
+async function loadFeed(feedId) {
+  if (loadedFeeds.has(feedId)) return;
+  loadedFeeds.add(feedId);
+  const cfg = LIVE_FEEDS[feedId];
+  const container = document.getElementById(feedId);
+  if (!cfg || !container) return;
   try {
-    const res  = await fetch(proxyUrl, { signal: AbortSignal.timeout(10000) });
+    const res  = await fetch(PROXY + encodeURIComponent(cfg.url), { signal: AbortSignal.timeout(10000) });
     const json = await res.json();
-
-    if (!json.contents) throw new Error("Contenu vide");
-
-    const items = parseXML(json.contents).slice(0, config.count);
-
-    if (items.length === 0) throw new Error("Aucun article parsé");
-
-    container.innerHTML = items.map(item => renderCard(item, config.source)).join("");
-    totalLoaded += items.length;
-    document.getElementById("total-articles").textContent = totalLoaded;
-
-  } catch (err) {
-    container.innerHTML = `
-      <div class="empty-card">
-        ⚠️ Flux temporairement indisponible.
-        <br><a href="${config.url}" target="_blank" rel="noopener"
-          style="color:var(--accent);font-size:0.78rem;margin-top:0.35rem;display:inline-block;">
-          Voir la source directement →
-        </a>
-      </div>`;
+    if (!json.contents) throw new Error("vide");
+    const items = parseXML(json.contents).slice(0, 6);
+    if (!items.length) throw new Error("aucun article");
+    container.innerHTML = items.map(i => renderCard(i, cfg.source)).join("");
+  } catch {
+    container.innerHTML = `<div class="feed-empty">⚠️ Flux indisponible pour le moment.<br>
+      <a href="${cfg.url}" target="_blank" rel="noopener" style="color:#dc2626;font-size:0.78rem;margin-top:0.3rem;display:inline-block;">
+        Voir la source directement →</a></div>`;
   }
 }
 
-// ─── TABS ──────────────────────────────────────────────────────────
-const TAB_MAP = {
-  secu:   ["feed-anssi",        "feed-thn"],
-  linux:  ["feed-phoronix",     "feed-korben"],
-  cloud:  ["feed-cloudflare",   "feed-proxmox"],
-  reseau: ["feed-networkworld",  "feed-lemagit"],
-  ia:     ["feed-krebs",         "feed-schneier"],
-};
-
-const loadedTabs = new Set();
-
-function switchTab(tab) {
-  document.querySelectorAll(".feed-section").forEach(s => s.classList.remove("active"));
-  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
-  document.getElementById("section-" + tab).classList.add("active");
-  document.getElementById("tab-" + tab).classList.add("active");
-
-  if (!loadedTabs.has(tab)) {
-    loadedTabs.add(tab);
-    TAB_MAP[tab].forEach(feedId => loadFeed(feedId));
-  }
+function switchFlux(tab) {
+  document.querySelectorAll(".flux-section").forEach(s => s.classList.remove("active"));
+  document.querySelectorAll(".flux-tab-btn").forEach(b => b.classList.remove("active"));
+  document.getElementById("flux-" + tab).classList.add("active");
+  document.getElementById("ftab-" + tab).classList.add("active");
+  const feedId = Object.keys(LIVE_FEEDS).find(k => LIVE_FEEDS[k].tab === tab);
+  if (feedId) loadFeed(feedId);
 }
 
-// ─── INIT ──────────────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
-  loadedTabs.add("secu");
-  TAB_MAP["secu"].forEach(feedId => loadFeed(feedId));
+  loadFeed("feed-certfr");
 });
 </script>
 </body>
