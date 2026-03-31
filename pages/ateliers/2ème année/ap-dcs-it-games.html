@@ -80,7 +80,7 @@
 .screenshots-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1rem; }
 .screenshot-card { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
 .screenshot-label { padding: 0.65rem 1rem; background: var(--surface); border-bottom: 1px solid var(--border); font-size: 0.75rem; font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 0.5rem; }
-.screenshot-img { width: 100%; display: block; }
+.screenshot-img { width: 100%; display: block; height: auto; }
 /* ─── PDF ─── */
 .pdf-section { background: white; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 1.25rem; }
 .pdf-header { padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); gap: 1rem; flex-wrap: wrap; }
@@ -167,7 +167,7 @@
     <div class="content-block">
       <div class="content-block-title">Contexte de l'atelier</div>
       <div class="content-text">
-        <p>Dans le cadre des <strong>DCS IT Games 2026</strong>, épreuve de sélection organisée par l'académie de Lyon, notre équipe a réalisé un cas pratique orienté DATA. Le contexte simulé est celui d'un service informatique de campus d'enseignement supérieur souhaitant disposer d'un tableau de bord web pour suivre la consommation de ses ressources IT.</p>
+        <p>Dans le cadre des <strong>DCS IT Games 2026</strong>, épreuve de sélection organisée par l'académie de Lyon, mon équipe a réalisé un cas pratique orienté DATA. Le contexte simulé est celui d'un service informatique de campus d'enseignement supérieur souhaitant disposer d'un tableau de bord web pour suivre la consommation de ses ressources IT.</p>
         <p>Le campus exploite cinq applications critiques — <strong>Portail Étudiant, Messagerie, Parc Informatique, Intranet et Gestion Absences</strong> — consommant du stockage, du CPU et de la bande passante réseau. L'objectif était d'identifier les applications les plus gourmandes, d'analyser les tendances mensuelles et de permettre la comparaison Stockage vs Réseau.</p>
         <p>Le projet mobilise des compétences <strong>SISR</strong> (infrastructure, sécurisation du serveur, HTTPS) et <strong>SLAM</strong> (base de données MariaDB, requêtes SQL, développement web PHP/JS). La restitution a eu lieu le <strong>5 mars 2026</strong> sous forme de présentation PowerPoint et démo live.</p>
       </div>
@@ -184,7 +184,7 @@
         </div>
         <a href="DCSGAMES_contexte.pdf" download class="dl-btn-dark">⬇&nbsp; Télécharger le sujet</a>
       </div>
-      <iframe src="../../../files/DCSGAMES_contexte.pdf" class="pdf-embed" title="Sujet DCS IT Games 2026 — Cas Pratique DATA"></iframe>
+      <iframe src="DCSGAMES_contexte.pdf" class="pdf-embed" title="Sujet DCS IT Games 2026 — Cas Pratique DATA"></iframe>
     </div>
 
     <div class="pdf-section">
@@ -196,9 +196,9 @@
             <div class="pdf-header-title">Diaporama de restitution — 5 mars 2026</div>
           </div>
         </div>
-        <a href="../../../files/DCSGAMES Présentation.pdf" download class="dl-btn-dark">⬇&nbsp; Télécharger la présentation</a>
+        <a href="DCSGAMES Présentation.pdf" download class="dl-btn-dark">⬇&nbsp; Télécharger la présentation</a>
       </div>
-      <iframe src="../../../files/DCSGAMES Présentation.pdf" class="pdf-embed" title="Présentation DCS IT Games 2026"></iframe>
+      <iframe src="DCSGAMES Présentation.pdf" class="pdf-embed" title="Présentation DCS IT Games 2026"></iframe>
     </div>
 
     <div class="content-block">
@@ -351,19 +351,19 @@
       <div class="screenshots-grid">
         <div class="screenshot-card">
           <div class="screenshot-label">📊 Vue Globale — Volume &amp; Évolution</div>
-          <img class="screenshot-img" id="img1" alt="Vue Globale — Volume et Évolution mensuelle">
+          <img class="screenshot-img" id="img1" src="img1.png" alt="Vue Globale — Volume et Évolution mensuelle">
         </div>
         <div class="screenshot-card">
           <div class="screenshot-label">🏆 Top Applications — Classement Top 5</div>
-          <img class="screenshot-img" id="img2" alt="Top Applications — Classement">
+          <img class="screenshot-img" id="img2" src="img2.png" alt="Top Applications — Classement">
         </div>
         <div class="screenshot-card">
           <div class="screenshot-label">📈 Évolution Mensuelle — Tendance annuelle</div>
-          <img class="screenshot-img" id="img3" alt="Évolution Mensuelle">
+          <img class="screenshot-img" id="img3" src="img3.png" alt="Évolution Mensuelle">
         </div>
         <div class="screenshot-card">
           <div class="screenshot-label">⚖️ Comparaison — Stockage vs Réseau</div>
-          <img class="screenshot-img" id="img4" alt="Comparaison Stockage vs Réseau">
+          <img class="screenshot-img" id="img4" src="img4.png" alt="Comparaison Stockage vs Réseau">
         </div>
       </div>
     </div>
@@ -413,4 +413,5 @@
   Portfolio de <strong>Adrien Blaize</strong> &nbsp;·&nbsp; BTS SIO SISR &nbsp;·&nbsp; La Martinière Duchère &nbsp;·&nbsp; 2025
 </footer>
 <script src="../../../js/nav.js"></script>
-<script>
+</body>
+</html>
