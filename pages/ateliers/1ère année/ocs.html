@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP — OCS Inventory · BTS SIO SISR</title>
+<link rel="stylesheet" href="../../../css/style.css">
+<style>
+.breadcrumb { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; color: var(--light); margin-bottom: 0.75rem; flex-wrap: wrap; }
+.breadcrumb a { color: var(--light); text-decoration: none; }
+.breadcrumb a:hover { color: var(--accent); }
+.breadcrumb span { color: var(--accent); font-weight: 600; }
+
+/* ─── HERO ─── */
+.page-hero { background: #0a0f1a; border: 1px solid #1a2535; border-radius: 16px; overflow: hidden; margin-bottom: 2rem; }
+.page-hero-banner { height: 90px; background: linear-gradient(135deg, #0a0f1a, #0d1f35, #0a1520, #0a0f1a); display: flex; align-items: center; justify-content: center; gap: 1.25rem; font-size: 2.2rem; border-bottom: 1px solid #1a2535; }
+.page-hero-body { padding: 1.5rem 2rem; }
+.page-hero-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #60a5fa; margin-bottom: 0.4rem; }
+.page-hero-title { font-family: 'Playfair Display', serif; font-weight: 800; font-size: clamp(1.2rem, 2.5vw, 1.65rem); line-height: 1.2; color: white; }
+.page-hero-sub { color: #9ca3af; font-size: 0.85rem; margin-top: 0.3rem; }
+
+/* ─── STATS ─── */
+.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
+.stat-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem 1.25rem; text-align: center; }
+.stat-num { font-family: 'Playfair Display', serif; font-weight: 800; font-size: 1.8rem; color: #2563eb; line-height: 1; }
+.stat-num.green  { color: #16a34a; }
+.stat-num.orange { color: #ea580c; }
+.stat-label { color: var(--muted); font-size: 0.78rem; margin-top: 0.3rem; }
+
+/* ─── CONTENT BLOCKS ─── */
+.content-block { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 1.75rem 2rem; margin-bottom: 1.25rem; }
+.content-block-title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem; }
+.content-block-title::before { content: ''; display: block; width: 3px; height: 18px; background: #2563eb; border-radius: 2px; flex-shrink: 0; }
+.content-block-title.green::before  { background: #16a34a; }
+.content-block-title.orange::before { background: #ea580c; }
+.content-block-title.purple::before { background: #7c3aed; }
+.content-text { color: var(--muted); font-size: 0.9rem; line-height: 1.85; }
+.content-text p + p { margin-top: 0.75rem; }
+
+/* ─── ÉTAPE ITEMS ─── */
+.etape-item { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 1rem; background: white; }
+.etape-header { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; }
+.etape-header.blue   { background: linear-gradient(135deg, #eff6ff, #dbeafe); border-bottom: 1px solid #bfdbfe; }
+.etape-header.green  { background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-bottom: 1px solid #bbf7d0; }
+.etape-header.orange { background: linear-gradient(135deg, #fff7ed, #ffedd5); border-bottom: 1px solid #fed7aa; }
+.etape-header.purple { background: linear-gradient(135deg, #faf5ff, #ede9fe); border-bottom: 1px solid #ddd6fe; }
+.etape-header.red    { background: linear-gradient(135deg, #fef2f2, #fee2e2); border-bottom: 1px solid #fecaca; }
+
+.etape-num { width: 36px; height: 36px; flex-shrink: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.95rem; color: white; }
+.etape-header.blue   .etape-num { background: #2563eb; }
+.etape-header.green  .etape-num { background: #16a34a; }
+.etape-header.orange .etape-num { background: #ea580c; }
+.etape-header.purple .etape-num { background: #7c3aed; }
+.etape-header.red    .etape-num { background: #dc2626; }
+
+.etape-title { font-weight: 700; font-size: 0.92rem; color: var(--text); }
+.etape-cat-badge { margin-left: auto; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.22rem 0.65rem; border-radius: 100px; }
+.etape-header.blue   .etape-cat-badge { background: #dbeafe; color: #1d4ed8; }
+.etape-header.green  .etape-cat-badge { background: #dcfce7; color: #15803d; }
+.etape-header.orange .etape-cat-badge { background: #ffedd5; color: #c2410c; }
+.etape-header.purple .etape-cat-badge { background: #ede9fe; color: #6d28d9; }
+.etape-header.red    .etape-cat-badge { background: #fee2e2; color: #b91c1c; }
+
+.etape-body { padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 0.85rem; }
+.etape-section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem; }
+.etape-text { color: var(--muted); font-size: 0.87rem; line-height: 1.75; }
+.etape-steps { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; margin-top: 0.25rem; }
+.etape-steps li { font-size: 0.86rem; color: var(--muted); line-height: 1.6; padding-left: 1.4rem; position: relative; }
+.etape-steps li::before { content: '›'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+
+.impact-tag { display: inline-flex; align-items: center; gap: 0.4rem; background: #eff6ff; border: 1px solid #bfdbfe; color: #2563eb; padding: 0.3rem 0.85rem; border-radius: 100px; font-size: 0.73rem; font-weight: 700; }
+.impact-tag.green  { background: #f0fdf4; border-color: #bbf7d0; color: #16a34a; }
+.impact-tag.orange { background: #fff7ed; border-color: #fed7aa; color: #c2410c; }
+.impact-tag.red    { background: #fef2f2; border-color: #fecaca; color: #b91c1c; }
+.impact-tag.purple { background: #faf5ff; border-color: #ddd6fe; color: #6d28d9; }
+
+/* ─── CR PLACEHOLDER ─── */
+.cr-placeholder { background: var(--surface); border: 2px dashed var(--border); border-radius: 14px; padding: 3rem 2rem; text-align: center; color: var(--muted); }
+.cr-placeholder-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+.cr-placeholder-title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1rem; color: var(--text); margin-bottom: 0.4rem; }
+.cr-placeholder-sub { font-size: 0.83rem; line-height: 1.65; }
+
+/* ─── BILAN TABLE ─── */
+.bilan-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.bilan-table th { background: #1e1e1e; color: white; text-align: left; padding: 0.65rem 1rem; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.bilan-table td { padding: 0.6rem 1rem; color: var(--muted); border-bottom: 1px solid var(--border); }
+.bilan-table tr:last-child td { border-bottom: none; background: #eff6ff; color: #2563eb; font-weight: 700; }
+.bilan-table tr:nth-child(even) td { background: var(--surface); }
+.badge-ok { background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; padding: 0.15rem 0.55rem; border-radius: 100px; font-size: 0.72rem; font-weight: 700; }
+
+/* ─── PDF EMBED ─── */
+.pdf-section { background: white; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 1.25rem; }
+.pdf-header { padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); gap: 1rem; flex-wrap: wrap; }
+.pdf-header-left { display: flex; align-items: center; gap: 1rem; }
+.pdf-header-icon { width: 42px; height: 42px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+.pdf-header-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #2563eb; margin-bottom: 0.2rem; }
+.pdf-header-title { font-weight: 600; font-size: 0.92rem; color: var(--text); }
+.pdf-embed { width: 100%; height: 860px; border: none; display: block; }
+.dl-btn { display: inline-flex; align-items: center; gap: 0.5rem; background: #2563eb; color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 9px; font-weight: 700; font-size: 0.88rem; white-space: nowrap; transition: all 0.18s; flex-shrink: 0; }
+.dl-btn:hover { background: #1d4ed8; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(37,99,235,0.35); }
+
+/* ─── NAV BOTTOM ─── */
+.nav-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+.nav-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.83rem; font-weight: 600; color: var(--muted); text-decoration: none; transition: color 0.18s; }
+.nav-btn:hover { color: var(--accent); }
+
+@media (max-width: 700px) { .stats-row { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../../../index.html" class="nav-logo">Adrien <span>Blaize</span></a>
+  <ul class="nav-links">
+    <li><a href="../../../index.html">Accueil</a></li>
+    <li><a href="../../about.html">À propos de moi</a></li>
+    <li><a href="../../ateliers.html" class="active">Ateliers Pro</a></li>
+    <li class="nav-dropdown">
+      <a href="../../stages.html">Stages</a>
+      <div class="dropdown-menu">
+        <a href="../../stages/stage1.html">🏢 Stage 1 — Paredes Orapi</a>
+        <a href="../../stages/stage2.html">🏢 Stage 2 — SIA BDE INSA</a>
+      </div>
+    </li>
+    <li><a href="../../veille.html">Veille techno</a></li>
+  </ul>
+</nav>
+
+<div class="page-content">
+  <div class="section">
+
+    <div class="breadcrumb">
+      <a href="../../ateliers.html">Ateliers Professionnels</a> ›
+      <a href="../../ateliers.html">Année 1</a> ›
+      <span>AP — OCS Inventory</span>
+    </div>
+
+    <!-- HERO -->
+    <div class="page-hero">
+      <div class="page-hero-banner">📦 🖥️ 🌐</div>
+      <div class="page-hero-body">
+        <div class="page-hero-label">Atelier de Professionnalisation — Année 1 · BTS SIO SISR</div>
+        <div class="page-hero-title">OCS Inventory NG — Service d'Inventaire de Parc Informatique</div>
+        <div class="page-hero-sub">OCS Inventory · Apache · PHP · MariaDB · Agents Windows &amp; Linux · Debian 12</div>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-num">4</div><div class="stat-label">Machines inventoriées</div></div>
+      <div class="stat-card"><div class="stat-num green">5</div><div class="stat-label">Prérequis installés</div></div>
+      <div class="stat-card"><div class="stat-num orange">2</div><div class="stat-label">Agents déployés (Win + Linux)</div></div>
+      <div class="stat-card"><div class="stat-num">✓</div><div class="stat-label">Inventaire OCS opérationnel</div></div>
+    </div>
+
+    <!-- PDF SUJET -->
+    <div class="pdf-section">
+      <div class="pdf-header">
+        <div class="pdf-header-left">
+          <div class="pdf-header-icon">📋</div>
+          <div>
+            <div class="pdf-header-label">Sujet de l'atelier</div>
+            <div class="pdf-header-title">AP4 — La gestion de parc informatique · OCS Inventory NG</div>
+          </div>
+        </div>
+        <a href="../../../files/AP4-GestionParc-OCS-2025.pdf" download class="dl-btn">⬇&nbsp; Télécharger</a>
+      </div>
+      <iframe class="pdf-embed" src="../../../files/AP4-GestionParc-OCS-2025.pdf" title="Sujet OCS Inventory"></iframe>
+    </div>
+
+    <!-- PDF COMPTE-RENDU -->
+    <div class="pdf-section">
+      <div class="pdf-header">
+        <div class="pdf-header-left">
+          <div class="pdf-header-icon">📄</div>
+          <div>
+            <div class="pdf-header-label">Compte-rendu</div>
+            <div class="pdf-header-title">AP OCS Inventory — Compte-rendu Adrien Blaize</div>
+          </div>
+        </div>
+        <a href="../../../files/BLAIZE-AP4-OCS-Inventory.pdf" download class="dl-btn">⬇&nbsp; Télécharger</a>
+      </div>
+      <div class="cr-placeholder" style="margin: 1.5rem; border-radius: 10px;">
+        <div class="cr-placeholder-icon">📄</div>
+        <div class="cr-placeholder-title">Compte-rendu à venir</div>
+        <div class="cr-placeholder-sub">Le compte-rendu sera ajouté ici une fois finalisé.<br>Remplace ce bloc par l'iframe PDF quand le fichier est prêt.</div>
+      </div>
+    </div>
+
+    <!-- CONTEXTE -->
+    <div class="content-block">
+      <div class="content-block-title">Contexte de l'atelier</div>
+      <div class="content-text">
+        <p><strong>OCS Inventory NG</strong> (Open Computer and Software Inventory) est une application permettant de réaliser un inventaire automatique de la configuration matérielle et logicielle des machines d'un réseau, visualisable via une interface web. C'est un outil fondamental pour tout administrateur réseau confronté à la gestion d'un parc hétérogène.</p>
+        <p>L'atelier consiste à déployer un serveur OCS Inventory sur une VM Debian 12 dédiée, en installant l'ensemble de la pile logicielle nécessaire (Apache, PHP, MariaDB, PERL, phpMyAdmin), à configurer le service OCS, puis à déployer les agents sur les postes clients Windows et Linux pour obtenir au minimum 4 machines inventoriées dans le tableau de bord.</p>
+      </div>
+    </div>
+
+    <!-- ══ SECTION 1 — INFRASTRUCTURE ══ -->
+    <div class="content-block">
+      <div class="content-block-title">Infrastructure &amp; Création de la VM serveur</div>
+
+      <div class="etape-item">
+        <div class="etape-header blue">
+          <div class="etape-num">1</div>
+          <div class="etape-title">Création et configuration de la VM serveur OCS — Debian 12</div>
+          <span class="etape-cat-badge">Infrastructure · Proxmox</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Ce que j'ai fait</div>
+            <p class="etape-text">Clonage de la machine de référence Debian sur Proxmox vers <code>NomEtud-D12-OCS</code> avec l'IP statique <code>172.30.1xx.240</code>. Configuration des fichiers <code>/etc/hostname</code>, <code>/etc/hosts</code> et <code>/etc/network/interfaces</code> pour adapter le nom et l'adresse IP à l'infrastructure de l'atelier.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Infrastructure réseau</div>
+            <ul class="etape-steps">
+              <li><strong>Serveur OCS</strong> : NomEtud-D12-OCS · IP 172.30.1xx.240 · RAM 4 Go</li>
+              <li><strong>Client Windows 10</strong> : NomEtud-W10-Client · IP 172.30.1xx.1</li>
+              <li><strong>Client Debian 11</strong> : NomEtud-D11-Client · IP 172.30.1xx.2</li>
+              <li><strong>Client Ubuntu 21</strong> : NomEtud-U21-Client · IP 172.30.1xx.10</li>
+              <li><strong>Serveur HTTP</strong> : NomEtud-D11-HTTP · IP 172.30.1xx.180</li>
+              <li>Réseau : VLAN Étudiant 172.30.1xx.0/24</li>
+            </ul>
+          </div>
+          <div>
+            <div class="etape-section-label">Configuration réseau &amp; DNS</div>
+            <ul class="etape-steps">
+              <li>Installation de <code>resolvconf</code> pour la résolution DNS Internet</li>
+              <li>Ajout des serveurs DNS dans <code>/etc/network/interfaces</code> : <code>dns-nameservers 8.8.8.8 172.30.30.53</code></li>
+              <li>Modification du fichier <code>sources.list</code> pour pointer vers les miroirs Debian Bookworm</li>
+              <li>Connexion SSH via PuTTY depuis le poste client pour administrer le serveur à distance</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag">✅ VM OCS opérationnelle — Accès Internet et SSH fonctionnels</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SECTION 2 — PRÉREQUIS ══ -->
+    <div class="content-block">
+      <div class="content-block-title orange">Installation des prérequis</div>
+
+      <div class="etape-item">
+        <div class="etape-header orange">
+          <div class="etape-num">2</div>
+          <div class="etape-title">Déploiement de la pile LAMP + PERL + phpMyAdmin</div>
+          <span class="etape-cat-badge">Apache · PHP · MariaDB · PERL</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Problème</div>
+            <p class="etape-text">OCS Inventory est une application web PHP qui nécessite un serveur web, un langage de script, une base de données et des modules PERL spécifiques. L'ordre d'installation est critique et tout oubli peut bloquer la suite.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Les 5 prérequis installés dans l'ordre</div>
+            <ul class="etape-steps">
+              <li><strong>Apache2</strong> — <code>apt install apache2 -y</code> · Serveur web · Validation via <code>info.php</code> dans le navigateur</li>
+              <li><strong>PHP</strong> — <code>apt install php -y</code> · Langage de script · PHP 8.2.7 installé</li>
+              <li><strong>MariaDB</strong> — <code>apt install mariadb-server -y</code> · Base de données relationnelle</li>
+              <li><strong>PERL + modules OCS</strong> — Repository OCS ajouté · Clé GPG importée · <code>perl -MCPAN -e 'install XML::Entities'</code></li>
+              <li><strong>phpMyAdmin</strong> — <code>apt install phpmyadmin</code> · Apache2 sélectionné · Mot de passe : Sio20AA</li>
+            </ul>
+          </div>
+          <div>
+            <div class="etape-section-label">Configuration base de données</div>
+            <ul class="etape-steps">
+              <li>Création de la base <code>ocsweb</code> : <code>CREATE DATABASE ocsweb;</code></li>
+              <li>Création de l'utilisateur OCS : <code>CREATE USER ocs@localhost IDENTIFIED BY 'ocs';</code></li>
+              <li>Droits complets sur ocsweb : <code>GRANT ALL PRIVILEGES ON ocsweb.* TO ocs@localhost;</code></li>
+              <li>Sécurisation MariaDB via <code>mysql_secure_installation</code> : Unix socket, mot de passe root, suppression anonymes et base test</li>
+            </ul>
+          </div>
+          <div>
+            <div class="etape-section-label">Validation</div>
+            <p class="etape-text">Connexion réussie à phpMyAdmin depuis le navigateur Firefox du client Debian (<code>http://172.30.1xx.240/phpmyadmin</code>) avec l'utilisateur root — confirme que Apache, PHP et MariaDB fonctionnent correctement ensemble.</p>
+          </div>
+          <div><span class="impact-tag orange">✅ Pile LAMP opérationnelle — phpMyAdmin accessible</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SECTION 3 — INSTALLATION OCS ══ -->
+    <div class="content-block">
+      <div class="content-block-title">Installation &amp; Configuration du service OCS Inventory</div>
+
+      <div class="etape-item">
+        <div class="etape-header blue">
+          <div class="etape-num">3</div>
+          <div class="etape-title">Installation OCS Inventory &amp; configuration des fichiers</div>
+          <span class="etape-cat-badge">OCS · Configuration</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Installation</div>
+            <ul class="etape-steps">
+              <li><code>apt update && apt install ocsinventory -y</code></li>
+              <li>Vérification et adaptation de <code>/etc/apache2/conf-available/z-ocsinventory-server.conf</code> : DB_NAME=ocsweb, DB_USER=ocs, DB_PWD=ocs</li>
+              <li>Mise à jour de <code>/etc/apache2/conf-available/zz-ocsinventory-restapi.conf</code> : OCS_DB_LOCAL=ocsweb, OCS_DB_USER=ocs</li>
+              <li>Mise à jour de <code>/etc/ocsinventory-reports/dbconfig.inc.php</code> : DB_NAME=ocsweb, COMPTE_BASE=ocs</li>
+            </ul>
+          </div>
+          <div>
+            <div class="etape-section-label">Optimisation php.ini pour OCS</div>
+            <ul class="etape-steps">
+              <li><code>max_execution_time = -1</code> et <code>max_input_time = -1</code> — désactivation des limites de temps</li>
+              <li><code>upload_max_filesize = 50M</code> et <code>post_max_size = 50M</code> — augmentation des limites de téléchargement</li>
+              <li><code>memory_limit = 256M</code> — augmentation de la mémoire PHP</li>
+            </ul>
+          </div>
+          <div>
+            <div class="etape-section-label">Droits et finalisation</div>
+            <ul class="etape-steps">
+              <li><code>chmod -R 766 /usr/share/ocsinventory-reports</code></li>
+              <li><code>chown -R www-data:www-data /usr/share/ocsinventory-reports /var/lib/ocsinventory-reports</code></li>
+              <li><code>systemctl restart apache2 mariadb</code></li>
+              <li>Finalisation via navigateur sur <code>http://172.30.1xx.240/ocsreports</code> → bouton "Send" → "Installation finished" → mise à jour BDD</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag">✅ OCS Inventory installé — Interface web accessible</span></div>
+        </div>
+      </div>
+
+      <div class="etape-item">
+        <div class="etape-header red">
+          <div class="etape-num">4</div>
+          <div class="etape-title">Première connexion &amp; résolution de l'alerte sécurité</div>
+          <span class="etape-cat-badge">Sécurité · Hardening</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Première connexion</div>
+            <p class="etape-text">Connexion avec les identifiants par défaut <code>admin/admin</code>. Trois alertes de sécurité sont affichées au premier login. Seule la première est à corriger — les identifiants par défaut de la base et de l'interface web sont conservés volontairement pour l'évaluation par le professeur.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Alerte résolue</div>
+            <ul class="etape-steps">
+              <li>Suppression ou renommage du fichier d'installation <code>install.php</code> : <code>rm /usr/share/ocsinventory-reports/ocsreports/install.php</code></li>
+              <li>Déconnexion puis reconnexion pour vérifier la disparition de l'alerte</li>
+              <li>Les deux autres alertes (compte/mdp par défaut) sont conservées intentionnellement</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag red">✅ Alerte install.php résolue — Interface sécurisée</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SECTION 4 — AGENTS ══ -->
+    <div class="content-block">
+      <div class="content-block-title green">Déploiement des agents OCS sur les postes clients</div>
+
+      <div class="etape-item">
+        <div class="etape-header green">
+          <div class="etape-num">5</div>
+          <div class="etape-title">Installation de l'agent OCS sur le serveur lui-même (test initial)</div>
+          <span class="etape-cat-badge">Agent · Linux · Test</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Ce que j'ai fait</div>
+            <p class="etape-text">Avant de déployer l'agent sur les postes clients, installation de l'agent OCS directement sur le serveur pour valider le bon fonctionnement de l'infrastructure et voir apparaître la première machine dans l'inventaire.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Étapes</div>
+            <ul class="etape-steps">
+              <li><code>apt install ocsinventory-agent</code> · méthode HTTP · URL : <code>http://172.30.1xx.240/ocsinventory</code></li>
+              <li>Lancement manuel : <code>ocsinventory-agent</code></li>
+              <li>Résultat : 1 machine apparaît dans le tableau de bord OCS (pchem-D12-OCS · Debian GNU/Linux 12.5 · 1967 Mo RAM)</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag green">✅ 1ère machine inventoriée — Serveur OCS visible dans l'interface</span></div>
+        </div>
+      </div>
+
+      <div class="etape-item">
+        <div class="etape-header purple">
+          <div class="etape-num">6</div>
+          <div class="etape-title">Déploiement de l'agent OCS sur Windows 10</div>
+          <span class="etape-cat-badge">Agent · Windows · MSI</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Ce que j'ai fait</div>
+            <p class="etape-text">Téléchargement de l'agent Windows depuis le site OCS Inventory, configuration de la VM pour l'accès Internet, puis installation avec les paramètres pointant vers le serveur OCS.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Configuration de l'agent Windows</div>
+            <ul class="etape-steps">
+              <li>URL serveur OCS : <code>http://172.30.1xx.240/ocsinventory</code></li>
+              <li>Option "Immediately launch inventory" cochée pour forcer la remontée immédiate</li>
+              <li>Service <code>OCSInventory</code> configuré pour démarrer automatiquement</li>
+              <li>Fichier de configuration : <code>C:\ProgramData\OCS Inventory NG\Agent\ocsinventory.ini</code></li>
+              <li>La machine Windows 10 apparaît dans l'inventaire OCS</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag purple">✅ Client Windows 10 inventorié — Agent installé comme service</span></div>
+        </div>
+      </div>
+
+      <div class="etape-item">
+        <div class="etape-header green">
+          <div class="etape-num">7</div>
+          <div class="etape-title">Déploiement de l'agent OCS sur les clients Linux</div>
+          <span class="etape-cat-badge">Agent · Linux · Cron</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Ce que j'ai fait</div>
+            <p class="etape-text">Sur chaque client Linux (Debian 11, Ubuntu 21), ajout du repository OCS Inventory, installation de l'agent et configuration du serveur cible. Sous Linux, la remontée est gérée par une tâche <code>cron</code> quotidienne.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Étapes sur chaque client Linux</div>
+            <ul class="etape-steps">
+              <li>Mise à jour réseau + <code>sources.list</code> avec les miroirs Debian</li>
+              <li>Ajout du fichier <code>/etc/apt/sources.list.d/ocsinventory.list</code> avec le dépôt OCS</li>
+              <li><code>apt install ocsinventory-agent</code> · méthode HTTP · URL serveur OCS</li>
+              <li>Première remontée forcée : <code>ocsinventory-agent</code></li>
+              <li>Tâche cron créée dans <code>/etc/cron.daily/ocsinventory-agent</code> pour les remontées quotidiennes automatiques</li>
+            </ul>
+          </div>
+          <div>
+            <div class="etape-section-label">Résultat final</div>
+            <p class="etape-text">Le tableau de bord OCS affiche <strong>4 machines actives</strong> : 1 Windows, 3 Unix (Linux) — correspondant aux 4 VMs de l'infrastructure. L'inventaire contient le système, la RAM, le CPU et l'utilisateur connecté pour chaque machine.</p>
+          </div>
+          <div><span class="impact-tag green">✅ 4 machines inventoriées — 1 Windows + 3 Linux · Objectif atteint</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BILAN -->
+    <div class="content-block">
+      <div class="content-block-title">Bilan de l'atelier</div>
+      <table class="bilan-table">
+        <thead>
+          <tr><th>Étape</th><th>Réalisé</th><th>Résultat clé</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>VM Debian 12 créée et configurée</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>IP 172.30.1xx.240 · DNS · SSH via PuTTY opérationnel</td>
+          </tr>
+          <tr>
+            <td><strong>Pile LAMP + PERL + phpMyAdmin</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>Apache + PHP 8.2.7 + MariaDB · phpMyAdmin accessible</td>
+          </tr>
+          <tr>
+            <td><strong>Base ocsweb + utilisateur ocs</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>CREATE DATABASE + GRANT ALL PRIVILEGES · mysql_secure_installation</td>
+          </tr>
+          <tr>
+            <td><strong>OCS Inventory installé &amp; configuré</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>Fichiers conf Apache + php.ini optimisé · Interface web finalisée</td>
+          </tr>
+          <tr>
+            <td><strong>Alerte sécurité install.php résolue</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>Fichier supprimé · Reconnexion validée sans alerte</td>
+          </tr>
+          <tr>
+            <td><strong>Agent Linux sur le serveur (test)</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>1ère machine inventoriée · Remontée forcée validée</td>
+          </tr>
+          <tr>
+            <td><strong>Agent Windows 10 déployé</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>Agent MSI installé · Service automatique · Machine visible dans OCS</td>
+          </tr>
+          <tr>
+            <td><strong>Agents Linux clients déployés</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>Cron daily configuré · 4 machines actives au total dans le tableau de bord</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- OUTILS -->
+    <div class="content-block">
+      <div class="content-block-title">Outils &amp; technologies utilisés</div>
+      <div class="chips" style="gap: 0.5rem;">
+        <span class="chip blue">OCS Inventory NG</span>
+        <span class="chip blue">Apache2</span>
+        <span class="chip blue">PHP 8.2</span>
+        <span class="chip blue">MariaDB</span>
+        <span class="chip blue">PERL</span>
+        <span class="chip">phpMyAdmin</span>
+        <span class="chip">Debian 12 (Bookworm)</span>
+        <span class="chip">Windows 10</span>
+        <span class="chip">PuTTY / SSH</span>
+        <span class="chip">Proxmox VE</span>
+        <span class="chip">Cron</span>
+      </div>
+    </div>
+
+    <div class="nav-bottom">
+      <a class="nav-btn" href="../../ateliers.html">← Retour aux Ateliers</a>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  Portfolio de <strong>Adrien Blaize</strong> &nbsp;·&nbsp; BTS SIO SISR &nbsp;·&nbsp; La Martinière Duchère &nbsp;·&nbsp; 2025
+</footer>
+<script src="../../../js/nav.js"></script>
+</body>
+</html>
