@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP — Mission Maquettage CUB · BTS SIO SISR</title>
+<link rel="stylesheet" href="../../../css/style.css">
+<style>
+.breadcrumb { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; color: var(--light); margin-bottom: 0.75rem; flex-wrap: wrap; }
+.breadcrumb a { color: var(--light); text-decoration: none; }
+.breadcrumb a:hover { color: var(--accent); }
+.breadcrumb span { color: var(--accent); font-weight: 600; }
+
+/* ─── HERO ─── */
+.page-hero { background: #0d0a1a; border: 1px solid #2a1a4a; border-radius: 16px; overflow: hidden; margin-bottom: 2rem; }
+.page-hero-banner { height: 90px; background: linear-gradient(135deg, #0d0a1a, #1a0d35, #0a0d20, #0d0a1a); display: flex; align-items: center; justify-content: center; gap: 1.25rem; font-size: 2.2rem; border-bottom: 1px solid #2a1a4a; }
+.page-hero-body { padding: 1.5rem 2rem; }
+.page-hero-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #a78bfa; margin-bottom: 0.4rem; }
+.page-hero-title { font-family: 'Playfair Display', serif; font-weight: 800; font-size: clamp(1.2rem, 2.5vw, 1.65rem); line-height: 1.2; color: white; }
+.page-hero-sub { color: #9ca3af; font-size: 0.85rem; margin-top: 0.3rem; }
+
+/* ─── STATS ─── */
+.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
+.stat-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem 1.25rem; text-align: center; }
+.stat-num { font-family: 'Playfair Display', serif; font-weight: 800; font-size: 1.8rem; color: #7c3aed; line-height: 1; }
+.stat-num.green  { color: #16a34a; }
+.stat-num.blue   { color: #0284c7; }
+.stat-num.orange { color: #ea580c; }
+.stat-label { color: var(--muted); font-size: 0.78rem; margin-top: 0.3rem; }
+
+/* ─── CONTENT BLOCKS ─── */
+.content-block { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 1.75rem 2rem; margin-bottom: 1.25rem; }
+.content-block-title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem; }
+.content-block-title::before { content: ''; display: block; width: 3px; height: 18px; background: #7c3aed; border-radius: 2px; flex-shrink: 0; }
+.content-block-title.blue::before   { background: #0284c7; }
+.content-block-title.green::before  { background: #16a34a; }
+.content-block-title.orange::before { background: #ea580c; }
+.content-block-title.red::before    { background: #dc2626; }
+.content-text { color: var(--muted); font-size: 0.9rem; line-height: 1.85; }
+.content-text p + p { margin-top: 0.75rem; }
+
+/* ─── VLAN TABLE ─── */
+.vlan-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; margin-top: 1rem; }
+.vlan-table th { background: #1e1e1e; color: white; text-align: left; padding: 0.6rem 1rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.vlan-table td { padding: 0.55rem 1rem; color: var(--muted); border-bottom: 1px solid var(--border); vertical-align: top; }
+.vlan-table tr:nth-child(even) td { background: var(--surface); }
+.vlan-badge { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 0.15rem 0.55rem; border-radius: 6px; }
+.vlan-badge.purple { background: #ede9fe; color: #6d28d9; }
+.vlan-badge.blue   { background: #e0f2fe; color: #0369a1; }
+.vlan-badge.green  { background: #dcfce7; color: #15803d; }
+.vlan-badge.red    { background: #fee2e2; color: #b91c1c; }
+.vlan-badge.orange { background: #ffedd5; color: #c2410c; }
+.vlan-badge.gray   { background: #f1f5f9; color: #475569; }
+
+/* ─── ÉTAPE ITEMS ─── */
+.etape-item { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 1rem; background: white; }
+.etape-header { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; }
+.etape-header.purple { background: linear-gradient(135deg, #faf5ff, #ede9fe); border-bottom: 1px solid #ddd6fe; }
+.etape-header.blue   { background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border-bottom: 1px solid #bae6fd; }
+.etape-header.green  { background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-bottom: 1px solid #bbf7d0; }
+.etape-header.orange { background: linear-gradient(135deg, #fff7ed, #ffedd5); border-bottom: 1px solid #fed7aa; }
+.etape-header.red    { background: linear-gradient(135deg, #fef2f2, #fee2e2); border-bottom: 1px solid #fecaca; }
+
+.etape-num { width: 36px; height: 36px; flex-shrink: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 0.95rem; color: white; }
+.etape-header.purple .etape-num { background: #7c3aed; }
+.etape-header.blue   .etape-num { background: #0284c7; }
+.etape-header.green  .etape-num { background: #16a34a; }
+.etape-header.orange .etape-num { background: #ea580c; }
+.etape-header.red    .etape-num { background: #dc2626; }
+
+.etape-title { font-weight: 700; font-size: 0.92rem; color: var(--text); }
+.etape-cat-badge { margin-left: auto; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 0.22rem 0.65rem; border-radius: 100px; }
+.etape-header.purple .etape-cat-badge { background: #ede9fe; color: #6d28d9; }
+.etape-header.blue   .etape-cat-badge { background: #e0f2fe; color: #0369a1; }
+.etape-header.green  .etape-cat-badge { background: #dcfce7; color: #15803d; }
+.etape-header.orange .etape-cat-badge { background: #ffedd5; color: #c2410c; }
+.etape-header.red    .etape-cat-badge { background: #fee2e2; color: #b91c1c; }
+
+.etape-body { padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 0.85rem; }
+.etape-section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem; }
+.etape-text { color: var(--muted); font-size: 0.87rem; line-height: 1.75; }
+.etape-steps { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; margin-top: 0.25rem; }
+.etape-steps li { font-size: 0.86rem; color: var(--muted); line-height: 1.6; padding-left: 1.4rem; position: relative; }
+.etape-steps li::before { content: '›'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+
+.impact-tag { display: inline-flex; align-items: center; gap: 0.4rem; background: #faf5ff; border: 1px solid #ddd6fe; color: #7c3aed; padding: 0.3rem 0.85rem; border-radius: 100px; font-size: 0.73rem; font-weight: 700; }
+.impact-tag.green  { background: #f0fdf4; border-color: #bbf7d0; color: #16a34a; }
+.impact-tag.blue   { background: #f0f9ff; border-color: #bae6fd; color: #0284c7; }
+.impact-tag.orange { background: #fff7ed; border-color: #fed7aa; color: #c2410c; }
+.impact-tag.red    { background: #fef2f2; border-color: #fecaca; color: #b91c1c; }
+
+/* ─── PDF SECTIONS ─── */
+.pdf-section { background: white; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 1.25rem; }
+.pdf-header { padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); gap: 1rem; flex-wrap: wrap; }
+.pdf-header-left { display: flex; align-items: center; gap: 1rem; }
+.pdf-header-icon { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+.pdf-header-icon.purple { background: #faf5ff; border: 1px solid #ddd6fe; }
+.pdf-header-icon.blue   { background: #f0f9ff; border: 1px solid #bae6fd; }
+.pdf-header-icon.green  { background: #f0fdf4; border: 1px solid #bbf7d0; }
+.pdf-header-icon.orange { background: #fff7ed; border: 1px solid #fed7aa; }
+.pdf-header-icon.red    { background: #fef2f2; border: 1px solid #fecaca; }
+.pdf-header-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.2rem; }
+.pdf-header-label.purple { color: #7c3aed; }
+.pdf-header-label.blue   { color: #0284c7; }
+.pdf-header-label.green  { color: #16a34a; }
+.pdf-header-label.orange { color: #ea580c; }
+.pdf-header-label.red    { color: #dc2626; }
+.pdf-header-title { font-weight: 600; font-size: 0.92rem; color: var(--text); }
+.pdf-embed { width: 100%; height: 860px; border: none; display: block; }
+.dl-btn { display: inline-flex; align-items: center; gap: 0.5rem; color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 9px; font-weight: 700; font-size: 0.88rem; white-space: nowrap; transition: all 0.18s; flex-shrink: 0; }
+.dl-btn.purple { background: #7c3aed; }
+.dl-btn.purple:hover { background: #6d28d9; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(124,58,237,0.35); }
+.dl-btn.blue   { background: #0284c7; }
+.dl-btn.blue:hover   { background: #0369a1; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(2,132,199,0.35); }
+.dl-btn.green  { background: #16a34a; }
+.dl-btn.green:hover  { background: #15803d; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(22,163,74,0.35); }
+.dl-btn.orange { background: #ea580c; }
+.dl-btn.orange:hover { background: #c2410c; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(234,88,12,0.35); }
+.dl-btn.red    { background: #dc2626; }
+.dl-btn.red:hover    { background: #b91c1c; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(220,38,38,0.35); }
+
+/* ─── CR PLACEHOLDER ─── */
+.cr-placeholder { background: var(--surface); border: 2px dashed var(--border); border-radius: 10px; padding: 2.5rem 2rem; text-align: center; color: var(--muted); margin: 1.5rem; }
+.cr-placeholder-icon { font-size: 2rem; margin-bottom: 0.6rem; }
+.cr-placeholder-title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 0.95rem; color: var(--text); margin-bottom: 0.35rem; }
+.cr-placeholder-sub { font-size: 0.8rem; line-height: 1.6; }
+
+/* ─── BILAN TABLE ─── */
+.bilan-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.bilan-table th { background: #1e1e1e; color: white; text-align: left; padding: 0.65rem 1rem; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.bilan-table td { padding: 0.6rem 1rem; color: var(--muted); border-bottom: 1px solid var(--border); }
+.bilan-table tr:last-child td { border-bottom: none; background: #faf5ff; color: #7c3aed; font-weight: 700; }
+.bilan-table tr:nth-child(even) td { background: var(--surface); }
+.badge-ok { background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; padding: 0.15rem 0.55rem; border-radius: 100px; font-size: 0.72rem; font-weight: 700; }
+
+/* ─── NAV BOTTOM ─── */
+.nav-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+.nav-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.83rem; font-weight: 600; color: var(--muted); text-decoration: none; transition: color 0.18s; }
+.nav-btn:hover { color: var(--accent); }
+
+@media (max-width: 700px) { .stats-row { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../../../index.html" class="nav-logo">Adrien <span>Blaize</span></a>
+  <ul class="nav-links">
+    <li><a href="../../../index.html">Accueil</a></li>
+    <li><a href="../../about.html">À propos de moi</a></li>
+    <li><a href="../../ateliers.html" class="active">Ateliers Pro</a></li>
+    <li class="nav-dropdown">
+      <a href="../../stages.html">Stages</a>
+      <div class="dropdown-menu">
+        <a href="../../stages/stage1.html">🏢 Stage 1 — Paredes Orapi</a>
+        <a href="../../stages/stage2.html">🏢 Stage 2 — SIA BDE INSA</a>
+      </div>
+    </li>
+    <li><a href="../../veille.html">Veille techno</a></li>
+  </ul>
+</nav>
+
+<div class="page-content">
+  <div class="section">
+
+    <div class="breadcrumb">
+      <a href="../../ateliers.html">Ateliers Professionnels</a> ›
+      <a href="../../ateliers.html">Année 2</a> ›
+      <span>AP — Mission Maquettage CUB</span>
+    </div>
+
+    <!-- HERO -->
+    <div class="page-hero">
+      <div class="page-hero-banner">🏗️ 🌐 🔀</div>
+      <div class="page-hero-body">
+        <div class="page-hero-label">Atelier de Professionnalisation — Année 2 · BTS SIO SISR · PPE Groupe 4</div>
+        <div class="page-hero-title">Mission Maquettage Infrastructure — Entreprise CUB</div>
+        <div class="page-hero-sub">Packet Tracer · Switch niveau 3 (3650) · VLANs · NAT/PAT · DHCP · DMZ · SSH · Routage inter-VLAN</div>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-num">10</div><div class="stat-label">Étapes de maquettage</div></div>
+      <div class="stat-card"><div class="stat-num blue">8</div><div class="stat-label">VLANs configurés</div></div>
+      <div class="stat-card"><div class="stat-num green">17</div><div class="stat-label">Tests scénario 0</div></div>
+      <div class="stat-card"><div class="stat-num orange">3</div><div class="stat-label">Équipements actifs</div></div>
+    </div>
+
+    <!-- PDF SUJET -->
+    <div class="pdf-section">
+      <div class="pdf-header">
+        <div class="pdf-header-left">
+          <div class="pdf-header-icon purple">📋</div>
+          <div>
+            <div class="pdf-header-label purple">Sujet de l'atelier</div>
+            <div class="pdf-header-title">Mission Maquettage Infrastructure — Entreprise CUB · Groupe 4</div>
+          </div>
+        </div>
+        <a href="../../../files/MISSION-MAQUETTAGE-INFRASTRUCTURE-CUB-2025.pdf" download class="dl-btn purple">⬇&nbsp; Télécharger</a>
+      </div>
+      <iframe class="pdf-embed" src="../../../files/MISSION-MAQUETTAGE-INFRASTRUCTURE-CUB-2025.pdf" title="Sujet Maquettage CUB"></iframe>
+    </div>
+
+    <!-- CONTEXTE -->
+    <div class="content-block">
+      <div class="content-block-title">Contexte de l'atelier</div>
+      <div class="content-text">
+        <p>Cette mission de maquettage est un travail en <strong>PPE (Projet Personnel Encadré) par groupe de 4</strong> — Groupe 4 : BLAIZE, BOUNINI GHOURABI, ABDALLA, SAINDOU. L'objectif est de concevoir et valider sous <strong>Cisco Packet Tracer</strong> l'infrastructure réseau complète de l'entreprise fictive <strong>CUB</strong>, avant sa mise en œuvre réelle pour l'épreuve E5/E6.</p>
+        <p>La maquette introduit pour la première fois un <strong>commutateur de niveau 3</strong> (3650 24PS sur PT) qui assure le routage inter-VLAN, la gestion DHCP via agent-relais et l'administration SSH. L'infrastructure comprend 8 VLANs, 3 équipements actifs, 4 serveurs internes, une DMZ, un routeur CUB avec NAT/PAT et un double NAT vers Internet via OrangeBox. 17 tests précis doivent être réussis dans l'ordre en scénario 0.</p>
+      </div>
+    </div>
+
+    <!-- ══ PLAN D'ADRESSAGE ══ -->
+    <div class="content-block">
+      <div class="content-block-title blue">Plan d'adressage IP — Groupe 4 (G=4)</div>
+      <table class="vlan-table">
+        <thead>
+          <tr><th>N° VLAN</th><th>Nom</th><th>Réseau</th><th>Commentaire</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="vlan-badge blue">VLAN 44</span></td>
+            <td>MARKET-4</td>
+            <td>192.168.44.0 /24</td>
+            <td>Pool DHCP : .201 à .250 sur REZOLAB · 2 postes fixes + 1 DHCP</td>
+          </tr>
+          <tr>
+            <td><span class="vlan-badge purple">VLAN 64</span></td>
+            <td>INFRASYS-4</td>
+            <td>192.168.64.0 /24</td>
+            <td>Pool DHCP : .201 à .250 sur REZOLAB · 2 postes fixes + 1 DHCP</td>
+          </tr>
+          <tr>
+            <td><span class="vlan-badge green">VLAN 304</span></td>
+            <td>SERVEURS-4</td>
+            <td>172.31.4.0 /25</td>
+            <td>Adressage fixe · ANNULAB .53 · REZOLAB .67 · GLPI .80</td>
+          </tr>
+          <tr>
+            <td><span class="vlan-badge red">VLAN 404</span></td>
+            <td>DMZ-4</td>
+            <td>172.31.4.128 /28</td>
+            <td>Adressage fixe · INTRALAB .140 (Serveur HTTP)</td>
+          </tr>
+          <tr>
+            <td><span class="vlan-badge orange">VLAN 504</span></td>
+            <td>EXIT-4</td>
+            <td>172.31.4.252 /30</td>
+            <td>.254 côté Switch niv.3 · .253 côté Routeur-CUB</td>
+          </tr>
+          <tr>
+            <td><span class="vlan-badge gray">VLAN 94</span></td>
+            <td>MANAGEMENT-4</td>
+            <td>192.168.94.0 /24</td>
+            <td>SW Niv3 : .254 · SW Ferme : .253 · SW Cascade : .252</td>
+          </tr>
+          <tr>
+            <td><span class="vlan-badge gray">VLAN 14</span></td>
+            <td>DIR-4</td>
+            <td>—</td>
+            <td>Direction</td>
+          </tr>
+          <tr>
+            <td><span class="vlan-badge gray">VLAN 2ee</span></td>
+            <td>JE-VOTRENOM</td>
+            <td>172.17.2ee.0 /24</td>
+            <td>VLAN étudiant (ee = identifiant étudiant)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="margin-top: 1.25rem;">
+        <div class="etape-section-label">Serveurs internes</div>
+        <table class="vlan-table">
+          <thead><tr><th>Nom serveur</th><th>Adresse IP</th><th>Fonction</th><th>VLAN</th></tr></thead>
+          <tbody>
+            <tr><td><strong>ANNULAB</strong></td><td>172.31.4.53 /25</td><td>Active Directory, DNS</td><td><span class="vlan-badge green">SERVEURS</span></td></tr>
+            <tr><td><strong>REZOLAB</strong></td><td>172.31.4.67 /25</td><td>Serveur DHCP</td><td><span class="vlan-badge green">SERVEURS</span></td></tr>
+            <tr><td><strong>GLPI</strong></td><td>172.16.4.80</td><td>Gestion de parc</td><td><span class="vlan-badge green">SERVEURS</span></td></tr>
+            <tr><td><strong>INTRALAB</strong></td><td>172.31.4.140</td><td>Serveur HTTP</td><td><span class="vlan-badge red">DMZ</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ══ LES 10 ÉTAPES ══ -->
+    <div class="content-block">
+      <div class="content-block-title">Progression en 10 étapes</div>
+
+      <div class="etape-item">
+        <div class="etape-header purple">
+          <div class="etape-num">①②</div>
+          <div class="etape-title">Routage inter-VLAN — Switch niveau 3 (3650) &amp; interfaces SVI</div>
+          <span class="etape-cat-badge">Switch Niv.3 · ip routing</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Ce que j'ai fait</div>
+            <p class="etape-text">Configuration du commutateur 3650 24PS (avec module AC-POWER-SUPPLY et 4 modules GLC-T). Activation du routage inter-VLAN avec <code>ip routing</code> — commande non active par défaut contrairement aux routeurs. Création des interfaces SVI pour chaque VLAN avec leur adresse de passerelle.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Points clés</div>
+            <ul class="etape-steps">
+              <li>Ports Trunk sur Gi1/1/1 et Gi1/1/2 avec encapsulation dot1q obligatoire : <code>sw trunk encapsulation dot1q</code></li>
+              <li>Affectation des ports Gig1/0/1-24 et Gi1/1/1-3 selon le tableau d'adressage</li>
+              <li>Interfaces SVI créées pour chaque VLAN : <code>interface vlan 44</code> → <code>ip address 192.168.44.254 255.255.255.0</code></li>
+              <li>Test : ping entre poste MARKET et poste INFRASYS via le switch niveau 3</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag">✅ Routage inter-VLAN opérationnel — Switch Niv.3 configuré</span></div>
+        </div>
+      </div>
+
+      <div class="etape-item">
+        <div class="etape-header blue">
+          <div class="etape-num">③</div>
+          <div class="etape-title">Commutateur Ferme de Serveurs (2960) &amp; VLANs SERVEURS + DMZ</div>
+          <span class="etape-cat-badge">Switch 2960 · Ferme</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Ce que j'ai fait</div>
+            <p class="etape-text">Ajout du commutateur 2960 (Ferme de Serveurs) au-dessus du Switch niveau 3, cascadé via Gi1/1/1 → Gi0/1. Configuration des ports : 1-12 en VLAN 304 (Serveurs), 13-18 en VLAN 404 (DMZ), 19-24 en VLAN 2ee (JE). Trunk sur Gi0/1 et Gi0/2.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Serveurs déployés</div>
+            <ul class="etape-steps">
+              <li>ANNULAB (172.31.4.53) — Active Directory &amp; DNS</li>
+              <li>REZOLAB (172.31.4.67) — Serveur DHCP</li>
+              <li>INTRALAB (172.31.4.140) — Serveur HTTP en DMZ</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag blue">✅ Ferme de serveurs opérationnelle — 3 serveurs joignables</span></div>
+        </div>
+      </div>
+
+      <div class="etape-item">
+        <div class="etape-header green">
+          <div class="etape-num">④</div>
+          <div class="etape-title">Serveur DHCP (REZOLAB) &amp; agent-relais sur les interfaces SVI</div>
+          <span class="etape-cat-badge">DHCP · Agent-relais</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Ce que j'ai fait</div>
+            <p class="etape-text">Configuration de REZOLAB comme serveur DHCP avec deux pools : Pool-MARKET (192.168.44.201 à .250) et Pool-INFRASYS (192.168.64.201 à .250). Ajout des agents-relais DHCP sur les interfaces SVI du switch niveau 3 pour relayer les requêtes DHCP vers REZOLAB.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Configuration agent-relais</div>
+            <ul class="etape-steps">
+              <li>Sur <code>interface vlan 44</code> : <code>ip helper-address 172.31.4.67</code></li>
+              <li>Sur <code>interface vlan 64</code> : <code>ip helper-address 172.31.4.67</code></li>
+              <li>Test : MARKET-3 et INFRASYS-3 obtiennent une adresse DHCP dans la bonne plage</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag green">✅ DHCP fonctionnel sur les deux VLANs utilisateur</span></div>
+        </div>
+      </div>
+
+      <div class="etape-item">
+        <div class="etape-header orange">
+          <div class="etape-num">⑤</div>
+          <div class="etape-title">Commutateur Cascade (2960) &amp; extension du réseau</div>
+          <span class="etape-cat-badge">Switch 2960 · Cascade</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Ce que j'ai fait</div>
+            <p class="etape-text">Ajout du second commutateur 2960 (Cascade) au-dessous du Switch niveau 3, cascadé via Gi1/1/2 → Gi0/2. Même affectation des ports que le Switch niveau 3 (sauf VLAN 50G absent). Connexion des postes MARKET-2, MARKET-3, INFRASYS-2, INFRASYS-3 sur ce switch.</p>
+          </div>
+          <div><span class="impact-tag orange">✅ Switch cascade opérationnel — Postes joignables depuis les deux switches</span></div>
+        </div>
+      </div>
+
+      <div class="etape-item">
+        <div class="etape-header purple">
+          <div class="etape-num">⑥⑦⑧</div>
+          <div class="etape-title">Routeur CUB — NAT/PAT, pseudo-Internet &amp; DMZ</div>
+          <span class="etape-cat-badge">NAT/PAT · Routeur · DMZ</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Ce que j'ai fait</div>
+            <p class="etape-text">Configuration du Routeur-CUB avec deux interfaces : côté interne (172.31.4.253/30, VLAN EXIT-4) et côté réseau BTS SIO (172.30.9.4/24 pour salle 4009B). NAT/PAT activé pour la sortie vers le pseudo-internet. Redirection de port configurée vers INTRALAB (DMZ) sur le port 80.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Redirections de port</div>
+            <ul class="etape-steps">
+              <li>Port 80 → INTRALAB (172.31.4.140:80) depuis le réseau SIO</li>
+              <li>Port 10480 → interface pseudo-publique du Routeur-CUB depuis OrangeBox (double redirection)</li>
+              <li>PC LMDSIO peut accéder à INTRALAB via la redirection</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag">✅ NAT/PAT + redirections opérationnelles</span></div>
+        </div>
+      </div>
+
+      <div class="etape-item">
+        <div class="etape-header red">
+          <div class="etape-num">⑨⑩</div>
+          <div class="etape-title">OrangeBox — Double NAT &amp; administration SSH</div>
+          <span class="etape-cat-badge">Double NAT · SSH · Sécurité</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Ce que j'ai fait</div>
+            <p class="etape-text">Configuration de l'OrangeBox (routeur Orange) avec double NAT/PAT : adresse interne 172.30.salle.254, adresse publique 81.250.151.15/24. Double redirection de port pour permettre l'accès à INTRALAB depuis le "vrai" Internet. Administration SSH configurée sur le Switch niveau 3 et le Switch Cascade.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Administration SSH — Mots de passe CUB</div>
+            <ul class="etape-steps">
+              <li>Console : <code>cub_console</code></li>
+              <li>Mode privilégié : <code>cub_exec</code></li>
+              <li>SSH — Utilisateur : <code>admincub</code> / Mot de passe : <code>cub_ssh</code></li>
+              <li>SSH configuré sur Switch Niv.3 et Switch Cascade (dans l'ordre)</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag red">✅ Double NAT + SSH opérationnel sur les 2 switches</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ COMPTES-RENDUS PAR PARTIE ══ -->
+
+    <!-- PDF CR — MAQUETTE PACKET TRACER -->
+    <div class="pdf-section">
+      <div class="pdf-header">
+        <div class="pdf-header-left">
+          <div class="pdf-header-icon purple">📄</div>
+          <div>
+            <div class="pdf-header-label purple">Compte-rendu · Partie 1</div>
+            <div class="pdf-header-title">Maquette Packet Tracer — Infrastructure &amp; VLANs</div>
+          </div>
+        </div>
+        <a href="../../../files/CUB-CR-maquette.pdf" download class="dl-btn purple">⬇&nbsp; Télécharger</a>
+      </div>
+      <div class="cr-placeholder">
+        <div class="cr-placeholder-icon">🗺️</div>
+        <div class="cr-placeholder-title">Compte-rendu Maquette à venir</div>
+        <div class="cr-placeholder-sub">Remplace ce bloc par l'iframe PDF une fois le compte-rendu finalisé.</div>
+      </div>
+    </div>
+
+    <!-- PDF CR — PLAN D'ADRESSAGE -->
+    <div class="pdf-section">
+      <div class="pdf-header">
+        <div class="pdf-header-left">
+          <div class="pdf-header-icon blue">📄</div>
+          <div>
+            <div class="pdf-header-label blue">Compte-rendu · Partie 2</div>
+            <div class="pdf-header-title">Plan d'adressage IP &amp; Configuration des VLANs</div>
+          </div>
+        </div>
+        <a href="../../../files/CUB-CR-adressage.pdf" download class="dl-btn blue">⬇&nbsp; Télécharger</a>
+      </div>
+      <div class="cr-placeholder">
+        <div class="cr-placeholder-icon">📊</div>
+        <div class="cr-placeholder-title">Compte-rendu Plan d'adressage à venir</div>
+        <div class="cr-placeholder-sub">Remplace ce bloc par l'iframe PDF une fois le compte-rendu finalisé.</div>
+      </div>
+    </div>
+
+    <!-- PDF CR — NAT/PAT & ROUTAGE -->
+    <div class="pdf-section">
+      <div class="pdf-header">
+        <div class="pdf-header-left">
+          <div class="pdf-header-icon green">📄</div>
+          <div>
+            <div class="pdf-header-label green">Compte-rendu · Partie 3</div>
+            <div class="pdf-header-title">NAT/PAT, Routage &amp; Accès Internet</div>
+          </div>
+        </div>
+        <a href="../../../files/CUB-CR-nat-routage.pdf" download class="dl-btn green">⬇&nbsp; Télécharger</a>
+      </div>
+      <div class="cr-placeholder">
+        <div class="cr-placeholder-icon">🌐</div>
+        <div class="cr-placeholder-title">Compte-rendu NAT/Routage à venir</div>
+        <div class="cr-placeholder-sub">Remplace ce bloc par l'iframe PDF une fois le compte-rendu finalisé.</div>
+      </div>
+    </div>
+
+    <!-- PDF CR — TESTS SCÉNARIO 0 -->
+    <div class="pdf-section">
+      <div class="pdf-header">
+        <div class="pdf-header-left">
+          <div class="pdf-header-icon orange">📄</div>
+          <div>
+            <div class="pdf-header-label orange">Compte-rendu · Partie 4</div>
+            <div class="pdf-header-title">Tests Scénario 0 — 17 tests de validation</div>
+          </div>
+        </div>
+        <a href="../../../files/CUB-CR-tests.pdf" download class="dl-btn orange">⬇&nbsp; Télécharger</a>
+      </div>
+      <div class="cr-placeholder">
+        <div class="cr-placeholder-icon">✅</div>
+        <div class="cr-placeholder-title">Compte-rendu Tests Scénario 0 à venir</div>
+        <div class="cr-placeholder-sub">Remplace ce bloc par l'iframe PDF une fois les 17 tests réalisés et documentés.</div>
+      </div>
+    </div>
+
+    <!-- PDF CR — SSH & SÉCURITÉ -->
+    <div class="pdf-section">
+      <div class="pdf-header">
+        <div class="pdf-header-left">
+          <div class="pdf-header-icon red">📄</div>
+          <div>
+            <div class="pdf-header-label red">Compte-rendu · Partie 5</div>
+            <div class="pdf-header-title">Administration SSH &amp; Sécurité des actifs</div>
+          </div>
+        </div>
+        <a href="../../../files/CUB-CR-ssh.pdf" download class="dl-btn red">⬇&nbsp; Télécharger</a>
+      </div>
+      <div class="cr-placeholder">
+        <div class="cr-placeholder-icon">🔐</div>
+        <div class="cr-placeholder-title">Compte-rendu SSH à venir</div>
+        <div class="cr-placeholder-sub">Remplace ce bloc par l'iframe PDF une fois le compte-rendu finalisé.</div>
+      </div>
+    </div>
+
+    <!-- BILAN -->
+    <div class="content-block">
+      <div class="content-block-title">Bilan de l'atelier</div>
+      <table class="bilan-table">
+        <thead>
+          <tr><th>Étape</th><th>Réalisé</th><th>Résultat clé</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Switch niveau 3 (3650) configuré</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>ip routing · SVI · Encapsulation dot1q · 8 VLANs</td>
+          </tr>
+          <tr>
+            <td><strong>Ferme de serveurs (2960)</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>VLAN Serveurs + DMZ + JE · ANNULAB, REZOLAB, INTRALAB joignables</td>
+          </tr>
+          <tr>
+            <td><strong>DHCP + agent-relais</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>Pools MARKET et INFRASYS · Plage .201-.250 · agent-relais sur SVI</td>
+          </tr>
+          <tr>
+            <td><strong>Switch Cascade (2960)</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>Extension réseau · Postes fixes et DHCP connectés</td>
+          </tr>
+          <tr>
+            <td><strong>Routeur CUB — NAT/PAT + DMZ</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>Sortie Internet · Redirection port 80 vers INTRALAB</td>
+          </tr>
+          <tr>
+            <td><strong>OrangeBox — Double NAT</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>81.250.151.15 · Double redirection port vers DMZ</td>
+          </tr>
+          <tr>
+            <td><strong>Administration SSH</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>admincub/cub_ssh · Switch Niv.3 + Switch Cascade</td>
+          </tr>
+          <tr>
+            <td><strong>17 tests Scénario 0</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>Inter-VLAN · Serveurs · DMZ · Internet · SSH · Double redirection</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- OUTILS -->
+    <div class="content-block">
+      <div class="content-block-title">Outils &amp; technologies utilisés</div>
+      <div class="chips" style="gap: 0.5rem;">
+        <span class="chip blue">Cisco Packet Tracer</span>
+        <span class="chip blue">Switch 3650 Niv.3</span>
+        <span class="chip blue">Switch 2960</span>
+        <span class="chip blue">VLANs / Trunk</span>
+        <span class="chip blue">NAT/PAT</span>
+        <span class="chip">DHCP / Agent-relais</span>
+        <span class="chip">SSH / SVI</span>
+        <span class="chip">DMZ</span>
+        <span class="chip">ip routing</span>
+        <span class="chip">dot1q</span>
+        <span class="chip">PPE Groupe 4</span>
+      </div>
+    </div>
+
+    <div class="nav-bottom">
+      <a class="nav-btn" href="../../ateliers.html">← Retour aux Ateliers</a>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  Portfolio de <strong>Adrien Blaize</strong> &nbsp;·&nbsp; BTS SIO SISR &nbsp;·&nbsp; La Martinière Duchère &nbsp;·&nbsp; 2025
+</footer>
+<script src="../../../js/nav.js"></script>
+</body>
+</html>
