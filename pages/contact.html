@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact — Adrien Blaize</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    /* ─── LAYOUT CONTACT ─── */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 350px 1fr;
+      gap: 3rem;
+      align-items: start;
+      margin-top: 2rem;
+    }
+
+    /* ─── CONTACT INFO CARD ─── */
+    .contact-info-card {
+      background: white; border: 1px solid var(--border);
+      border-radius: 16px; padding: 2rem;
+    }
+    .contact-info-title {
+      font-family: 'Playfair Display', serif;
+      font-weight: 800; font-size: 1.4rem; color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+    .info-row {
+      display: flex; align-items: flex-start; gap: 1rem;
+      margin-bottom: 1.25rem;
+    }
+    .info-row:last-child { margin-bottom: 0; }
+    .info-icon {
+      width: 40px; height: 40px; background: var(--accent-light);
+      border-radius: 10px; display: flex; align-items: center;
+      justify-content: center; font-size: 1.2rem; flex-shrink: 0;
+    }
+    .info-text-label { font-size: 0.75rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.2rem; }
+    .info-text-value { font-size: 0.95rem; font-weight: 600; color: var(--text); }
+    .info-text-value a { color: var(--text); text-decoration: none; transition: color 0.2s; }
+    .info-text-value a:hover { color: var(--accent); }
+
+    /* ─── CONTACT FORM ─── */
+    .contact-form-card {
+      background: white; border: 1px solid var(--border);
+      border-radius: 16px; padding: 2.5rem;
+    }
+    .form-header { margin-bottom: 2rem; }
+    .form-title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1.5rem; color: var(--text); margin-bottom: 0.5rem; }
+    .form-sub { font-size: 0.9rem; color: var(--muted); line-height: 1.6; }
+
+    .form-group { margin-bottom: 1.5rem; }
+    .form-label { display: block; font-size: 0.85rem; font-weight: 700; color: var(--text); margin-bottom: 0.5rem; }
+    .form-control {
+      width: 100%; padding: 0.85rem 1rem; font-size: 0.9rem;
+      border: 1px solid var(--border); border-radius: 8px;
+      background: var(--surface); color: var(--text);
+      font-family: inherit; transition: all 0.2s;
+    }
+    .form-control:focus { outline: none; border-color: var(--accent); background: white; box-shadow: 0 0 0 3px var(--accent-light); }
+    textarea.form-control { resize: vertical; min-height: 150px; }
+
+    .submit-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      background: var(--accent); color: white; border: none; cursor: pointer;
+      padding: 0.85rem 2rem; border-radius: 8px; font-weight: 700; font-size: 0.95rem;
+      transition: all 0.2s; width: 100%;
+    }
+    .submit-btn:hover { background: #1a45c0; transform: translateY(-2px); box-shadow: 0 4px 15px rgba(29,78,216,0.3); }
+
+    @media (max-width: 900px) {
+      .contact-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .contact-form-card { padding: 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="../index.html" class="nav-logo">Adrien <span>Blaize</span></a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Accueil</a></li>
+      <li><a href="about.html">À propos de moi</a></li>
+      <li><a href="ateliers.html">Ateliers Pro</a></li>
+      <li class="nav-dropdown">
+        <a href="stages.html">Stages</a>
+        <div class="dropdown-menu">
+          <a href="stages/stage1.html">🏢 Stage 1 — Paredes Orapi</a>
+          <a href="stages/stage2.html">🏢 Stage 2 — SIA BDE INSA</a>
+        </div>
+      </li>
+      <li><a href="veille.html">Veille techno</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-content">
+    <div class="section">
+      <div class="section-header">
+        <div class="section-eyebrow">Me joindre</div>
+        <h2 class="section-title">Contact</h2>
+        <p class="section-sub">Une question, une opportunité d'alternance ou un projet ? N'hésitez pas à me contacter.</p>
+      </div>
+
+      <div class="contact-grid">
+        
+        <div class="contact-info-card">
+          <div class="contact-info-title">Mes coordonnées</div>
+          
+          <div class="info-row">
+            <div class="info-icon">📧</div>
+            <div>
+              <div class="info-text-label">Email</div>
+              <div class="info-text-value"><a href="mailto:adrien.blaize69@gmail.com">adrien.blaize69@gmail.com</a></div>
+            </div>
+          </div>
+          
+          <div class="info-row">
+            <div class="info-icon">📞</div>
+            <div>
+              <div class="info-text-label">Téléphone</div>
+              <div class="info-text-value">06 98 40 64 22</div>
+            </div>
+          </div>
+          
+          <div class="info-row">
+            <div class="info-icon">📍</div>
+            <div>
+              <div class="info-text-label">Localisation</div>
+              <div class="info-text-value">Caluire-et-Cuire (69300)<br>Région Lyonnaise</div>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="info-icon">💼</div>
+            <div>
+              <div class="info-text-label">Réseaux professionnels</div>
+              <div class="info-text-value"><a href="https://www.linkedin.com/in/adrien-blaize-a7b6242a5" target="_blank">Profil LinkedIn</a></div>
+              <div class="info-text-value" style="margin-top: 0.2rem;"><a href="https://github.com/007Adr" target="_blank">Profil GitHub</a></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-form-card">
+          <div class="form-header">
+            <div class="form-title">Envoyez-moi un message</div>
+            <div class="form-sub">Remplissez le formulaire ci-dessous et je vous répondrai dans les plus brefs délais.</div>
+          </div>
+
+          <form action="https://formspree.io/f/xbdppkaj" method="POST">
+            <div class="form-group">
+              <label class="form-label" for="name">Nom complet</label>
+              <input type="text" id="name" name="name" class="form-control" placeholder="Jean Dupont" required>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" for="email">Adresse email</label>
+              <input type="email" id="email" name="email" class="form-control" placeholder="jean.dupont@entreprise.fr" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="subject">Sujet</label>
+              <input type="text" id="subject" name="subject" class="form-control" placeholder="Proposition d'alternance..." required>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" for="message">Votre message</label>
+              <textarea id="message" name="message" class="form-control" placeholder="Bonjour Adrien, suite à la consultation de votre portfolio..." required></textarea>
+            </div>
+            
+            <button type="submit" class="submit-btn">✉️ Envoyer le message</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Portfolio de <strong>Adrien Blaize</strong> &nbsp;·&nbsp; BTS SIO SISR &nbsp;·&nbsp; Lycée La Martinière Duchère &nbsp;·&nbsp; 2025
+  </footer>
+
+  <script src="../js/nav.js"></script>
+</body>
+</html>
