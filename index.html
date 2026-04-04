@@ -228,56 +228,13 @@
       color: var(--muted); font-size: 0.8rem; line-height: 1.65;
     }
 
-    /* ─── TABLEAU DE COMPÉTENCES ─── */
-    .skill-grid {
-      display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
-      gap: 1.5rem; 
-    }
-    .skill-card { 
-      background: white; 
-      border: 1px solid var(--border); 
-      padding: 1.5rem; 
-      border-radius: 12px; 
-      transition: all 0.2s; 
-    }
-    .skill-card:hover { 
-      border-color: var(--accent-mid); 
-      box-shadow: 0 4px 18px rgba(29,78,216,0.08); 
-      transform: translateY(-2px); 
-    }
-    .skill-card-title { 
-      font-weight: 700; 
-      font-size: 0.9rem; 
-      letter-spacing: 0.05em; 
-      text-transform: uppercase; 
-      color: var(--accent); 
-      margin-bottom: 1rem; 
-      border-bottom: 1px solid var(--border); 
-      padding-bottom: 0.5rem; 
-    }
-    .skill-card ul { 
-      list-style: none; 
-      display: flex; 
-      flex-direction: column; 
-      gap: 0.5rem; 
-      padding: 0; 
-      margin: 0; 
-    }
-    .skill-card li { 
-      font-size: 0.85rem; 
-      color: var(--muted); 
-      position: relative; 
-      padding-left: 1.1rem; 
-      line-height: 1.6; 
-    }
-    .skill-card li::before { 
-      content: '›'; 
-      position: absolute; 
-      left: 0; 
-      color: var(--accent); 
-      font-weight: 700; 
-    }
+    /* ─── PDF EMBED ─── */
+    .pdf-section { background: white; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-top: 1rem; }
+    .pdf-header { padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); gap: 1rem; flex-wrap: wrap; }
+    .pdf-header-title { font-weight: 600; font-size: 0.92rem; color: var(--text); display: flex; align-items: center; gap: 0.5rem; }
+    .pdf-embed { width: 100%; height: 860px; border: none; display: block; }
+    .btn-download { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--accent); color: white; text-decoration: none; padding: 0.6rem 1.2rem; border-radius: 8px; font-weight: 600; font-size: 0.85rem; transition: background 0.2s; }
+    .btn-download:hover { background: #1a45c0; }
 
     /* ─── CTA FINAL ─── */
     .cta-band {
@@ -322,6 +279,7 @@
       .competences-grid { grid-template-columns: 1fr 1fr; }
       .home-section { padding: 3.5rem 1.5rem; }
       .cta-band { padding: 0 1.5rem; }
+      .pdf-embed { height: 500px; }
     }
     @media (max-width: 560px) {
       .competences-grid { grid-template-columns: 1fr; }
@@ -535,50 +493,15 @@
 
   <div class="home-section" style="background: var(--surface); border-bottom: 1px solid var(--border);">
     <div class="section-eyebrow-line">Mes aptitudes</div>
-    <h2 class="home-section-title">Tableau de compétences</h2>
-    <p class="home-section-sub">Synthèse de mes aptitudes techniques et des outils que je maîtrise au quotidien.</p>
+    <h2 class="home-section-title">Tableau de synthèse E5</h2>
+    <p class="home-section-sub">Voici la synthèse complète de mes compétences et réalisations professionnelles dans le cadre de l'épreuve E5.</p>
     
-    <div class="skill-grid">
-      <div class="skill-card">
-        <div class="skill-card-title">Système</div>
-        <ul>
-          <li>Windows Server 2022</li>
-          <li>Debian / Ubuntu</li>
-          <li>Active Directory, GPO</li>
-          <li>Microsoft Intune</li>
-          <li>Hyper-V, Proxmox</li>
-        </ul>
+    <div class="pdf-section">
+      <div class="pdf-header">
+        <div class="pdf-header-title">📄 Tableau de synthèse — Épreuve E5</div>
+        <a href="files/Tableau_de_synthese_E5.pdf" download class="btn-download">⬇ Télécharger le tableau</a>
       </div>
-      <div class="skill-card">
-        <div class="skill-card-title">Réseau</div>
-        <ul>
-          <li>Switch / Routeurs Cisco</li>
-          <li>VLAN, OSPF, HSRP</li>
-          <li>Pare-feu (pfSense, UFW)</li>
-          <li>Load Balancing (HAProxy)</li>
-          <li>VPN Twingate / OpenVPN</li>
-        </ul>
-      </div>
-      <div class="skill-card">
-        <div class="skill-card-title">Outils & Services</div>
-        <ul>
-          <li>Supervision (PRTG, Zabbix)</li>
-          <li>Docker & Portainer</li>
-          <li>Scripts (Bash, PowerShell)</li>
-          <li>Serveur Web (Apache, Nginx)</li>
-          <li>GLPI & OCS Inventory</li>
-        </ul>
-      </div>
-      <div class="skill-card">
-        <div class="skill-card-title">Projets & DevOps</div>
-        <ul>
-          <li>Git, GitHub, GitLab</li>
-          <li>Wazuh (SIEM)</li>
-          <li>Hyperviseur Proxmox home</li>
-          <li>Portfolio hébergé Docker</li>
-          <li>Reverse proxy Nginx</li>
-        </ul>
-      </div>
+      <iframe src="files/Tableau_de_synthese_E5.pdf" class="pdf-embed" title="Tableau de synthèse E5"></iframe>
     </div>
   </div>
 
