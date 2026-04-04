@@ -21,18 +21,15 @@
 
   .tp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0.85rem; }
 
-  .tp-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.15rem; transition: all 0.18s; cursor: pointer; text-decoration: none; color: inherit; }
-  .tp-card:hover { border-color: var(--accent-mid); background: var(--accent-light); transform: translateY(-2px); box-shadow: 0 4px 14px rgba(29,78,216,0.1); }
-  .tp-num { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.45rem; }
-  .tp-title { font-weight: 600; font-size: 0.88rem; margin-bottom: 0.35rem; }
-  .tp-desc { color: var(--muted); font-size: 0.8rem; line-height: 1.55; }
-  .tp-tags { display: flex; gap: 0.3rem; flex-wrap: wrap; margin-top: 0.75rem; }
-  .tp-tag { font-size: 0.68rem; font-weight: 500; background: white; border: 1px solid var(--border); padding: 0.18rem 0.5rem; border-radius: 5px; color: var(--muted); }
-
   .tp-card-ap { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.15rem; transition: all 0.18s; text-decoration: none; color: inherit; display: flex; align-items: center; gap: 1rem; }
   .tp-card-ap:hover { border-color: var(--accent-mid); background: var(--accent-light); transform: translateY(-2px); box-shadow: 0 4px 14px rgba(29,78,216,0.1); }
   .tp-card-ap-icon { width: 42px; height: 42px; flex-shrink: 0; background: var(--accent-light); border: 1px solid var(--accent-mid); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
   .tp-card-ap-body { flex: 1; }
+  .tp-num { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.45rem; }
+  .tp-title { font-weight: 600; font-size: 0.88rem; margin-bottom: 0.35rem; }
+  .tp-desc { color: var(--muted); font-size: 0.8rem; line-height: 1.55; }
+  .tp-tags { display: flex; gap: 0.3rem; flex-wrap: wrap; margin-top: 0.5rem; }
+  .tp-tag { font-size: 0.68rem; font-weight: 500; background: white; border: 1px solid var(--border); padding: 0.18rem 0.5rem; border-radius: 5px; color: var(--muted); }
   .tp-card-ap-arrow { color: var(--light); font-size: 0.85rem; transition: transform 0.2s, color 0.2s; }
   .tp-card-ap:hover .tp-card-ap-arrow { transform: translateX(3px); color: var(--accent); }
 </style>
@@ -66,42 +63,43 @@
             <div class="acc-left">
               <span class="acc-year-badge">AN 1</span>
               <span class="acc-title">Ateliers Professionnels — Première année</span>
-              <span class="acc-count">3 TPs</span>
+              <span class="acc-count">2 APs</span>
             </div>
             <div class="acc-chevron">▼</div>
           </div>
           <div class="accordion-body">
             <div class="tp-grid">
 
-              <a class="tp-card" href="#">
-                <div class="tp-num">TP · 01</div>
-                <div class="tp-title">[Titre du TP 1]</div>
-                <div class="tp-desc">[Description : objectif, démarche, ce que tu as réalisé et appris.]</div>
-                <div class="tp-tags">
-                  <span class="tp-tag">[Outil]</span>
-                  <span class="tp-tag">[Techno]</span>
-                  <span class="tp-tag">[Notion]</span>
+              <a class="tp-card-ap" href="ateliers/1ère année/glpi.html">
+                <div class="tp-card-ap-icon">🖥️</div>
+                <div class="tp-card-ap-body">
+                  <div class="tp-num">AP · 01</div>
+                  <div class="tp-title">GLPI &amp; OCS Inventory — Gestion de Parc</div>
+                  <div class="tp-desc">Installation GLPI · Sécurisation · Synchronisation OCS · 5 plugins</div>
+                  <div class="tp-tags">
+                    <span class="tp-tag">GLPI</span>
+                    <span class="tp-tag">OCS Inventory</span>
+                    <span class="tp-tag">ITSM</span>
+                    <span class="tp-tag">Debian</span>
+                  </div>
                 </div>
+                <div class="tp-card-ap-arrow">→</div>
               </a>
 
-              <a class="tp-card" href="#">
-                <div class="tp-num">TP · 02</div>
-                <div class="tp-title">[Titre du TP 2]</div>
-                <div class="tp-desc">[Description du TP 2.]</div>
-                <div class="tp-tags">
-                  <span class="tp-tag">[Outil]</span>
-                  <span class="tp-tag">[Techno]</span>
+              <a class="tp-card-ap" href="ateliers/1ère année/ocs.html">
+                <div class="tp-card-ap-icon">📦</div>
+                <div class="tp-card-ap-body">
+                  <div class="tp-num">AP · 02</div>
+                  <div class="tp-title">OCS Inventory NG — Service d’Inventaire</div>
+                  <div class="tp-desc">Déploiement OCS · LAMP · Agents Win &amp; Linux · 4 machines inventoriées</div>
+                  <div class="tp-tags">
+                    <span class="tp-tag">OCS Inventory</span>
+                    <span class="tp-tag">Apache / PHP</span>
+                    <span class="tp-tag">MariaDB</span>
+                    <span class="tp-tag">Agents</span>
+                  </div>
                 </div>
-              </a>
-
-              <a class="tp-card" href="#">
-                <div class="tp-num">TP · 03</div>
-                <div class="tp-title">[Titre du TP 3]</div>
-                <div class="tp-desc">[Description du TP 3.]</div>
-                <div class="tp-tags">
-                  <span class="tp-tag">[Outil]</span>
-                  <span class="tp-tag">[Techno]</span>
-                </div>
+                <div class="tp-card-ap-arrow">→</div>
               </a>
 
             </div>
@@ -114,7 +112,7 @@
             <div class="acc-left">
               <span class="acc-year-badge">AN 2</span>
               <span class="acc-title">Ateliers Professionnels — Deuxième année</span>
-              <span class="acc-count">6 APs</span>
+              <span class="acc-count">7 APs</span>
             </div>
             <div class="acc-chevron">▼</div>
           </div>
@@ -127,7 +125,7 @@
                   <div class="tp-num">AP · 01</div>
                   <div class="tp-title">PingCastle — Audit Active Directory</div>
                   <div class="tp-desc">Audit de sécurité AD · 8 failles corrigées · Score 45 → 20/100</div>
-                  <div class="tp-tags" style="margin-top: 0.5rem;">
+                  <div class="tp-tags">
                     <span class="tp-tag">PingCastle</span>
                     <span class="tp-tag">Active Directory</span>
                     <span class="tp-tag">GPO</span>
@@ -143,7 +141,7 @@
                   <div class="tp-num">AP · 02</div>
                   <div class="tp-title">pfSense — Pare-feu &amp; VPN OpenVPN</div>
                   <div class="tp-desc">Infrastructure réseau · NAT/PAT · PKI · Tunnel VPN chiffré</div>
-                  <div class="tp-tags" style="margin-top: 0.5rem;">
+                  <div class="tp-tags">
                     <span class="tp-tag">pfSense</span>
                     <span class="tp-tag">OpenVPN</span>
                     <span class="tp-tag">PKI / CA</span>
@@ -159,7 +157,7 @@
                   <div class="tp-num">AP · 03</div>
                   <div class="tp-title">OSPF &amp; HSRP — Routage Dynamique &amp; Redondance</div>
                   <div class="tp-desc">Routage dynamique OSPF · Équilibrage de charge · Tolérance de panne HSRP</div>
-                  <div class="tp-tags" style="margin-top: 0.5rem;">
+                  <div class="tp-tags">
                     <span class="tp-tag">OSPF</span>
                     <span class="tp-tag">HSRP</span>
                     <span class="tp-tag">Cisco IOS</span>
@@ -175,7 +173,7 @@
                   <div class="tp-num">AP · 04</div>
                   <div class="tp-title">PRTG — Supervision d'Infrastructure</div>
                   <div class="tp-desc">Capteurs WMI · SNMP · MySQL · Alertes · Windows Server · Linux</div>
-                  <div class="tp-tags" style="margin-top: 0.5rem;">
+                  <div class="tp-tags">
                     <span class="tp-tag">PRTG</span>
                     <span class="tp-tag">WMI / SNMP</span>
                     <span class="tp-tag">MySQL</span>
@@ -191,7 +189,7 @@
                   <div class="tp-num">AP · 05</div>
                   <div class="tp-title">HAProxy — Répartition de charge &amp; DoS</div>
                   <div class="tp-desc">Load balancing · Round-Robin · Cookies de session · Attaque Slowloris</div>
-                  <div class="tp-tags" style="margin-top: 0.5rem;">
+                  <div class="tp-tags">
                     <span class="tp-tag">HAProxy</span>
                     <span class="tp-tag">Load Balancing</span>
                     <span class="tp-tag">Cookies</span>
@@ -207,11 +205,27 @@
                   <div class="tp-num">AP · 06</div>
                   <div class="tp-title">DCS IT Games — Campus IT Dashboard</div>
                   <div class="tp-desc">Infrastructure LAMP · SQL · Dashboard PHP/JS · 21 422 Go analysés</div>
-                  <div class="tp-tags" style="margin-top: 0.5rem;">
+                  <div class="tp-tags">
                     <span class="tp-tag">Linux</span>
                     <span class="tp-tag">Apache / PHP</span>
                     <span class="tp-tag">MariaDB</span>
                     <span class="tp-tag">Chart.js</span>
+                  </div>
+                </div>
+                <div class="tp-card-ap-arrow">→</div>
+              </a>
+
+              <a class="tp-card-ap" href="ateliers/2ème année/maquettage-cub.html">
+                <div class="tp-card-ap-icon">🏗️</div>
+                <div class="tp-card-ap-body">
+                  <div class="tp-num">AP · 07</div>
+                  <div class="tp-title">Mission Maquettage — Infrastructure CUB</div>
+                  <div class="tp-desc">Switch Niv.3 · VLANs · NAT/PAT · DMZ · SSH · 17 tests scénario 0</div>
+                  <div class="tp-tags">
+                    <span class="tp-tag">Packet Tracer</span>
+                    <span class="tp-tag">Switch 3650</span>
+                    <span class="tp-tag">VLANs</span>
+                    <span class="tp-tag">NAT/PAT</span>
                   </div>
                 </div>
                 <div class="tp-card-ap-arrow">→</div>

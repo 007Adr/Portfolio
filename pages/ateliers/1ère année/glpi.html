@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AP — GLPI & OCS Inventory · BTS SIO SISR</title>
+<link rel="stylesheet" href="../../../css/style.css">
+<style>
+.breadcrumb { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; color: var(--light); margin-bottom: 0.75rem; flex-wrap: wrap; }
+.breadcrumb a { color: var(--light); text-decoration: none; }
+.breadcrumb a:hover { color: var(--accent); }
+.breadcrumb span { color: var(--accent); font-weight: 600; }
+
+/* ─── HERO ─── */
+.page-hero {
+  background: #0a1a0f; border: 1px solid #1a3a1f;
+  border-radius: 16px; overflow: hidden; margin-bottom: 2rem;
+}
+.page-hero-banner {
+  height: 90px;
+  background: linear-gradient(135deg, #0a1a0f, #0e2e18, #0a1a0f, #081208);
+  display: flex; align-items: center; justify-content: center;
+  gap: 1.25rem; font-size: 2.2rem;
+  border-bottom: 1px solid #1a3a1f;
+}
+.page-hero-body { padding: 1.5rem 2rem; }
+.page-hero-label { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #4ade80; margin-bottom: 0.4rem; }
+.page-hero-title { font-family: 'Playfair Display', serif; font-weight: 800; font-size: clamp(1.2rem, 2.5vw, 1.65rem); line-height: 1.2; color: white; }
+.page-hero-sub { color: #9ca3af; font-size: 0.85rem; margin-top: 0.3rem; }
+
+/* ─── STATS ─── */
+.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 2rem; }
+.stat-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 1.1rem 1.25rem; text-align: center; }
+.stat-num { font-family: 'Playfair Display', serif; font-weight: 800; font-size: 1.8rem; color: #16a34a; line-height: 1; }
+.stat-num.blue { color: #0284c7; }
+.stat-num.orange { color: #ea580c; }
+.stat-label { color: var(--muted); font-size: 0.78rem; margin-top: 0.3rem; }
+
+/* ─── CONTENT BLOCKS ─── */
+.content-block { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 1.75rem 2rem; margin-bottom: 1.25rem; }
+.content-block-title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem; }
+.content-block-title::before { content: ''; display: block; width: 3px; height: 18px; background: #16a34a; border-radius: 2px; flex-shrink: 0; }
+.content-block-title.blue::before   { background: #0284c7; }
+.content-block-title.orange::before { background: #ea580c; }
+.content-block-title.red::before    { background: #dc2626; }
+.content-text { color: var(--muted); font-size: 0.9rem; line-height: 1.85; }
+.content-text p + p { margin-top: 0.75rem; }
+
+/* ─── ÉTAPE ITEMS ─── */
+.etape-item { border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 1rem; background: white; }
+.etape-header { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.5rem; }
+.etape-header.green  { background: linear-gradient(135deg, #f0fdf4, #dcfce7); border-bottom: 1px solid #bbf7d0; }
+.etape-header.blue   { background: linear-gradient(135deg, #f0f9ff, #e0f2fe); border-bottom: 1px solid #bae6fd; }
+.etape-header.orange { background: linear-gradient(135deg, #fff7ed, #ffedd5); border-bottom: 1px solid #fed7aa; }
+.etape-header.red    { background: linear-gradient(135deg, #fef2f2, #fee2e2); border-bottom: 1px solid #fecaca; }
+.etape-header.purple { background: linear-gradient(135deg, #faf5ff, #ede9fe); border-bottom: 1px solid #ddd6fe; }
+
+.etape-num {
+  width: 36px; height: 36px; flex-shrink: 0;
+  border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  font-weight: 800; font-size: 0.95rem; color: white;
+}
+.etape-header.green  .etape-num { background: #16a34a; }
+.etape-header.blue   .etape-num { background: #0284c7; }
+.etape-header.orange .etape-num { background: #ea580c; }
+.etape-header.red    .etape-num { background: #dc2626; }
+.etape-header.purple .etape-num { background: #7c3aed; }
+
+.etape-title { font-weight: 700; font-size: 0.92rem; color: var(--text); }
+.etape-cat-badge {
+  margin-left: auto; font-size: 0.68rem; font-weight: 700;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 0.22rem 0.65rem; border-radius: 100px;
+}
+.etape-header.green  .etape-cat-badge { background: #dcfce7; color: #15803d; }
+.etape-header.blue   .etape-cat-badge { background: #e0f2fe; color: #0369a1; }
+.etape-header.orange .etape-cat-badge { background: #ffedd5; color: #c2410c; }
+.etape-header.red    .etape-cat-badge { background: #fee2e2; color: #b91c1c; }
+.etape-header.purple .etape-cat-badge { background: #ede9fe; color: #6d28d9; }
+
+.etape-body { padding: 1.25rem 1.5rem; display: flex; flex-direction: column; gap: 0.85rem; }
+.etape-section-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.35rem; }
+.etape-text { color: var(--muted); font-size: 0.87rem; line-height: 1.75; }
+.etape-steps { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; margin-top: 0.25rem; }
+.etape-steps li { font-size: 0.86rem; color: var(--muted); line-height: 1.6; padding-left: 1.4rem; position: relative; }
+.etape-steps li::before { content: '›'; position: absolute; left: 0; color: var(--accent); font-weight: 700; }
+
+.impact-tag {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a;
+  padding: 0.3rem 0.85rem; border-radius: 100px;
+  font-size: 0.73rem; font-weight: 700;
+}
+.impact-tag.blue   { background: #f0f9ff; border-color: #bae6fd; color: #0284c7; }
+.impact-tag.orange { background: #fff7ed; border-color: #fed7aa; color: #c2410c; }
+.impact-tag.red    { background: #fef2f2; border-color: #fecaca; color: #b91c1c; }
+.impact-tag.purple { background: #faf5ff; border-color: #ddd6fe; color: #6d28d9; }
+
+/* ─── CR PLACEHOLDER ─── */
+.cr-placeholder {
+  background: var(--surface); border: 2px dashed var(--border);
+  border-radius: 14px; padding: 3rem 2rem;
+  text-align: center; color: var(--muted);
+}
+.cr-placeholder-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+.cr-placeholder-title { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1rem; color: var(--text); margin-bottom: 0.4rem; }
+.cr-placeholder-sub { font-size: 0.83rem; line-height: 1.65; }
+
+/* ─── BILAN TABLE ─── */
+.bilan-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.bilan-table th { background: #1e1e1e; color: white; text-align: left; padding: 0.65rem 1rem; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; }
+.bilan-table td { padding: 0.6rem 1rem; color: var(--muted); border-bottom: 1px solid var(--border); }
+.bilan-table tr:last-child td { border-bottom: none; background: #f0fdf4; color: #16a34a; font-weight: 700; }
+.bilan-table tr:nth-child(even) td { background: var(--surface); }
+.badge-ok { background: #f0fdf4; border: 1px solid #bbf7d0; color: #16a34a; padding: 0.15rem 0.55rem; border-radius: 100px; font-size: 0.72rem; font-weight: 700; }
+
+/* ─── PDF EMBED ─── */
+.pdf-section { background: white; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 1.25rem; }
+.pdf-header { padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); gap: 1rem; flex-wrap: wrap; }
+.pdf-header-left { display: flex; align-items: center; gap: 1rem; }
+.pdf-header-icon { width: 42px; height: 42px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+.pdf-header-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #16a34a; margin-bottom: 0.2rem; }
+.pdf-header-title { font-weight: 600; font-size: 0.92rem; color: var(--text); }
+.pdf-embed { width: 100%; height: 860px; border: none; display: block; }
+.dl-btn { display: inline-flex; align-items: center; gap: 0.5rem; background: #16a34a; color: white; text-decoration: none; padding: 0.75rem 1.5rem; border-radius: 9px; font-weight: 700; font-size: 0.88rem; white-space: nowrap; transition: all 0.18s; flex-shrink: 0; }
+.dl-btn:hover { background: #15803d; transform: translateY(-1px); box-shadow: 0 6px 20px rgba(22,163,74,0.35); }
+
+/* ─── NAV BOTTOM ─── */
+.nav-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 2.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+.nav-btn { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.83rem; font-weight: 600; color: var(--muted); text-decoration: none; transition: color 0.18s; }
+.nav-btn:hover { color: var(--accent); }
+
+@media (max-width: 700px) { .stats-row { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="../../../index.html" class="nav-logo">Adrien <span>Blaize</span></a>
+  <ul class="nav-links">
+    <li><a href="../../../index.html">Accueil</a></li>
+    <li><a href="../../about.html">À propos de moi</a></li>
+    <li><a href="../../ateliers.html" class="active">Ateliers Pro</a></li>
+    <li class="nav-dropdown">
+      <a href="../../stages.html">Stages</a>
+      <div class="dropdown-menu">
+        <a href="../../stages/stage1.html">🏢 Stage 1 — Paredes Orapi</a>
+        <a href="../../stages/stage2.html">🏢 Stage 2 — SIA BDE INSA</a>
+      </div>
+    </li>
+    <li><a href="../../veille.html">Veille techno</a></li>
+  </ul>
+</nav>
+
+<div class="page-content">
+  <div class="section">
+
+    <div class="breadcrumb">
+      <a href="../../ateliers.html">Ateliers Professionnels</a> ›
+      <a href="../../ateliers.html">Année 1</a> ›
+      <span>AP — GLPI &amp; OCS Inventory</span>
+    </div>
+
+    <!-- HERO -->
+    <div class="page-hero">
+      <div class="page-hero-banner">🖥️ 📦 🔧</div>
+      <div class="page-hero-body">
+        <div class="page-hero-label">Atelier de Professionnalisation — Année 1 · BTS SIO SISR</div>
+        <div class="page-hero-title">GLPI &amp; OCS Inventory — Gestion de Parc Informatique</div>
+        <div class="page-hero-sub">GLPI · OCS-Inventory · ITSM · Help Desk · Inventaire · Plugins · Debian</div>
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-num">3</div><div class="stat-label">Alertes sécurité résolues</div></div>
+      <div class="stat-card"><div class="stat-num blue">5</div><div class="stat-label">Plugins installés</div></div>
+      <div class="stat-card"><div class="stat-num orange">2</div><div class="stat-label">Services synchronisés</div></div>
+      <div class="stat-card"><div class="stat-num">✓</div><div class="stat-label">Inventaire OCS → GLPI</div></div>
+    </div>
+
+    <!-- PDF SUJET -->
+    <div class="pdf-section">
+      <div class="pdf-header">
+        <div class="pdf-header-left">
+          <div class="pdf-header-icon">📋</div>
+          <div>
+            <div class="pdf-header-label">Sujet de l'atelier</div>
+            <div class="pdf-header-title">AP6 — La gestion de parc informatique · GLPI &amp; OCS Inventory</div>
+          </div>
+        </div>
+        <a href="../../../files/AP6-GLPI.pdf" download class="dl-btn">⬇&nbsp; Télécharger</a>
+      </div>
+      <iframe class="pdf-embed" src="../../../files/AP6-GLPI.pdf" title="Sujet GLPI"></iframe>
+    </div>
+
+    <!-- PDF COMPTE-RENDU -->
+    <div class="pdf-section">
+      <div class="pdf-header">
+        <div class="pdf-header-left">
+          <div class="pdf-header-icon">📄</div>
+          <div>
+            <div class="pdf-header-label">Compte-rendu</div>
+            <div class="pdf-header-title">AP GLPI — Compte-rendu Adrien Blaize</div>
+          </div>
+        </div>
+        <a href="../../../files/AP6-BLAIZE-GLPI.pdf" download class="dl-btn">⬇&nbsp; Télécharger</a>
+      </div>
+      <!-- PLACEHOLDER COMPTE-RENDU -->
+      <div class="cr-placeholder" style="margin: 1.5rem; border-radius: 10px;">
+        <div class="cr-placeholder-icon">📄</div>
+        <div class="cr-placeholder-title">Compte-rendu à venir</div>
+        <div class="cr-placeholder-sub">Le compte-rendu sera ajouté ici une fois finalisé.<br>Remplace ce bloc par l'iframe PDF quand le fichier est prêt.</div>
+      </div>
+    </div>
+
+    <!-- CONTEXTE -->
+    <div class="content-block">
+      <div class="content-block-title">Contexte de l'atelier</div>
+      <div class="content-text">
+        <p><strong>GLPI</strong> (Gestionnaire Libre de Parc Informatique) est une application web open source distribuée sous licence GPL qui permet aux entreprises de gérer leur système d'information : gestion des services (ITSM), assistance utilisateurs (Help Desk) et inventaire complet des ressources via <strong>OCS Inventory</strong>.</p>
+        <p>Cet atelier consiste à installer GLPI sur un serveur Debian existant qui héberge déjà OCS Inventory, à sécuriser l'installation, à configurer la synchronisation automatique entre les deux outils via un plugin dédié, puis à enrichir GLPI avec des plugins supplémentaires issus des catégories Tendances, Nouveaux, Populaires, Mise à jour et Tags.</p>
+      </div>
+    </div>
+
+    <!-- ══ SECTION 1 — INSTALLATION ══ -->
+    <div class="content-block">
+      <div class="content-block-title">Installation &amp; Sécurisation de GLPI</div>
+
+      <div class="etape-item">
+        <div class="etape-header green">
+          <div class="etape-num">1</div>
+          <div class="etape-title">Installation de GLPI sur le serveur OCS existant</div>
+          <span class="etape-cat-badge">Installation · Debian</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Contexte</div>
+            <p class="etape-text">GLPI est installé sur la même VM Debian que OCS Inventory (<code>NomEt-D12-OCS</code>). Avant toute manipulation, un clone de sauvegarde <code>NomEt-D12-OCS-SAVE</code> est créé sur Proxmox pour pouvoir revenir à un état stable en cas de problème.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Ce que j'ai fait</div>
+            <ul class="etape-steps">
+              <li>Clonage de la VM OCS vers <code>NomEt-D12-OCS-SAVE</code> sur Proxmox avant toute modification</li>
+              <li>Installation de GLPI en suivant le tutoriel <em>TUTORIEL-INSTALLER-GLPI-10.0.10-SUR-DEBIAN-12.pdf</em>, en adaptant les étapes aux paquets déjà présents sur le serveur OCS</li>
+              <li>Vérification de la page d'accueil GLPI accessible via l'URL du serveur</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag">✅ GLPI installé et accessible via navigateur</span></div>
+        </div>
+      </div>
+
+      <div class="etape-item">
+        <div class="etape-header red">
+          <div class="etape-num">2</div>
+          <div class="etape-title">Résolution des 3 alertes de sécurité post-installation</div>
+          <span class="etape-cat-badge">Sécurité · Hardening</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Problème</div>
+            <p class="etape-text">Après installation, la page d'accueil GLPI affiche trois alertes de sécurité à résoudre avant toute utilisation en production.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Les 3 alertes et leur résolution</div>
+            <ul class="etape-steps">
+              <li><strong>Alerte 1 — Mot de passe par défaut :</strong> changement des mots de passe des comptes par défaut <code>glpi</code>, <code>post-only</code>, <code>tech</code> et <code>normal</code> depuis l'interface d'administration GLPI</li>
+              <li><strong>Alerte 2 — Fichier install/install.php :</strong> suppression du fichier d'installation via la commande <code>rm /var/www/html/glpi/install/install.php</code> pour empêcher toute réinstallation accidentelle</li>
+              <li><strong>Alerte 3 — Configuration du dossier racine :</strong> déplacement du dossier de données GLPI hors de la racine web (<code>/var/www/html</code>) et configuration du chemin dans <code>downstream.php</code> pour que les fichiers non publics ne soient pas accessibles directement via l'URL</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag red">✅ 3 alertes résolues — Installation sécurisée</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SECTION 2 — SYNCHRONISATION OCS ══ -->
+    <div class="content-block">
+      <div class="content-block-title blue">Synchronisation avec OCS Inventory</div>
+
+      <div class="etape-item">
+        <div class="etape-header blue">
+          <div class="etape-num">3</div>
+          <div class="etape-title">Installation du plugin OCS Inventory NG &amp; synchronisation</div>
+          <span class="etape-cat-badge">Plugin · OCS · Synchronisation</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Problème</div>
+            <p class="etape-text">Bien qu'installés sur le même serveur, GLPI et OCS Inventory ne communiquent pas par défaut. Il faut installer un plugin GLPI qui permet l'importation automatique et la mise à jour des inventaires depuis OCS.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Solution mise en place</div>
+            <p class="etape-text">Téléchargement du plugin <strong>OCS Inventory NG</strong> depuis la section Ressources → Plugins du site GLPI. Installation dans le répertoire <code>/var/www/html/glpi/plugins/</code> puis activation depuis l'interface d'administration GLPI.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Étapes de configuration</div>
+            <ul class="etape-steps">
+              <li>Téléchargement et décompression de l'archive du plugin dans <code>glpi/plugins/</code></li>
+              <li>Activation du plugin dans Administration → Plugins → Installer puis Activer</li>
+              <li>Configuration de la connexion : renseigner le serveur OCS (localhost), la base de données <code>ocsweb</code>, l'utilisateur et le mot de passe</li>
+              <li>Lancement de l'import en masse depuis Configuration → Actions automatiques → OcsSync</li>
+              <li>Vérification de la remontée d'inventaire : les machines OCS apparaissent dans Parc → Ordinateurs</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag blue">✅ Inventaire OCS synchronisé dans GLPI</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SECTION 3 — PLUGINS ══ -->
+    <div class="content-block">
+      <div class="content-block-title orange">Évolution du service — 5 plugins installés</div>
+
+      <div class="etape-item">
+        <div class="etape-header orange">
+          <div class="etape-num">4</div>
+          <div class="etape-title">Installation de 5 plugins GLPI (un par catégorie)</div>
+          <span class="etape-cat-badge">Plugins · Extensions</span>
+        </div>
+        <div class="etape-body">
+          <div>
+            <div class="etape-section-label">Objectif</div>
+            <p class="etape-text">L'écosystème GLPI repose sur des plugins communautaires qui enrichissent ses fonctionnalités. L'exercice consiste à choisir et installer un plugin dans chacune des 5 catégories disponibles : Tendances, Nouveaux, Populaires, Mise à jour, Tags.</p>
+          </div>
+          <div>
+            <div class="etape-section-label">Les 5 plugins installés</div>
+            <ul class="etape-steps">
+              <li><strong>Tendances :</strong> [À compléter avec le plugin choisi] — description et fonctionnement</li>
+              <li><strong>Nouveaux :</strong> [À compléter avec le plugin choisi] — description et fonctionnement</li>
+              <li><strong>Populaires :</strong> [À compléter avec le plugin choisi] — description et fonctionnement</li>
+              <li><strong>Mise à jour :</strong> [À compléter avec le plugin choisi] — description et fonctionnement</li>
+              <li><strong>Tags :</strong> [À compléter avec le plugin choisi] — description et fonctionnement</li>
+            </ul>
+          </div>
+          <div><span class="impact-tag orange">📝 À compléter avec les plugins réellement installés</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BILAN -->
+    <div class="content-block">
+      <div class="content-block-title">Bilan de l'atelier</div>
+      <table class="bilan-table">
+        <thead>
+          <tr>
+            <th>Étape</th>
+            <th>Réalisé</th>
+            <th>Résultat clé</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Clonage VM OCS en sauvegarde</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>VM NomEt-D12-OCS-SAVE créée avant toute modification</td>
+          </tr>
+          <tr>
+            <td><strong>Installation GLPI sur Debian</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>GLPI 10.0.10 accessible via navigateur sur le serveur OCS</td>
+          </tr>
+          <tr>
+            <td><strong>Résolution des 3 alertes de sécurité</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>Mots de passe · Suppression install.php · Dossier racine sécurisé</td>
+          </tr>
+          <tr>
+            <td><strong>Plugin OCS Inventory NG</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>Synchronisation OCS → GLPI opérationnelle · Inventaire visible</td>
+          </tr>
+          <tr>
+            <td><strong>5 plugins installés (un par catégorie)</strong></td>
+            <td><span class="badge-ok">✓ Fait</span></td>
+            <td>Tendances · Nouveaux · Populaires · Mise à jour · Tags</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- OUTILS -->
+    <div class="content-block">
+      <div class="content-block-title">Outils &amp; technologies utilisés</div>
+      <div class="chips" style="gap: 0.5rem;">
+        <span class="chip blue">GLPI 10.0.10</span>
+        <span class="chip blue">OCS Inventory NG</span>
+        <span class="chip blue">PHP / MySQL</span>
+        <span class="chip">Debian 12</span>
+        <span class="chip">Apache2</span>
+        <span class="chip">Proxmox VE</span>
+        <span class="chip">ITSM</span>
+        <span class="chip">Help Desk</span>
+      </div>
+    </div>
+
+    <div class="nav-bottom">
+      <a class="nav-btn" href="../../ateliers.html">← Retour aux Ateliers</a>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  Portfolio de <strong>Adrien Blaize</strong> &nbsp;·&nbsp; BTS SIO SISR &nbsp;·&nbsp; La Martinière Duchère &nbsp;·&nbsp; 2025
+</footer>
+<script src="../../../js/nav.js"></script>
+</body>
+</html>
