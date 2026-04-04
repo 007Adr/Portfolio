@@ -228,6 +228,57 @@
       color: var(--muted); font-size: 0.8rem; line-height: 1.65;
     }
 
+    /* ─── TABLEAU DE COMPÉTENCES ─── */
+    .skill-grid {
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
+      gap: 1.5rem; 
+    }
+    .skill-card { 
+      background: white; 
+      border: 1px solid var(--border); 
+      padding: 1.5rem; 
+      border-radius: 12px; 
+      transition: all 0.2s; 
+    }
+    .skill-card:hover { 
+      border-color: var(--accent-mid); 
+      box-shadow: 0 4px 18px rgba(29,78,216,0.08); 
+      transform: translateY(-2px); 
+    }
+    .skill-card-title { 
+      font-weight: 700; 
+      font-size: 0.9rem; 
+      letter-spacing: 0.05em; 
+      text-transform: uppercase; 
+      color: var(--accent); 
+      margin-bottom: 1rem; 
+      border-bottom: 1px solid var(--border); 
+      padding-bottom: 0.5rem; 
+    }
+    .skill-card ul { 
+      list-style: none; 
+      display: flex; 
+      flex-direction: column; 
+      gap: 0.5rem; 
+      padding: 0; 
+      margin: 0; 
+    }
+    .skill-card li { 
+      font-size: 0.85rem; 
+      color: var(--muted); 
+      position: relative; 
+      padding-left: 1.1rem; 
+      line-height: 1.6; 
+    }
+    .skill-card li::before { 
+      content: '›'; 
+      position: absolute; 
+      left: 0; 
+      color: var(--accent); 
+      font-weight: 700; 
+    }
+
     /* ─── CTA FINAL ─── */
     .cta-band {
       max-width: 1140px; margin: 0 auto 5rem;
@@ -296,7 +347,6 @@
     </ul>
   </nav>
 
-  <!-- ══ HERO ══ -->
   <div class="hero-wrapper">
     <div class="hero-left">
       <div class="hero-eyebrow">Portfolio de stage · BTS Informatique</div>
@@ -309,9 +359,9 @@
         Bienvenue sur mon portfolio. Vous y trouverez mes travaux pratiques, mes stages en entreprise, et ma montée en compétences tout au long de ma formation en services informatiques aux organisations.
       </p>
       <div class="hero-actions">
-        <a href="pages/stages.html" class="btn btn-primary">🏢 Voir mes stages</a>
-        <a href="pages/about.html" class="btn btn-outline">📄 Mon CV</a>
-        <a href="pages/ateliers.html" class="btn btn-outline">🧪 Ateliers Pro</a>
+        <a href="pages/about.html" class="btn btn-primary">📄 Mon CV</a>
+        <a href="https://www.linkedin.com/in/adrien-blaize-a7b6242a5" target="_blank" class="btn btn-outline">💼 LinkedIn</a>
+        <a href="https://github.com/007Adr" target="_blank" class="btn btn-outline">🐱 GitHub</a>
       </div>
     </div>
 
@@ -351,7 +401,6 @@
     </div>
   </div>
 
-  <!-- ══ SECTION OBJECTIFS ══ -->
   <div class="home-section">
     <div class="section-eyebrow-line">Ce portfolio</div>
     <h2 class="home-section-title">Pourquoi ce portfolio ?</h2>
@@ -376,7 +425,6 @@
     </div>
   </div>
 
-  <!-- ══ SECTION FORMATION ══ -->
   <div class="home-section">
     <div class="section-eyebrow-line">Ma formation</div>
     <h2 class="home-section-title">BTS SIO — Option SISR</h2>
@@ -446,7 +494,6 @@
     </div>
   </div>
 
-  <!-- ══ SECTION COMPÉTENCES ══ -->
   <div class="home-section">
     <div class="section-eyebrow-line">Compétences visées</div>
     <h2 class="home-section-title">Ce que forme le BTS SIO SISR</h2>
@@ -486,16 +533,65 @@
     </div>
   </div>
 
-  <!-- ══ CTA FINAL ══ -->
-  <div class="cta-band">
+  <div class="home-section" style="background: var(--surface); border-bottom: 1px solid var(--border);">
+    <div class="section-eyebrow-line">Mes aptitudes</div>
+    <h2 class="home-section-title">Tableau de compétences</h2>
+    <p class="home-section-sub">Synthèse de mes aptitudes techniques et des outils que je maîtrise au quotidien.</p>
+    
+    <div class="skill-grid">
+      <div class="skill-card">
+        <div class="skill-card-title">Système</div>
+        <ul>
+          <li>Windows Server 2022</li>
+          <li>Debian / Ubuntu</li>
+          <li>Active Directory, GPO</li>
+          <li>Microsoft Intune</li>
+          <li>Hyper-V, Proxmox</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-title">Réseau</div>
+        <ul>
+          <li>Switch / Routeurs Cisco</li>
+          <li>VLAN, OSPF, HSRP</li>
+          <li>Pare-feu (pfSense, UFW)</li>
+          <li>Load Balancing (HAProxy)</li>
+          <li>VPN Twingate / OpenVPN</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-title">Outils & Services</div>
+        <ul>
+          <li>Supervision (PRTG, Zabbix)</li>
+          <li>Docker & Portainer</li>
+          <li>Scripts (Bash, PowerShell)</li>
+          <li>Serveur Web (Apache, Nginx)</li>
+          <li>GLPI & OCS Inventory</li>
+        </ul>
+      </div>
+      <div class="skill-card">
+        <div class="skill-card-title">Projets & DevOps</div>
+        <ul>
+          <li>Git, GitHub, GitLab</li>
+          <li>Wazuh (SIEM)</li>
+          <li>Hyperviseur Proxmox home</li>
+          <li>Portfolio hébergé Docker</li>
+          <li>Reverse proxy Nginx</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta-band" style="margin-top: 5rem;">
     <div class="cta-inner">
       <div>
-        <div class="cta-text-title">Prêt à explorer le portfolio ?</div>
-        <div class="cta-text-sub">Retrouvez l'ensemble des ateliers, des stages et de la veille technologique dans les sections dédiées.</div>
+        <div class="cta-text-title">Envie d'en savoir plus ?</div>
+        <div class="cta-text-sub">Consultez mon curriculum vitæ, mon LinkedIn ou explorez mes dépôts GitHub.</div>
       </div>
       <div class="cta-actions">
-        <a href="pages/ateliers.html" class="btn-white">🧪 Ateliers Pro</a>
-        <a href="pages/stages.html" class="btn-ghost-white">🏢 Mes stages</a>
+        <a href="pages/about.html" class="btn-white">📄 Mon CV</a>
+        <a href="https://www.linkedin.com/in/adrien-blaize-a7b6242a5" target="_blank" class="btn-ghost-white">💼 LinkedIn</a>
+        <a href="https://github.com/007Adr" target="_blank" class="btn-ghost-white">🐱 GitHub</a>
       </div>
     </div>
   </div>

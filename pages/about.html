@@ -150,7 +150,7 @@
     <a href="../index.html" class="nav-logo">Adrien <span>Blaize</span></a>
     <ul class="nav-links">
       <li><a href="../index.html">Accueil</a></li>
-      <li><a href="about.html">À propos de moi</a></li>
+      <li><a href="about.html" class="active">À propos de moi</a></li>
       <li><a href="ateliers.html">Ateliers Pro</a></li>
       <li class="nav-dropdown">
         <a href="stages.html">Stages</a>
@@ -173,11 +173,9 @@
 
       <div class="about-grid">
 
-        <!-- ══ SIDEBAR ══ -->
         <div class="about-sidebar">
           <div class="profile-card">
             <div class="profile-photo">
-              <!-- Photo de profil : remplace src par ta photo quand tu veux -->
               <img src="../images/photo-profil.jpg" alt="Adrien Blaize"
                 onerror="this.parentElement.style.background='linear-gradient(135deg,#eff4ff,#c7d9ff)'; this.style.display='none'">
             </div>
@@ -212,17 +210,26 @@
                 </div>
               </div>
 
-              <a class="dl-btn" href="../files/cv-adrien-blaize.pdf" download>
+              <div class="profile-divider"></div>
+
+              <div style="display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 1.25rem;">
+                <a href="https://www.linkedin.com/in/adrien-blaize-a7b6242a5" target="_blank" class="dl-btn" style="margin-top:0; background: #0077B5; color: white; border-color: #0077B5;">
+                  💼 LinkedIn
+                </a>
+                <a href="https://github.com/007Adr" target="_blank" class="dl-btn" style="margin-top:0; background: #24292e; color: white; border-color: #24292e;">
+                  🐱 GitHub
+                </a>
+              </div>
+
+              <a class="dl-btn" href="../files/cv-adrien-blaize.pdf" download style="background: var(--surface); color: var(--text); border: 1px solid var(--border);">
                 ⬇&nbsp; Télécharger mon CV
               </a>
             </div>
           </div>
         </div>
 
-        <!-- ══ CONTENU PRINCIPAL ══ -->
         <div>
 
-          <!-- Présentation -->
           <div class="cv-block">
             <div class="cv-block-title">Présentation</div>
             <p style="color:var(--muted); line-height:1.85; font-size:0.9rem; padding: 0.5rem 0.75rem;">
@@ -230,11 +237,10 @@
             </p>
           </div>
 
-          <!-- CV PDF intégré -->
           <div class="cv-pdf-section">
             <div class="cv-pdf-header">
               <div class="cv-pdf-header-title">📄 Mon Curriculum Vitæ</div>
-              <a href="../files/cv-adrien-blaize.pdf" download class="btn btn-primary" style="font-size:0.8rem; padding: 0.5rem 1rem;">
+              <a href="../files/cv-adrien-blaize.pdf" download class="btn btn-primary" style="font-size:0.8rem; padding: 0.5rem 1rem; background: var(--accent); color: white; text-decoration: none; border-radius: 6px;">
                 ⬇ Télécharger
               </a>
             </div>
@@ -245,7 +251,6 @@
             </iframe>
           </div>
 
-          <!-- Expériences -->
           <div class="cv-block">
             <div class="cv-block-title">Expériences professionnelles</div>
 
@@ -340,7 +345,6 @@
             </div>
           </div>
 
-          <!-- Formation -->
           <div class="cv-block">
             <div class="cv-block-title">Formation</div>
 
@@ -366,7 +370,6 @@
             </div>
           </div>
 
-          <!-- Compétences techniques -->
           <div class="cv-block">
             <div class="cv-block-title">Compétences techniques</div>
             <div class="skills-grid">
@@ -424,7 +427,6 @@
             </div>
           </div>
 
-          <!-- Langues & intérêts -->
           <div class="cv-block">
             <div class="cv-block-title">Langues & centres d'intérêt</div>
             <div class="cv-entry">
