@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Oral de présentation — Adrien Blaize</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --accent: #1d4ed8;
+      --accent-light: #eff6ff;
+      --accent-mid: #bfdbfe;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --surface: #f8fafc;
+      --bg: #0f172a; 
+      --slide-bg: #ffffff;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      display: flex; justify-content: center; align-items: center;
+      height: 100vh; overflow: hidden;
+    }
+
+    .presentation-container {
+      width: 1280px; height: 720px;
+      background: var(--slide-bg);
+      position: relative; border-radius: 12px;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+      overflow: hidden; transform-origin: center center;
+    }
+
+    /* ─── CHRONOMÈTRE ─── */
+    .presentation-timer {
+      position: absolute; top: 1.5rem; right: 2rem;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid var(--border);
+      color: var(--text); padding: 0.5rem 1rem;
+      border-radius: 8px; font-family: monospace;
+      font-size: 1.4rem; font-weight: bold;
+      z-index: 100; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+      cursor: pointer; transition: all 0.3s;
+    }
+    .presentation-timer.overtime {
+      color: #dc2626; border-color: #fecaca; background: #fef2f2;
+    }
+
+    /* ─── PROGRESS BAR ─── */
+    .progress-bar-container {
+      position: absolute; top: 0; left: 0; width: 100%; height: 6px;
+      background: var(--surface); z-index: 50;
+    }
+    .progress-bar { height: 100%; background: var(--accent); width: 0%; transition: width 0.4s ease; }
+
+    /* ─── SLIDES ─── */
+    .slide {
+      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+      padding: 4rem 5rem; opacity: 0; visibility: hidden;
+      transform: translateY(20px); transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex; flex-direction: column;
+    }
+    .slide.active { opacity: 1; visibility: visible; transform: translateY(0); }
+
+    /* ─── TYPOGRAPHIE ─── */
+    h1 { font-family: 'Playfair Display', serif; font-weight: 800; font-size: 3.2rem; color: var(--text); line-height: 1.15; margin-bottom: 1rem; }
+    h1 span { color: var(--accent); }
+    h2 { font-family: 'Playfair Display', serif; font-weight: 800; font-size: 2.1rem; color: var(--text); margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem; }
+    h2::after { content: ''; flex: 1; height: 2px; background: var(--accent-mid); margin-top: 5px; }
+    
+    h3 { font-size: 1.6rem; color: var(--accent); margin-bottom: 1.5rem; }
+    
+    /* ─── LISTES ─── */
+    ul.keywords { list-style: none; margin-left: 0; display: flex; flex-direction: column; gap: 1.2rem; }
+    ul.keywords li { font-size: 1.3rem; color: var(--muted); display: flex; align-items: flex-start; gap: 1rem; line-height: 1.4; }
+    ul.keywords li span.icon { font-size: 1.6rem; flex-shrink: 0; }
+    ul.keywords li strong { color: var(--text); display: block; font-size: 1.4rem; margin-bottom: 0.2rem;}
+
+    /* ─── TITLE SLIDE SPECIAL ─── */
+    .title-slide { 
+      background: linear-gradient(135deg, #0a1628, #1e3a8a); 
+      color: white; 
+      flex-direction: row !important;
+      align-items: center;
+      justify-content: center;
+      gap: 5rem;
+    }
+    .title-slide-left { flex-shrink: 0; }
+    .profile-frame { width: 300px; height: 400px; background: rgba(255, 255, 255, 0.1); border: 2px solid rgba(255, 255, 255, 0.2); border-radius: 20px; overflow: hidden; display: flex; align-items: center; justify-content: center; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+    .profile-frame img { width: 100%; height: 100%; object-fit: cover; }
+    .title-slide-right { text-align: left; }
+    .title-slide h1 { color: white; font-size: 4rem; margin-bottom: 1rem; text-align: left;}
+    .title-slide h1 span { color: #60a5fa; }
+    .title-slide p { color: #bfdbfe; font-size: 1.6rem; text-align: left;}
+    
+    /* ─── LAYOUTS GÉNÉRIQUES ─── */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; flex: 1; align-items: start; margin-top: 1rem;}
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+    .card-title { font-size: 1.4rem; font-weight: 700; color: var(--accent); margin-bottom: 1.2rem; border-bottom: 1px solid var(--border); padding-bottom: 0.8rem;}
+    .logo-container { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; display: flex; justify-content: center; align-items: center; height: 180px; margin-bottom: 1.5rem;}
+    .logo-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .info-box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+    .info-box-row { display: flex; align-items: center; gap: 1rem; font-size: 1.2rem; color: var(--muted); margin-bottom: 1rem; }
+    .info-box-row:last-child { margin-bottom: 0; }
+    .info-box-icon { font-size: 1.6rem; width: 30px; text-align: center;}
+    .info-box-text strong { color: var(--text); font-weight: 700; }
+    .badge { display: inline-block; background: var(--accent-light); color: var(--accent); padding: 0.5rem 1.2rem; border-radius: 100px; font-weight: 700; font-size: 1.1rem; margin-bottom: 1.5rem; border: 1px solid var(--accent-mid); }
+
+    /* ─── TIMELINE ─── */
+    .timeline-v { position: relative; margin: 1rem auto 0; max-width: 900px; padding-left: 2.5rem; }
+    .timeline-v::before { content: ''; position: absolute; left: 11px; top: 20px; bottom: 20px; width: 4px; background: var(--border); border-radius: 2px; }
+    .timeline-item-v { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.5rem; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 1.5rem; transition: transform 0.2s, box-shadow 0.2s; }
+    .timeline-item-v:hover { transform: translateX(5px); box-shadow: 0 10px 25px rgba(0,0,0,0.05); border-color: var(--accent-mid); }
+    .timeline-item-v::before { content: ''; position: absolute; left: -2.5rem; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; background: var(--accent); border: 4px solid var(--slide-bg); border-radius: 50%; z-index: 2; }
+    .timeline-item-v.future::before { background: #f59e0b; }
+    .timeline-item-v.stage::before { background: #10b981; }
+    .timeline-item-v.school::before { background: var(--accent); }
+    .timeline-date-v { font-weight: 800; color: var(--accent); font-size: 1.1rem; min-width: 150px; border-right: 2px solid var(--border); padding-right: 1rem; }
+    .timeline-content-v { flex: 1; }
+    .timeline-title-v { font-size: 1.25rem; font-weight: 700; color: var(--text); margin-bottom: 0.2rem; }
+    .timeline-sub-v { font-size: 1rem; color: var(--muted); }
+    .timeline-tag { display: inline-block; padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.8rem; font-weight: 700; margin-left: 0.5rem; vertical-align: middle; }
+    .tag-school { background: var(--accent-light); color: var(--accent); }
+    .tag-stage { background: #d1fae5; color: #059669; }
+    .tag-future { background: #fef3c7; color: #d97706; }
+
+    /* ─── SOMMAIRE HORIZONTAL (FIXÉ) ─── */
+    .plan-horizontal {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      margin-top: 4rem;
+      position: relative;
+    }
+    .plan-horizontal::before {
+      content: '';
+      position: absolute;
+      top: 35px; /* Aligné avec le centre des bulles */
+      left: 5%;
+      right: 5%;
+      height: 4px;
+      background: var(--border);
+      z-index: 1;
+    }
+    .plan-step {
+      position: relative;
+      z-index: 2;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 3.5rem 1.2rem 1.5rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.03);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .plan-step:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent-mid);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+    }
+    .plan-step-icon {
+      width: 70px; height: 70px;
+      background: var(--accent); color: white;
+      border-radius: 50%;
+      display: flex; justify-content: center; align-items: center;
+      font-size: 2rem; font-weight: 800;
+      position: absolute; top: -35px; left: 50%; transform: translateX(-50%);
+      border: 6px solid var(--slide-bg);
+      box-shadow: 0 0 0 3px var(--accent-light);
+    }
+    .plan-step:nth-child(2) .plan-step-icon { background: #3b82f6; box-shadow: 0 0 0 3px #dbeafe; }
+    .plan-step:nth-child(3) .plan-step-icon { background: #10b981; box-shadow: 0 0 0 3px #d1fae5; }
+    .plan-step:nth-child(4) .plan-step-icon { background: #f59e0b; box-shadow: 0 0 0 3px #fef3c7; }
+
+    .plan-step-title { font-size: 1.15rem; font-weight: 800; color: var(--text); margin-bottom: 1rem; text-align: center; line-height: 1.3;}
+    .plan-step-list { list-style: none; padding: 0; width: 100%; margin: 0; }
+    .plan-step-list li { font-size: 0.95rem; color: var(--muted); margin-bottom: 0.6rem; padding-left: 1rem; position: relative; line-height: 1.4; }
+    .plan-step-list li::before { content: '›'; color: var(--accent); position: absolute; left: 0; font-weight: bold; }
+
+    /* ─── CORRECTION TAILLE PAREDES SLIDE 4 ─── */
+    /* Classe spéciale pour réduire les éléments de la slide Paredes */
+    .shrink-content .logo-container { height: 150px; }
+    .shrink-content .info-box { font-size: 1.1rem; padding: 1.2rem; }
+    .shrink-content .info-box-row { margin-bottom: 0.7rem; gap: 0.8rem; }
+    .shrink-content .info-box-icon { font-size: 1.4rem; }
+    
+    .shrink-content .card .card-title { font-size: 1.3rem; margin-bottom: 0.8rem; }
+    .shrink-content .card p { font-size: 1rem; margin-bottom: 1rem; line-height: 1.5; }
+    .shrink-content .keywords li { font-size: 0.9rem; gap: 0.7rem; }
+    .shrink-content .keywords li span.icon { font-size: 1.4rem; }
+    .shrink-content .keywords li strong { font-size: 1.05rem; }
+
+    /* ─── HEADER & FOOTER COMMONS ─── */
+    .slide-header { font-size: 0.9rem; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1rem; }
+    .slide-footer { position: absolute; bottom: 2rem; left: 5rem; right: 5rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: 1rem; }
+    .controls { position: absolute; bottom: 1.5rem; right: 1.5rem; display: flex; gap: 0.5rem; z-index: 100; opacity: 0.2; transition: opacity 0.3s; }
+    .presentation-container:hover .controls { opacity: 1; }
+    .btn-nav { background: var(--surface); color: var(--text); border: 1px solid var(--border); width: 45px; height: 45px; border-radius: 8px; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+    .btn-nav:hover { background: var(--accent); color: white; border-color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <div class="presentation-container" id="presentation">
+    
+    <div class="progress-bar-container"><div class="progress-bar" id="progress"></div></div>
+    
+    <div class="presentation-timer" id="timer" title="Double-clic pour réinitialiser">00:00</div>
+
+    <div class="controls">
+      <button class="btn-nav" onclick="prevSlide()">←</button>
+      <button class="btn-nav" onclick="nextSlide()">→</button>
+    </div>
+
+    <div class="slide title-slide active">
+      <div class="title-slide-left">
+        <div class="profile-frame">
+          <img src="images/portrait.jpg" alt="Photo Adrien BLAIZE" onerror="this.style.display='none'; this.parentNode.innerHTML='<span style=\'font-size:5rem;\'>🧑‍💻</span>';">
+        </div>
+      </div>
+      <div class="title-slide-right">
+        <div style="font-size: 1.2rem; color: #93c5fd; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1.5rem;">Épreuve E4 — 21 Avril 2026</div>
+        <h1>Oral de<br><span>présentation</span></h1>
+        <p>BTS SIO Option SISR</p>
+        <div style="margin-top: 3rem; padding: 1rem 0; border-top: 1px solid rgba(255,255,255,0.2); display: inline-block;">
+          <span style="font-size: 1.8rem; font-weight: 700; color: white;">Adrien BLAIZE</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-header">Présentation</div>
+      <h2>Parcours de professionnalisation</h2>
+      <div class="timeline-v">
+        
+        <div class="timeline-item-v future">
+          <div class="timeline-date-v" style="color: #d97706;">2026 — 2027</div>
+          <div class="timeline-content-v">
+            <div class="timeline-title-v">Objectif Licence Pro ESSIR <span class="timeline-tag tag-future">Alternance</span></div>
+            <div class="timeline-sub-v">Exploitation et Sécurité des Systèmes d'Information et des Réseaux</div>
+          </div>
+        </div>
+
+        <div class="timeline-item-v stage">
+          <div class="timeline-date-v" style="color: #059669;">Janv - Fév 2026</div>
+          <div class="timeline-content-v">
+            <div class="timeline-title-v">SIA BDE INSA Lyon <span class="timeline-tag tag-stage">Stage — 6 semaines</span></div>
+            <div class="timeline-sub-v">Administrateur Systèmes & Réseaux</div>
+          </div>
+        </div>
+
+        <div class="timeline-item-v stage">
+          <div class="timeline-date-v" style="color: #059669;">Mai - Juin 2025</div>
+          <div class="timeline-content-v">
+            <div class="timeline-title-v">Groupe Paredes Orapi <span class="timeline-tag tag-stage">Stage — 6 semaines</span></div>
+            <div class="timeline-sub-v">Technicien Support Informatique</div>
+          </div>
+        </div>
+
+        <div class="timeline-item-v school">
+          <div class="timeline-date-v">2024 — 2026</div>
+          <div class="timeline-content-v">
+            <div class="timeline-title-v">BTS SIO Option SISR <span class="timeline-tag tag-school">La Martinière Duchère</span></div>
+            <div class="timeline-sub-v">Solutions d'Infrastructure, Systèmes et Réseaux</div>
+          </div>
+        </div>
+
+        <div class="timeline-item-v school">
+          <div class="timeline-date-v">2022 — 2024</div>
+          <div class="timeline-content-v">
+            <div class="timeline-title-v">Baccalauréat Pro SN <span class="timeline-tag tag-school">Jacques de Flesselles</span></div>
+            <div class="timeline-sub-v">Systèmes Numériques, option Réseaux Informatiques</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="slide-footer"><span>Adrien Blaize — Épreuve E4</span><span class="slide-counter"></span></div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-header">Plan de la présentation</div>
+      <h2>Sommaire</h2>
+      
+      <div class="plan-horizontal">
+        
+        <div class="plan-step">
+          <div class="plan-step-icon">1</div>
+          <div class="plan-step-title">Introduction</div>
+          <ul class="plan-step-list">
+            <li>Formation & stages</li>
+            <li>Progression pro.</li>
+          </ul>
+        </div>
+
+        <div class="plan-step">
+          <div class="plan-step-icon">2</div>
+          <div class="plan-step-title">Paredes Orapi</div>
+          <ul class="plan-step-list">
+            <li>Contexte & Problématique IT</li>
+            <li>Situation Professionnelle 1 : Migration Windows 11</li>
+            <li>Situation Professionnelle 2 : Gestion des Actifs (CMDB)</li>
+          </ul>
+        </div>
+
+        <div class="plan-step">
+          <div class="plan-step-icon">3</div>
+          <div class="plan-step-title">SIA BDE INSA</div>
+          <ul class="plan-step-list">
+            <li>Contexte de l'association</li>
+            <li>Situation Professionnelle 1 : Proxmox & Accès Zero Trust</li>
+            <li>Situation Professionnelle 2 : Backup Automatisé</li>
+            <li>Situation Professionnelle 3 : Incident (SecOps)</li>
+          </ul>
+        </div>
+
+        <div class="plan-step">
+          <div class="plan-step-icon">4</div>
+          <div class="plan-step-title">Épreuve E4</div>
+          <ul class="plan-step-list">
+            <li>Veille Technologique</li>
+            <li>Ransomwares & Cybercriminalité</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="slide-footer"><span>Adrien Blaize — Épreuve E4</span><span class="slide-counter"></span></div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-header">1. Stage de première année</div>
+      <h2>Contexte : Groupe Paredes Orapi</h2>
+      <div class="grid-2 shrink-content">
+        <div>
+          <div class="logo-container">
+            <img src="images/logo-paredes.png" alt="Logo Paredes Orapi" onerror="this.style.display='none'; this.parentNode.innerHTML='<span style=\'font-size:2rem; font-weight:bold; color:var(--accent);\'>PAREDES ORAPI</span>';">
+          </div>
+          <div class="info-box">
+            <div class="info-box-row"><span class="info-box-icon">👥</span><span class="info-box-text"><strong>Effectif :</strong> ~1 600 employés</span></div>
+            <div class="info-box-row"><span class="info-box-icon">🏷️</span><span class="info-box-text"><strong>Secteur :</strong> Hygiène & Maintenance</span></div>
+            <div class="info-box-row"><span class="info-box-icon">📍</span><span class="info-box-text"><strong>Lieu :</strong> Lyon (Part-Dieu)</span></div>
+          </div>
+        </div>
+        
+        <div class="card" style="border-left: 5px solid #f59e0b;">
+          <div class="card-title" style="color: #d97706; border-bottom-color: #fde68a;">⚠️ Problématique : La Fusion IT</div>
+          <p>Suite au rachat d'Orapi par Paredes, <strong>deux environnements informatiques distincts</strong> cohabitent et doivent être unifiés :</p>
+          
+          <ul class="keywords">
+            <li><span class="icon">🔑</span><div><strong>Identités</strong>2 domaines Active Directory différents</div></li>
+            <li><span class="icon">💻</span><div><strong>Postes de travail</strong>2 processus de configuration (Masterisation)</div></li>
+            <li><span class="icon">🗂️</span><div><strong>Parc matériel</strong>GLPI (Orapi) <em>vs</em> Snipe-IT (Paredes)</div></li>
+            <li><span class="icon">🎫</span><div><strong>Support / Tickets</strong>GLPI (Orapi) <em>vs</em> Outil Interne (Paredes)</div></li>
+          </ul>
+        </div>
+      </div>
+      <div class="slide-footer"><span>Adrien Blaize — Épreuve E4</span><span class="slide-counter"></span></div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-header">Stage 1 — Paredes Orapi</div>
+      <h2>Situation Professionnelle 1 : Migration Windows 11</h2>
+      <div class="badge">Objectif : Moderniser et sécuriser le parc informatique</div>
+      <div class="grid-2">
+        <div>
+          <ul class="keywords">
+            <li><span class="icon">🔄</span><div><strong>Déploiement massif</strong>Passage à Windows 11</div></li>
+            <li><span class="icon">☁️</span><div><strong>Microsoft Intune (MDM)</strong>Enrôlement & gestion Cloud</div></li>
+            <li><span class="icon">🔑</span><div><strong>Active Directory</strong>Intégration au domaine</div></li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">✅ Bilan Technique</div>
+          <ul class="keywords" style="gap: 0.8rem;">
+            <li><span class="icon">›</span><div>Maîtrise outils Cloud (Intune)</div></li>
+            <li><span class="icon">›</span><div>Application stricte des GPO</div></li>
+          </ul>
+        </div>
+      </div>
+      <div class="slide-footer"><span>Adrien Blaize — Épreuve E4</span><span class="slide-counter"></span></div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-header">Stage 1 — Paredes Orapi</div>
+      <h2>Situation Professionnelle 2 : Gestion des Actifs (CMDB)</h2>
+      <div class="badge">Objectif : Assurer la traçabilité du matériel IT</div>
+      <div class="grid-2">
+        <div>
+          <ul class="keywords">
+            <li><span class="icon">🗂️</span><div><strong>Snipe-IT</strong>Inventaire matériel et logiciel</div></li>
+            <li><span class="icon">📱</span><div><strong>Flotte Mobile</strong>Gestion portails Bouygues/Orange</div></li>
+            <li><span class="icon">🔧</span><div><strong>Opérationnel</strong>Brassage réseau & retours défectueux</div></li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">✅ Bilan Technique</div>
+          <ul class="keywords" style="gap: 0.8rem;">
+            <li><span class="icon">›</span><div>Sensibilisation à l'ITAM</div></li>
+            <li><span class="icon">›</span><div>Rigueur logistique</div></li>
+          </ul>
+        </div>
+      </div>
+      <div class="slide-footer"><span>Adrien Blaize — Épreuve E4</span><span class="slide-counter"></span></div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-header">2. Stage de deuxième année</div>
+      <h2>Contexte : SIA BDE INSA Lyon</h2>
+      <div class="grid-2">
+        <div>
+          <div class="logo-container" style="background: #1e293b;">
+            <img src="images/logo-sia.png" alt="Logo SIA BDE" onerror="this.style.display='none'; this.parentNode.innerHTML='<span style=\'font-size:2rem; font-weight:bold; color:white;\'>SIA BDE INSA</span>';">
+          </div>
+          <div class="info-box">
+            <div class="info-box-row"><span class="info-box-icon">🎓</span><span class="info-box-text"><strong>Cible :</strong> Milliers d'étudiants</span></div>
+            <div class="info-box-row"><span class="info-box-icon">📍</span><span class="info-box-text"><strong>Lieu :</strong> INSA Lyon (Villeurbanne)</span></div>
+            <div class="info-box-row"><span class="info-box-icon">🏷️</span><span class="info-box-text"><strong>Équipe :</strong> ~20 membres</span></div>
+          </div>
+        </div>
+        <div>
+          <h3>Mes missions globales</h3>
+          <ul class="keywords">
+            <li><span class="icon">🧑‍💻</span><div><strong>Rôle</strong>Administrateur Systèmes & Réseaux</div></li>
+            <li><span class="icon">⚠️</span><div><strong>Problématique</strong>Infrastructure vieillissante</div></li>
+            <li><span class="icon">🛡️</span><div><strong>Objectifs</strong>Refonte, fiabilisation, sécurisation</div></li>
+          </ul>
+        </div>
+      </div>
+      <div class="slide-footer"><span>Adrien Blaize — Épreuve E4</span><span class="slide-counter"></span></div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-header">Stage 2 — SIA BDE INSA</div>
+      <h2>Situation Professionnelle 1 : Proxmox & Zero Trust</h2>
+      <div class="badge">Objectif : Sécuriser les accès distants</div>
+      <div class="grid-2">
+        <div>
+          <ul class="keywords">
+            <li><span class="icon">🖥️</span><div><strong>Proxmox VE</strong>Ferme de serveurs (VM / LXC)</div></li>
+            <li><span class="icon">🔒</span><div><strong>Twingate (ZTNA)</strong>Remplacement VPN classique</div></li>
+            <li><span class="icon">🔀</span><div><strong>Segmentation</strong>Isolement Wazuh & Backup</div></li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">✅ Bilan Technique</div>
+          <ul class="keywords" style="gap: 0.8rem;">
+            <li><span class="icon">›</span><div>Suppression ports publics</div></li>
+            <li><span class="icon">›</span><div>Architecture Zero Trust</div></li>
+          </ul>
+        </div>
+      </div>
+      <div class="slide-footer"><span>Adrien Blaize — Épreuve E4</span><span class="slide-counter"></span></div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-header">Stage 2 — SIA BDE INSA</div>
+      <h2>Situation Professionnelle 2 : Backup Automatisé</h2>
+      <div class="badge">Objectif : Garantir la récupération des données</div>
+      <div class="grid-2">
+        <div>
+          <ul class="keywords">
+            <li><span class="icon">🐧</span><div><strong>VM Dédiée</strong>Centralisation sous Ubuntu</div></li>
+            <li><span class="icon">⚙️</span><div><strong>Scripts Bash</strong>Crontab + Rclone</div></li>
+            <li><span class="icon">🔔</span><div><strong>Alerte</strong>Webhook Discord temps réel</div></li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">✅ Bilan Technique</div>
+          <ul class="keywords" style="gap: 0.8rem;">
+            <li><span class="icon">›</span><div>Règle du 3-2-1</div></li>
+            <li><span class="icon">›</span><div>Externalisation automatisée</div></li>
+          </ul>
+        </div>
+      </div>
+      <div class="slide-footer"><span>Adrien Blaize — Épreuve E4</span><span class="slide-counter"></span></div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-header">Stage 2 — SIA BDE INSA</div>
+      <h2>Situation Professionnelle 3 : Incident WordPress</h2>
+      <div class="badge">Objectif : Contenir et corriger une cyberattaque</div>
+      <div class="grid-2">
+        <div>
+          <ul class="keywords">
+            <li><span class="icon">🦠</span><div><strong>Incident</strong>Attaque ClickFix</div></li>
+            <li><span class="icon">🔎</span><div><strong>Forensique</strong>Analyse logs & backdoor</div></li>
+            <li><span class="icon">🩹</span><div><strong>Remédiation</strong>Nettoyage & durcissement WAF</div></li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title">✅ Bilan Technique</div>
+          <ul class="keywords" style="gap: 0.8rem;">
+            <li><span class="icon">›</span><div>Gestion de crise réelle</div></li>
+            <li><span class="icon">›</span><div>Processus complet de remédiation</div></li>
+          </ul>
+        </div>
+      </div>
+      <div class="slide-footer"><span>Adrien Blaize — Épreuve E4</span><span class="slide-counter"></span></div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-header">3. Épreuve E4</div>
+      <h2>Ma Veille Technologique</h2>
+      <div class="grid-2">
+        <div>
+          <h3>Ransomware & Cybercriminalité</h3>
+          <ul class="keywords" style="margin-top:1.5rem;">
+            <li><span class="icon">🗞️</span><div><strong>Outil :</strong> Feedly (Agrégateur RSS)</div></li>
+            <li><span class="icon">📡</span><div><strong>Sources :</strong> CERT-FR, Hacker News</div></li>
+            <li><span class="icon">📝</span><div><strong>Livrable :</strong> Synthèses sur Portfolio</div></li>
+          </ul>
+        </div>
+        <div class="card" style="background: #fef2f2; border-color: #fecaca;">
+          <div class="card-title" style="color: #b91c1c; border-color:#fca5a5;">🔥 Tendances retenues</div>
+          <ul class="keywords" style="gap: 0.8rem;">
+            <li><span class="icon" style="color: #dc2626;">›</span><div>Modèle RaaS (As-a-Service)</div></li>
+            <li><span class="icon" style="color: #dc2626;">›</span><div>Ciblage des MSP (Prestataires)</div></li>
+          </ul>
+        </div>
+      </div>
+      <div class="slide-footer"><span>Adrien Blaize — Épreuve E4</span><span class="slide-counter"></span></div>
+    </div>
+
+    <div class="slide title-slide">
+      <h1 style="font-size: 4rem; margin-top: 2rem; text-align:center;">Merci de votre<br><span>écoute</span></h1>
+      <p style="margin-top: 1.5rem; font-size: 1.6rem; text-align:center;">Je suis à votre disposition pour échanger.</p>
+      <div style="margin-top: 5rem; text-align:center;">
+        <span style="font-size: 1.2rem; color: #94a3b8; letter-spacing: 0.1em; text-transform: uppercase;">Portfolio de compétences — Session 2026</span>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    let currentSlide = 0;
+    const slides = document.querySelectorAll('.slide');
+    const counters = document.querySelectorAll('.slide-counter');
+    const progressBar = document.getElementById('progress');
+
+    function showSlide(index) {
+      if(index < 0) index = 0;
+      if(index >= slides.length) index = slides.length - 1;
+      
+      slides.forEach(slide => slide.classList.remove('active'));
+      slides[index].classList.add('active');
+      currentSlide = index;
+
+      counters.forEach(c => { c.textContent = `${currentSlide + 1} / ${slides.length}`; });
+      progressBar.style.width = `${((currentSlide) / (slides.length - 1)) * 100}%`;
+    }
+
+    function nextSlide() { showSlide(currentSlide + 1); }
+    function prevSlide() { showSlide(currentSlide - 1); }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'Space' || e.key === 'Enter') nextSlide();
+      else if (e.key === 'ArrowLeft') prevSlide();
+    });
+
+    showSlide(0);
+
+    function resizePresentation() {
+      const container = document.getElementById('presentation');
+      const scaleX = window.innerWidth / 1280;
+      const scaleY = window.innerHeight / 720;
+      let scale = Math.min(scaleX, scaleY) * 0.95;
+      container.style.transform = `scale(${scale})`;
+    }
+    window.addEventListener('resize', resizePresentation);
+    resizePresentation();
+
+    // Chronomètre
+    let startTime = Date.now();
+    const timerEl = document.getElementById('timer');
+    setInterval(() => {
+      let diff = Math.floor((Date.now() - startTime) / 1000);
+      let min = Math.floor(diff / 60).toString().padStart(2, '0');
+      let sec = (diff % 60).toString().padStart(2, '0');
+      timerEl.textContent = `${min}:${sec}`;
+      if(diff > 600) timerEl.classList.add('overtime');
+    }, 1000);
+    timerEl.addEventListener('dblclick', () => { startTime = Date.now(); timerEl.classList.remove('overtime'); });
+  </script>
+</body>
+</html>
