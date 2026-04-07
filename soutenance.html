@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title> Oral de présentation — Adrien Blaize</title>
+  <title>Oral de présentation — Adrien Blaize</title>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -102,7 +102,7 @@
     .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
     .card-title { font-size: 1.4rem; font-weight: 700; color: var(--accent); margin-bottom: 1.2rem; border-bottom: 1px solid var(--border); padding-bottom: 0.8rem;}
     .logo-container { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; display: flex; justify-content: center; align-items: center; height: 180px; margin-bottom: 1.5rem;}
-    .logo-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
+    .logo-container img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 12px;}
     .info-box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
     .info-box-row { display: flex; align-items: center; gap: 1rem; font-size: 1.2rem; color: var(--muted); margin-bottom: 1rem; }
     .info-box-row:last-child { margin-bottom: 0; }
@@ -110,7 +110,35 @@
     .info-box-text strong { color: var(--text); font-weight: 700; }
     .badge { display: inline-block; background: var(--accent-light); color: var(--accent); padding: 0.5rem 1.2rem; border-radius: 100px; font-weight: 700; font-size: 1.1rem; margin-bottom: 1.5rem; border: 1px solid var(--accent-mid); }
 
-    /* ─── TIMELINE ─── */
+    /* ─── SCHÉMA SPÉCIAL (SLIDE 5) ─── */
+    .schema-wrapper { display: flex; align-items: stretch; justify-content: center; gap: 3rem; margin-top: 0.5rem; flex: 1;}
+    .schema-box { border-radius: 16px; padding: 1.5rem; width: 45%; box-shadow: 0 10px 30px rgba(0,0,0,0.05); display: flex; flex-direction: column; position: relative; overflow: hidden;}
+    .schema-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px; }
+    .schema-box.problem-1 { border: 1px solid #fca5a5; background: #fef2f2; }
+    .schema-box.problem-1::before { background: #ef4444; }
+    .schema-box.problem-2 { border: 1px solid #fcd34d; background: #fffbeb; }
+    .schema-box.problem-2::before { background: #f59e0b; }
+    .schema-box-title { font-size: 1.4rem; font-weight: 800; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 0.8rem; }
+    .schema-box.problem-1 .schema-box-title { color: #b91c1c; }
+    .schema-box.problem-2 .schema-box-title { color: #b45309; }
+    .schema-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.8rem; margin: 0; flex: 1;}
+    .schema-list li { display: flex; align-items: center; gap: 0.8rem; font-size: 1.05rem; color: var(--text); font-weight: 600; background: white; padding: 0.8rem 1rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); border: 1px solid rgba(0,0,0,0.05); }
+    .schema-list li .icon { font-size: 1.5rem; width: 35px; text-align: center; }
+    .mission-banner { background: var(--accent); color: white; border-radius: 12px; padding: 0.8rem 1.5rem; display: flex; align-items: center; justify-content: center; gap: 1.5rem; margin-top: 1rem; font-size: 1.15rem; font-weight: 600; box-shadow: 0 10px 20px rgba(29,78,216,0.2); }
+    .mission-banner span { font-size: 1.6rem; }
+
+    /* ─── NOUVEAUX STYLES SCHÉMAS SLIDE 6 ─── */
+    .tech-flow { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.6rem; font-size: 0.9rem; }
+    .tech-badge { display: flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0.8rem; border-radius: 6px; font-weight: 700; border: 1px solid transparent; }
+    .tech-badge.old { background: #f1f5f9; color: #475569; border-color: #cbd5e1; }
+    .tech-badge.new { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; box-shadow: 0 2px 4px rgba(29,78,216,0.1); }
+    .tech-badge svg { fill: currentColor; width: 16px; height: 16px; }
+    .tech-flow .arrow { color: var(--accent); font-weight: bold; font-size: 1.2rem; }
+    .tech-stack { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.6rem; font-size: 0.85rem; flex-wrap: wrap; }
+    .tech-tag { padding: 0.3rem 0.6rem; border-radius: 6px; font-weight: 700; border: 1px solid var(--border); background: white; color: var(--text); box-shadow: 0 1px 2px rgba(0,0,0,0.02); display: flex; align-items: center; gap: 0.3rem; }
+    .tech-stack .plus { color: var(--muted); font-weight: bold; font-size: 0.9rem; }
+
+    /* ─── TIMELINE VERTICALE ─── */
     .timeline-v { position: relative; margin: 1rem auto 0; max-width: 900px; padding-left: 2.5rem; }
     .timeline-v::before { content: ''; position: absolute; left: 11px; top: 20px; bottom: 20px; width: 4px; background: var(--border); border-radius: 2px; }
     .timeline-item-v { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.5rem; margin-bottom: 0.8rem; display: flex; align-items: center; gap: 1.5rem; transition: transform 0.2s, box-shadow 0.2s; }
@@ -128,75 +156,27 @@
     .tag-stage { background: #d1fae5; color: #059669; }
     .tag-future { background: #fef3c7; color: #d97706; }
 
-    /* ─── SOMMAIRE HORIZONTAL (FIXÉ) ─── */
-    .plan-horizontal {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.5rem;
-      margin-top: 4rem;
-      position: relative;
-    }
-    .plan-horizontal::before {
-      content: '';
-      position: absolute;
-      top: 35px; /* Aligné avec le centre des bulles */
-      left: 5%;
-      right: 5%;
-      height: 4px;
-      background: var(--border);
-      z-index: 1;
-    }
-    .plan-step {
-      position: relative;
-      z-index: 2;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 3.5rem 1.2rem 1.5rem;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.03);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      transition: transform 0.2s, border-color 0.2s;
-    }
-    .plan-step:hover {
-      transform: translateY(-5px);
-      border-color: var(--accent-mid);
-      box-shadow: 0 10px 25px rgba(0,0,0,0.06);
-    }
-    .plan-step-icon {
-      width: 70px; height: 70px;
-      background: var(--accent); color: white;
-      border-radius: 50%;
-      display: flex; justify-content: center; align-items: center;
-      font-size: 2rem; font-weight: 800;
-      position: absolute; top: -35px; left: 50%; transform: translateX(-50%);
-      border: 6px solid var(--slide-bg);
-      box-shadow: 0 0 0 3px var(--accent-light);
-    }
+    /* ─── SOMMAIRE HORIZONTAL ─── */
+    .plan-horizontal { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-top: 4rem; position: relative; }
+    .plan-horizontal::before { content: ''; position: absolute; top: 35px; left: 5%; right: 5%; height: 4px; background: var(--border); z-index: 1; }
+    .plan-step { position: relative; z-index: 2; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 3.5rem 1.2rem 1.5rem; box-shadow: 0 4px 10px rgba(0,0,0,0.03); display: flex; flex-direction: column; align-items: center; transition: transform 0.2s, border-color 0.2s; }
+    .plan-step:hover { transform: translateY(-5px); border-color: var(--accent-mid); box-shadow: 0 10px 25px rgba(0,0,0,0.06); }
+    .plan-step-icon { width: 70px; height: 70px; background: var(--accent); color: white; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 2rem; font-weight: 800; position: absolute; top: -35px; left: 50%; transform: translateX(-50%); border: 6px solid var(--slide-bg); box-shadow: 0 0 0 3px var(--accent-light); }
     .plan-step:nth-child(2) .plan-step-icon { background: #3b82f6; box-shadow: 0 0 0 3px #dbeafe; }
     .plan-step:nth-child(3) .plan-step-icon { background: #10b981; box-shadow: 0 0 0 3px #d1fae5; }
     .plan-step:nth-child(4) .plan-step-icon { background: #f59e0b; box-shadow: 0 0 0 3px #fef3c7; }
-
     .plan-step-title { font-size: 1.15rem; font-weight: 800; color: var(--text); margin-bottom: 1rem; text-align: center; line-height: 1.3;}
     .plan-step-list { list-style: none; padding: 0; width: 100%; margin: 0; }
     .plan-step-list li { font-size: 0.95rem; color: var(--muted); margin-bottom: 0.6rem; padding-left: 1rem; position: relative; line-height: 1.4; }
-    .plan-step-list li::before { content: '›'; color: var(--accent); position: absolute; left: 0; font-weight: bold; }
+    .plan-step-list li.arrow::before { content: '›'; color: var(--accent); position: absolute; left: 0; font-weight: bold; }
 
-    /* ─── CORRECTION TAILLE PAREDES SLIDE 4 ─── */
-    /* Classe spéciale pour réduire les éléments de la slide Paredes */
-    .shrink-content .logo-container { height: 150px; }
+    /* ─── PAREDES SHRINK (Correction CSS pour Slide 4 et 5) ─── */
+    .shrink-content .logo-container { height: 180px; } 
     .shrink-content .info-box { font-size: 1.1rem; padding: 1.2rem; }
     .shrink-content .info-box-row { margin-bottom: 0.7rem; gap: 0.8rem; }
     .shrink-content .info-box-icon { font-size: 1.4rem; }
     
-    .shrink-content .card .card-title { font-size: 1.3rem; margin-bottom: 0.8rem; }
-    .shrink-content .card p { font-size: 1rem; margin-bottom: 1rem; line-height: 1.5; }
-    .shrink-content .keywords li { font-size: 0.9rem; gap: 0.7rem; }
-    .shrink-content .keywords li span.icon { font-size: 1.4rem; }
-    .shrink-content .keywords li strong { font-size: 1.05rem; }
-
-    /* ─── HEADER & FOOTER COMMONS ─── */
+    /* ─── HEADER & FOOTER SLIDES ─── */
     .slide-header { font-size: 0.9rem; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 1rem; }
     .slide-footer { position: absolute; bottom: 2rem; left: 5rem; right: 5rem; display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: 1rem; }
     .controls { position: absolute; bottom: 1.5rem; right: 1.5rem; display: flex; gap: 0.5rem; z-index: 100; opacity: 0.2; transition: opacity 0.3s; }
@@ -286,50 +266,43 @@
     <div class="slide">
       <div class="slide-header">Plan de la présentation</div>
       <h2>Sommaire</h2>
-      
       <div class="plan-horizontal">
-        
         <div class="plan-step">
           <div class="plan-step-icon">1</div>
           <div class="plan-step-title">Introduction</div>
           <ul class="plan-step-list">
-            <li>Formation & stages</li>
-            <li>Progression pro.</li>
+            <li class="arrow">Formation & stages</li>
+            <li class="arrow">Progression pro.</li>
           </ul>
         </div>
-
         <div class="plan-step">
           <div class="plan-step-icon">2</div>
           <div class="plan-step-title">Paredes Orapi</div>
           <ul class="plan-step-list">
-            <li>Contexte & Problématique IT</li>
-            <li>Situation Professionnelle 1 : Migration Windows 11</li>
-            <li>Situation Professionnelle 2 : Gestion des Actifs (CMDB)</li>
+            <li class="arrow">Contexte & Enjeux</li>
+            <li class="arrow">Situation Prof. 1</li>
+            <li class="arrow">Situation Prof. 2</li>
           </ul>
         </div>
-
         <div class="plan-step">
           <div class="plan-step-icon">3</div>
           <div class="plan-step-title">SIA BDE INSA</div>
           <ul class="plan-step-list">
-            <li>Contexte de l'association</li>
-            <li>Situation Professionnelle 1 : Proxmox & Accès Zero Trust</li>
-            <li>Situation Professionnelle 2 : Backup Automatisé</li>
-            <li>Situation Professionnelle 3 : Incident (SecOps)</li>
+            <li class="arrow">Contexte associatif</li>
+            <li class="arrow">Situation Prof. 1</li>
+            <li class="arrow">Situation Prof. 2</li>
+            <li class="arrow">Situation Prof. 3</li>
           </ul>
         </div>
-
         <div class="plan-step">
           <div class="plan-step-icon">4</div>
           <div class="plan-step-title">Épreuve E4</div>
           <ul class="plan-step-list">
-            <li>Veille Technologique</li>
-            <li>Ransomwares & Cybercriminalité</li>
+            <li class="arrow">Veille Technologique</li>
+            <li style="text-align: center; margin-top: 0.2rem; font-size: 0.8rem; color: var(--muted); line-height: 1.3;">Ransomwares &<br>Cybercriminalité</li>
           </ul>
         </div>
-
       </div>
-
       <div class="slide-footer"><span>Adrien Blaize — Épreuve E4</span><span class="slide-counter"></span></div>
     </div>
 
@@ -342,21 +315,18 @@
             <img src="images/logo-paredes.png" alt="Logo Paredes Orapi" onerror="this.style.display='none'; this.parentNode.innerHTML='<span style=\'font-size:2rem; font-weight:bold; color:var(--accent);\'>PAREDES ORAPI</span>';">
           </div>
           <div class="info-box">
-            <div class="info-box-row"><span class="info-box-icon">👥</span><span class="info-box-text"><strong>Effectif :</strong> ~1 600 employés</span></div>
-            <div class="info-box-row"><span class="info-box-icon">🏷️</span><span class="info-box-text"><strong>Secteur :</strong> Hygiène & Maintenance</span></div>
-            <div class="info-box-row"><span class="info-box-icon">📍</span><span class="info-box-text"><strong>Lieu :</strong> Lyon (Part-Dieu)</span></div>
+            <div class="info-box-row"><span class="info-box-icon">📅</span><span class="info-box-text"><strong>Création :</strong> 1942 / 1968</span></div>
+            <div class="info-box-row"><span class="info-box-icon">💶</span><span class="info-box-text"><strong>CA :</strong> 425 Millions d'Euros</span></div>
+            <div class="info-box-row"><span class="info-box-icon">📍</span><span class="info-box-text"><strong>Siège :</strong> Genas (69)</span></div>
+            <div class="info-box-row"><span class="info-box-icon">👥</span><span class="info-box-text"><strong>Effectif :</strong> 1 650 collab.</span></div>
           </div>
         </div>
-        
-        <div class="card" style="border-left: 5px solid #f59e0b;">
-          <div class="card-title" style="color: #d97706; border-bottom-color: #fde68a;">⚠️ Problématique : La Fusion IT</div>
-          <p>Suite au rachat d'Orapi par Paredes, <strong>deux environnements informatiques distincts</strong> cohabitent et doivent être unifiés :</p>
-          
+        <div>
+          <h3>Missions globales</h3>
           <ul class="keywords">
-            <li><span class="icon">🔑</span><div><strong>Identités</strong>2 domaines Active Directory différents</div></li>
-            <li><span class="icon">💻</span><div><strong>Postes de travail</strong>2 processus de configuration (Masterisation)</div></li>
-            <li><span class="icon">🗂️</span><div><strong>Parc matériel</strong>GLPI (Orapi) <em>vs</em> Snipe-IT (Paredes)</div></li>
-            <li><span class="icon">🎫</span><div><strong>Support / Tickets</strong>GLPI (Orapi) <em>vs</em> Outil Interne (Paredes)</div></li>
+            <li><span class="icon">🧑‍💻</span><div><strong>Rôle</strong>Technicien Support</div></li>
+            <li><span class="icon">🎧</span><div><strong>N1/N2</strong>Continuité de service</div></li>
+            <li><span class="icon">⚙️</span><div><strong>Projet</strong>Modernisation du parc</div></li>
           </ul>
         </div>
       </div>
@@ -364,22 +334,88 @@
     </div>
 
     <div class="slide">
-      <div class="slide-header">Stage 1 — Paredes Orapi</div>
-      <h2>Situation Professionnelle 1 : Migration Windows 11</h2>
+      <div class="slide-header">Paredes Orapi</div>
+      <h2>Enjeux & Problématiques IT</h2>
+      
+      <div class="schema-wrapper">
+        <div class="schema-box problem-1">
+          <div class="schema-box-title">⚠️ Défi 1 : La Fusion IT</div>
+          <p style="color: var(--muted); margin-bottom: 1.5rem; font-size: 1.1rem; line-height: 1.5;">Suite au rachat d'Orapi par Paredes, <strong>deux environnements informatiques distincts</strong> cohabitent et doivent être unifiés.</p>
+          <ul class="schema-list">
+            <li><span class="icon">🔑</span> 2 domaines Active Directory différents</li>
+            <li><span class="icon">🎫</span> 2 outils de ticketing (Interne Paredes vs GLPI Orapi)</li>
+            <li><span class="icon">🗂️</span> 2 bases d'inventaire (Snipe-IT vs OCS)</li>
+          </ul>
+        </div>
+
+        <div class="schema-box problem-2">
+          <div class="schema-box-title">⏳ Défi 2 : Obsolescence</div>
+          <p style="color: var(--muted); margin-bottom: 1.5rem; font-size: 1.1rem; line-height: 1.5;">Vieillissement matériel et logiciel exposant l'entreprise à des risques opérationnels majeurs.</p>
+          <ul class="schema-list">
+            <li><span class="icon">🛑</span> Fin de support de Windows 10</li>
+            <li><span class="icon">🛡️</span> Vulnérabilités de sécurité accrues</li>
+            <li><span class="icon">☁️</span> <strong>Cloud :</strong> Passage des PC vers Win 11 via Intune</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="mission-banner">
+        <span>🎯</span> 
+        <div>Mon Objectif : Accompagner la transition technique et moderniser le parc sans interrompre la production.</div>
+      </div>
+
+      <div class="slide-footer"><span>Adrien Blaize — Épreuve E4</span><span class="slide-counter"></span></div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-header">Paredes Orapi — Situation Professionnelle 1</div>
+      <h2>Migration Windows 11</h2>
       <div class="badge">Objectif : Moderniser et sécuriser le parc informatique</div>
       <div class="grid-2">
         <div>
           <ul class="keywords">
-            <li><span class="icon">🔄</span><div><strong>Déploiement massif</strong>Passage à Windows 11</div></li>
-            <li><span class="icon">☁️</span><div><strong>Microsoft Intune (MDM)</strong>Enrôlement & gestion Cloud</div></li>
-            <li><span class="icon">🔑</span><div><strong>Active Directory</strong>Intégration au domaine</div></li>
+            <li>
+              <span class="icon">🔄</span>
+              <div>
+                <strong>Déploiement massif</strong>Passage à Windows 11
+                <div class="tech-flow">
+                  <span class="tech-badge old">
+                    <svg viewBox="0 0 88 88"><path d="M0 12.402l35.687-4.86.016 34.423-35.67.203-.033-29.766zm35.67 33.53l-.015 33.901-35.655-4.994.033-29.136 35.637.228zm4.335-39.274l47.98-6.658V39.9l-47.98.33V6.658zm0 37.6l47.98.363v34.502l-47.98-6.824V44.258z"/></svg> Win 10
+                  </span>
+                  <span class="arrow">➔</span>
+                  <span class="tech-badge new">
+                    <svg viewBox="0 0 88 88"><path d="M0 12.402l35.687-4.86.016 34.423-35.67.203-.033-29.766zm35.67 33.53l-.015 33.901-35.655-4.994.033-29.136 35.637.228zm4.335-39.274l47.98-6.658V39.9l-47.98.33V6.658zm0 37.6l47.98.363v34.502l-47.98-6.824V44.258z"/></svg> Win 11
+                  </span>
+                </div>
+              </div>
+            </li>
+            <li>
+              <span class="icon">☁️</span>
+              <div>
+                <strong>Microsoft Intune (MDM)</strong>Enrôlement & gestion Cloud
+                <div class="tech-stack">
+                  <span class="tech-tag">📱 Intune</span>
+                  <span class="plus">+</span>
+                  <span class="tech-tag">☁️ Azure</span>
+                  <span class="plus">+</span>
+                  <span class="tech-tag">🆔 Entra ID</span>
+                </div>
+              </div>
+            </li>
+            <li>
+              <span class="icon">🔑</span>
+              <div>
+                <strong>Active Directory</strong>Intégration sur deux AD différents (Orapi & Paredes)
+              </div>
+            </li>
           </ul>
         </div>
         <div class="card">
           <div class="card-title">✅ Bilan Technique</div>
           <ul class="keywords" style="gap: 0.8rem;">
-            <li><span class="icon">›</span><div>Maîtrise outils Cloud (Intune)</div></li>
-            <li><span class="icon">›</span><div>Application stricte des GPO</div></li>
+            <li><span class="icon">›</span><div><strong>Automatisation :</strong> Lancement des scripts de bascule et GPO</div></li>
+            <li><span class="icon">›</span><div><strong>Accès Cloud :</strong> Gestion des licences Azure et MDP temporaires via Entra ID</div></li>
+            <li><span class="icon">›</span><div><strong>Qualité :</strong> Synchro des comptes et vérification de la descente d'applications</div></li>
           </ul>
         </div>
       </div>
@@ -387,13 +423,13 @@
     </div>
 
     <div class="slide">
-      <div class="slide-header">Stage 1 — Paredes Orapi</div>
-      <h2>Situation Professionnelle 2 : Gestion des Actifs (CMDB)</h2>
+      <div class="slide-header">Paredes Orapi — Situation Professionnelle 2</div>
+      <h2>Gestion des Actifs (CMDB)</h2>
       <div class="badge">Objectif : Assurer la traçabilité du matériel IT</div>
       <div class="grid-2">
         <div>
           <ul class="keywords">
-            <li><span class="icon">🗂️</span><div><strong>Snipe-IT</strong>Inventaire matériel et logiciel</div></li>
+            <li><span class="icon">🗂️</span><div><strong>Snipe-IT</strong>Inventaire matériel et logiciel unifié</div></li>
             <li><span class="icon">📱</span><div><strong>Flotte Mobile</strong>Gestion portails Bouygues/Orange</div></li>
             <li><span class="icon">🔧</span><div><strong>Opérationnel</strong>Brassage réseau & retours défectueux</div></li>
           </ul>
@@ -403,6 +439,7 @@
           <ul class="keywords" style="gap: 0.8rem;">
             <li><span class="icon">›</span><div>Sensibilisation à l'ITAM</div></li>
             <li><span class="icon">›</span><div>Rigueur logistique</div></li>
+            <li><span class="icon">›</span><div>Relation utilisateurs</div></li>
           </ul>
         </div>
       </div>
@@ -415,7 +452,7 @@
       <div class="grid-2">
         <div>
           <div class="logo-container" style="background: #1e293b;">
-            <img src="images/logo-sia.png" alt="Logo SIA BDE" onerror="this.style.display='none'; this.parentNode.innerHTML='<span style=\'font-size:2rem; font-weight:bold; color:white;\'>SIA BDE INSA</span>';">
+            <img src="images/logo-sia.png" alt="Logo SIA BDE" onerror="this.style.display='none'; this.parentNode.innerHTML='<span style=\'font-size:1.5rem; font-weight:bold; color:white;\'>SIA BDE INSA</span>';">
           </div>
           <div class="info-box">
             <div class="info-box-row"><span class="info-box-icon">🎓</span><span class="info-box-text"><strong>Cible :</strong> Milliers d'étudiants</span></div>
@@ -424,9 +461,9 @@
           </div>
         </div>
         <div>
-          <h3>Mes missions globales</h3>
+          <h3>Missions globales</h3>
           <ul class="keywords">
-            <li><span class="icon">🧑‍💻</span><div><strong>Rôle</strong>Administrateur Systèmes & Réseaux</div></li>
+            <li><span class="icon">🧑‍💻</span><div><strong>Rôle</strong>Admin Systèmes & Réseaux</div></li>
             <li><span class="icon">⚠️</span><div><strong>Problématique</strong>Infrastructure vieillissante</div></li>
             <li><span class="icon">🛡️</span><div><strong>Objectifs</strong>Refonte, fiabilisation, sécurisation</div></li>
           </ul>
@@ -436,8 +473,8 @@
     </div>
 
     <div class="slide">
-      <div class="slide-header">Stage 2 — SIA BDE INSA</div>
-      <h2>Situation Professionnelle 1 : Proxmox & Zero Trust</h2>
+      <div class="slide-header">SIA BDE INSA Lyon — Situation Professionnelle 1</div>
+      <h2>Proxmox & Zero Trust</h2>
       <div class="badge">Objectif : Sécuriser les accès distants</div>
       <div class="grid-2">
         <div>
@@ -459,8 +496,8 @@
     </div>
 
     <div class="slide">
-      <div class="slide-header">Stage 2 — SIA BDE INSA</div>
-      <h2>Situation Professionnelle 2 : Backup Automatisé</h2>
+      <div class="slide-header">SIA BDE INSA Lyon — Situation Professionnelle 2</div>
+      <h2>Backup Automatisé</h2>
       <div class="badge">Objectif : Garantir la récupération des données</div>
       <div class="grid-2">
         <div>
@@ -473,7 +510,7 @@
         <div class="card">
           <div class="card-title">✅ Bilan Technique</div>
           <ul class="keywords" style="gap: 0.8rem;">
-            <li><span class="icon">›</span><div>Règle du 3-2-1</div></li>
+            <li><span class="icon">›</span><div>Application Règle du 3-2-1</div></li>
             <li><span class="icon">›</span><div>Externalisation automatisée</div></li>
           </ul>
         </div>
@@ -482,15 +519,15 @@
     </div>
 
     <div class="slide">
-      <div class="slide-header">Stage 2 — SIA BDE INSA</div>
-      <h2>Situation Professionnelle 3 : Incident WordPress</h2>
+      <div class="slide-header">SIA BDE INSA Lyon — Situation Professionnelle 3</div>
+      <h2>Incident WordPress (SecOps)</h2>
       <div class="badge">Objectif : Contenir et corriger une cyberattaque</div>
       <div class="grid-2">
         <div>
           <ul class="keywords">
             <li><span class="icon">🦠</span><div><strong>Incident</strong>Attaque ClickFix</div></li>
             <li><span class="icon">🔎</span><div><strong>Forensique</strong>Analyse logs & backdoor</div></li>
-            <li><span class="icon">🩹</span><div><strong>Remédiation</strong>Nettoyage & durcissement WAF</div></li>
+            <li><span class="icon">🩹</span><div><strong>Remédiation</strong>Nettoyage BDD & durcissement WAF</div></li>
           </ul>
         </div>
         <div class="card">
@@ -517,7 +554,7 @@
           </ul>
         </div>
         <div class="card" style="background: #fef2f2; border-color: #fecaca;">
-          <div class="card-title" style="color: #b91c1c; border-color:#fca5a5;">🔥 Tendances retenues</div>
+          <div class="card-title" style="color: #b91c1c; border-bottom: none;">🔥 Tendances retenues</div>
           <ul class="keywords" style="gap: 0.8rem;">
             <li><span class="icon" style="color: #dc2626;">›</span><div>Modèle RaaS (As-a-Service)</div></li>
             <li><span class="icon" style="color: #dc2626;">›</span><div>Ciblage des MSP (Prestataires)</div></li>
