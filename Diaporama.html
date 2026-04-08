@@ -97,10 +97,15 @@
     .title-slide h1 span { color: #60a5fa; }
     .title-slide p { color: #bfdbfe; font-size: 1.6rem; text-align: left;}
     
-    /* ─── LAYOUTS GÉNÉRIQUES ─── */
+    /* ─── LAYOUTS GÉNÉRIQUES & CSS FIX ─── */
     .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; flex: 1; align-items: start; margin-top: 1rem;}
-    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 2rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
-    .card-title { font-size: 1.4rem; font-weight: 700; color: var(--accent); margin-bottom: 1.2rem; border-bottom: 1px solid var(--border); padding-bottom: 0.8rem;}
+    
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem 1.8rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+    .card-title { font-size: 1.35rem; font-weight: 700; color: var(--accent); margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.6rem;}
+    .card ul.keywords { gap: 0.6rem !important; }
+    .card ul.keywords li { font-size: 1.1rem; line-height: 1.3; }
+    .card ul.keywords li strong { font-size: 1.15rem; margin-bottom: 0.1rem; }
+
     .logo-container { background: white; border: 1px solid var(--border); border-radius: 16px; padding: 1.5rem; display: flex; justify-content: center; align-items: center; height: 180px; margin-bottom: 1.5rem;}
     .logo-container img { max-width: 100%; max-height: 100%; object-fit: contain; border-radius: 12px;}
     .info-box { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
@@ -110,7 +115,7 @@
     .info-box-text strong { color: var(--text); font-weight: 700; }
     .badge { display: inline-block; background: var(--accent-light); color: var(--accent); padding: 0.5rem 1.2rem; border-radius: 100px; font-weight: 700; font-size: 1.1rem; margin-bottom: 1.5rem; border: 1px solid var(--accent-mid); }
 
-    /* ─── SCHÉMA SPÉCIAL (SLIDE 5) ─── */
+    /* ─── SCHÉMA SPÉCIAL (SLIDE 5 & 9) ─── */
     .schema-wrapper { display: flex; align-items: stretch; justify-content: center; gap: 3rem; margin-top: 0.5rem; flex: 1;}
     .schema-box { border-radius: 16px; padding: 1.5rem; width: 45%; box-shadow: 0 10px 30px rgba(0,0,0,0.05); display: flex; flex-direction: column; position: relative; overflow: hidden;}
     .schema-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px; }
@@ -127,16 +132,41 @@
     .mission-banner { background: var(--accent); color: white; border-radius: 12px; padding: 0.8rem 1.5rem; display: flex; align-items: center; justify-content: center; gap: 1.5rem; margin-top: 1rem; font-size: 1.15rem; font-weight: 600; box-shadow: 0 10px 20px rgba(29,78,216,0.2); }
     .mission-banner span { font-size: 1.6rem; }
 
-    /* ─── NOUVEAUX STYLES SCHÉMAS SLIDE 6 ─── */
+    /* ─── NOUVEAUX STYLES SCHÉMAS ─── */
     .tech-flow { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.6rem; font-size: 0.9rem; }
     .tech-badge { display: flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0.8rem; border-radius: 6px; font-weight: 700; border: 1px solid transparent; }
     .tech-badge.old { background: #f1f5f9; color: #475569; border-color: #cbd5e1; }
     .tech-badge.new { background: #eff6ff; color: #1d4ed8; border-color: #bfdbfe; box-shadow: 0 2px 4px rgba(29,78,216,0.1); }
+    .tech-badge.warn { background: #fff7ed; color: #b45309; border-color: #fde68a; box-shadow: 0 2px 4px rgba(245,158,11,0.1); }
     .tech-badge svg { fill: currentColor; width: 16px; height: 16px; }
     .tech-flow .arrow { color: var(--accent); font-weight: bold; font-size: 1.2rem; }
     .tech-stack { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.6rem; font-size: 0.85rem; flex-wrap: wrap; }
     .tech-tag { padding: 0.3rem 0.6rem; border-radius: 6px; font-weight: 700; border: 1px solid var(--border); background: white; color: var(--text); box-shadow: 0 1px 2px rgba(0,0,0,0.02); display: flex; align-items: center; gap: 0.3rem; }
     .tech-stack .plus { color: var(--muted); font-weight: bold; font-size: 0.9rem; }
+
+    /* ─── BLOCS PHOTOS (MINIATURES) ─── */
+    .photo-grid { display: flex; gap: 1rem; margin-top: 1.2rem; flex-wrap: wrap; }
+    .photo-thumb { 
+      position: relative; height: 90px; flex: 1; min-width: 120px; max-width: 180px;
+      border-radius: 8px; overflow: hidden; border: 1px solid var(--border);
+      cursor: pointer; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s; 
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05); background: white;
+    }
+    .photo-thumb:hover { 
+      border-color: var(--accent); transform: translateY(-3px); box-shadow: 0 8px 15px rgba(29,78,216,0.15); 
+    }
+    .photo-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .photo-thumb::after {
+      content: '🔍'; position: absolute; bottom: 6px; right: 6px;
+      background: rgba(255,255,255,0.95); border-radius: 50%; width: 24px; height: 24px;
+      display: flex; align-items: center; justify-content: center; font-size: 0.8rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .photo-thumb-label {
+      position: absolute; top: 0; left: 0; right: 0; background: rgba(15,23,42,0.75);
+      color: white; font-size: 0.75rem; font-weight: 700; text-align: center; padding: 0.25rem 0;
+      backdrop-filter: blur(2px);
+    }
 
     /* ─── TIMELINE VERTICALE ─── */
     .timeline-v { position: relative; margin: 1rem auto 0; max-width: 900px; padding-left: 2.5rem; }
@@ -165,12 +195,14 @@
     .plan-step:nth-child(2) .plan-step-icon { background: #3b82f6; box-shadow: 0 0 0 3px #dbeafe; }
     .plan-step:nth-child(3) .plan-step-icon { background: #10b981; box-shadow: 0 0 0 3px #d1fae5; }
     .plan-step:nth-child(4) .plan-step-icon { background: #f59e0b; box-shadow: 0 0 0 3px #fef3c7; }
-    .plan-step-title { font-size: 1.15rem; font-weight: 800; color: var(--text); margin-bottom: 1rem; text-align: center; line-height: 1.3;}
+    .plan-step-title { font-size: 1.15rem; font-weight: 800; color: var(--text); margin-bottom: 1rem; text-align: center; line-height: 1.3; display: flex; flex-direction: column; align-items: center; gap: 0.3rem;}
     .plan-step-list { list-style: none; padding: 0; width: 100%; margin: 0; }
     .plan-step-list li { font-size: 0.95rem; color: var(--muted); margin-bottom: 0.6rem; padding-left: 1rem; position: relative; line-height: 1.4; }
-    .plan-step-list li.arrow::before { content: '›'; color: var(--accent); position: absolute; left: 0; font-weight: bold; }
+    .plan-step-list li::before { content: '›'; color: var(--accent); position: absolute; left: 0; font-weight: bold; }
+    .plan-step-list li.no-arrow::before { content: none; }
+    .plan-step-list li.no-arrow { padding-left: 0; text-align: center; font-size: 0.85rem; margin-top: 0.5rem; color: var(--muted); }
 
-    /* ─── PAREDES SHRINK (Correction CSS pour Slide 4 et 5) ─── */
+    /* ─── PAREDES & SIA SHRINK ─── */
     .shrink-content .logo-container { height: 180px; } 
     .shrink-content .info-box { font-size: 1.1rem; padding: 1.2rem; }
     .shrink-content .info-box-row { margin-bottom: 0.7rem; gap: 0.8rem; }
@@ -183,6 +215,33 @@
     .presentation-container:hover .controls { opacity: 1; }
     .btn-nav { background: var(--surface); color: var(--text); border: 1px solid var(--border); width: 45px; height: 45px; border-radius: 8px; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
     .btn-nav:hover { background: var(--accent); color: white; border-color: var(--accent); }
+
+    /* ─── POP-UP MODAL ─── */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(5px);
+      display: flex; justify-content: center; align-items: center;
+      z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.3s ease;
+    }
+    .modal-overlay.active { opacity: 1; visibility: visible; }
+    .modal-content {
+      position: relative; max-width: 90%; max-height: 90vh;
+      transform: scale(0.95); transition: all 0.3s ease;
+    }
+    .modal-overlay.active .modal-content { transform: scale(1); }
+    .modal-content img {
+      max-width: 100%; max-height: 90vh; border-radius: 12px;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); object-fit: contain;
+      border: 4px solid white; background: white;
+    }
+    .modal-close {
+      position: absolute; top: -20px; right: -20px; width: 40px; height: 40px;
+      background: var(--accent); color: white; border: none; border-radius: 50%;
+      font-size: 1.5rem; font-weight: bold; cursor: pointer; display: flex;
+      justify-content: center; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: background 0.2s; z-index: 1001;
+    }
+    .modal-close:hover { background: #1e3a8a; }
   </style>
 </head>
 <body>
@@ -269,7 +328,7 @@
       <div class="plan-horizontal">
         <div class="plan-step">
           <div class="plan-step-icon">1</div>
-          <div class="plan-step-title">Introduction</div>
+          <div class="plan-step-title"><span style="font-size:1.4rem;">🎓</span> Présentation</div>
           <ul class="plan-step-list">
             <li class="arrow">Formation & stages</li>
             <li class="arrow">Progression pro.</li>
@@ -277,29 +336,29 @@
         </div>
         <div class="plan-step">
           <div class="plan-step-icon">2</div>
-          <div class="plan-step-title">Paredes Orapi</div>
+          <div class="plan-step-title"><span style="font-size:1.4rem;">🏢</span> Paredes Orapi</div>
           <ul class="plan-step-list">
             <li class="arrow">Contexte & Enjeux</li>
-            <li class="arrow">Situation Prof. 1</li>
-            <li class="arrow">Situation Prof. 2</li>
+            <li class="arrow">Migration Windows 11</li>
+            <li class="arrow">Gestion des Actifs (CMDB)</li>
           </ul>
         </div>
         <div class="plan-step">
           <div class="plan-step-icon">3</div>
-          <div class="plan-step-title">SIA BDE INSA</div>
+          <div class="plan-step-title"><span style="font-size:1.4rem;">🏛️</span> SIA BDE INSA</div>
           <ul class="plan-step-list">
             <li class="arrow">Contexte associatif</li>
-            <li class="arrow">Situation Prof. 1</li>
-            <li class="arrow">Situation Prof. 2</li>
-            <li class="arrow">Situation Prof. 3</li>
+            <li class="arrow">Proxmox & Zero Trust</li>
+            <li class="arrow">Backup Automatisé</li>
+            <li class="arrow">Incident WordPress (SecOps)</li>
           </ul>
         </div>
         <div class="plan-step">
           <div class="plan-step-icon">4</div>
-          <div class="plan-step-title">Épreuve E4</div>
+          <div class="plan-step-title"><span style="font-size:1.4rem;">📡</span> Épreuve E4</div>
           <ul class="plan-step-list">
             <li class="arrow">Veille Technologique</li>
-            <li style="text-align: center; margin-top: 0.2rem; font-size: 0.8rem; color: var(--muted); line-height: 1.3;">Ransomwares &<br>Cybercriminalité</li>
+            <li class="no-arrow">Ransomwares & Cybercriminalité</li>
           </ul>
         </div>
       </div>
@@ -346,6 +405,17 @@
             <li><span class="icon">🎫</span> 2 outils de ticketing (Interne Paredes vs GLPI Orapi)</li>
             <li><span class="icon">🗂️</span> 2 bases d'inventaire (Snipe-IT vs OCS)</li>
           </ul>
+          
+          <div class="photo-grid" style="margin-top: auto; padding-top: 1rem;">
+            <div class="photo-thumb" onclick="openModal('images/glpi-interface.png')">
+              <div class="photo-thumb-label">GLPI Orapi</div>
+              <img src="images/glpi-interface.png" alt="Interface GLPI" onerror="this.src='https://via.placeholder.com/300x200/f8fafc/64748b?text=Interface+GLPI'">
+            </div>
+            <div class="photo-thumb" onclick="openModal('images/snipeit-interface.png')">
+              <div class="photo-thumb-label">Snipe-IT Paredes</div>
+              <img src="images/snipeit-interface.png" alt="Interface Snipe-IT" onerror="this.src='https://via.placeholder.com/300x200/f8fafc/64748b?text=Interface+Snipe-IT'">
+            </div>
+          </div>
         </div>
 
         <div class="schema-box problem-2">
@@ -354,8 +424,15 @@
           <ul class="schema-list">
             <li><span class="icon">🛑</span> Fin de support de Windows 10</li>
             <li><span class="icon">🛡️</span> Vulnérabilités de sécurité accrues</li>
-            <li><span class="icon">☁️</span> <strong>Cloud :</strong> Passage des PC vers Win 11 via Intune</li>
+            <li><span class="icon">☁️</span> <strong>Cloud</strong> Passage des PC vers Win 11 via Intune</li>
           </ul>
+          
+          <div class="photo-grid" style="margin-top: auto; padding-top: 1rem;">
+            <div class="photo-thumb" onclick="openModal('images/win10-obsolete.png')">
+              <div class="photo-thumb-label">Fin Support Win 10</div>
+              <img src="images/win10-obsolete.png" alt="Windows 10" onerror="this.src='https://via.placeholder.com/300x200/f8fafc/64748b?text=Windows+10'">
+            </div>
+          </div>
         </div>
       </div>
       
@@ -375,9 +452,9 @@
         <div>
           <ul class="keywords">
             <li>
-              <span class="icon">🔄</span>
+              <span class="icon">⚙️</span>
               <div>
-                <strong>Déploiement massif</strong>Passage à Windows 11
+                <strong>Déploiement scripté</strong>Enrôlement automatisé Intune / Win 11
                 <div class="tech-flow">
                   <span class="tech-badge old">
                     <svg viewBox="0 0 88 88"><path d="M0 12.402l35.687-4.86.016 34.423-35.67.203-.033-29.766zm35.67 33.53l-.015 33.901-35.655-4.994.033-29.136 35.637.228zm4.335-39.274l47.98-6.658V39.9l-47.98.33V6.658zm0 37.6l47.98.363v34.502l-47.98-6.824V44.258z"/></svg> Win 10
@@ -392,7 +469,7 @@
             <li>
               <span class="icon">☁️</span>
               <div>
-                <strong>Microsoft Intune (MDM)</strong>Enrôlement & gestion Cloud
+                <strong>Azure & Entra ID</strong>Gestion licences, apps et accès (MDP temporaires)
                 <div class="tech-stack">
                   <span class="tech-tag">📱 Intune</span>
                   <span class="plus">+</span>
@@ -409,6 +486,17 @@
               </div>
             </li>
           </ul>
+          
+          <div class="photo-grid">
+            <div class="photo-thumb" onclick="openModal('images/intune-dashboard.png')">
+              <div class="photo-thumb-label">Dashboard Intune</div>
+              <img src="images/intune-dashboard.png" alt="Intune" onerror="this.src='https://via.placeholder.com/300x200/f8fafc/64748b?text=Intune'">
+            </div>
+            <div class="photo-thumb" onclick="openModal('images/entra-id.png')">
+              <div class="photo-thumb-label">Entra ID</div>
+              <img src="images/entra-id.png" alt="Entra ID" onerror="this.src='https://via.placeholder.com/300x200/f8fafc/64748b?text=Entra+ID'">
+            </div>
+          </div>
         </div>
         <div class="card">
           <div class="card-title">✅ Bilan Technique</div>
@@ -425,21 +513,62 @@
     <div class="slide">
       <div class="slide-header">Paredes Orapi — Situation Professionnelle 2</div>
       <h2>Gestion des Actifs (CMDB)</h2>
-      <div class="badge">Objectif : Assurer la traçabilité du matériel IT</div>
+      <div class="badge">Objectif : Assurer la traçabilité et fiabiliser l'inventaire</div>
       <div class="grid-2">
         <div>
           <ul class="keywords">
-            <li><span class="icon">🗂️</span><div><strong>Snipe-IT</strong>Inventaire matériel et logiciel unifié</div></li>
-            <li><span class="icon">📱</span><div><strong>Flotte Mobile</strong>Gestion portails Bouygues/Orange</div></li>
-            <li><span class="icon">🔧</span><div><strong>Opérationnel</strong>Brassage réseau & retours défectueux</div></li>
+            <li>
+              <span class="icon">🗂️</span>
+              <div>
+                <strong>Mise à jour massive (Snipe-IT)</strong>Traitement de plus de 1 030 postes pour fiabiliser la base.
+                <div class="tech-stack">
+                  <span class="tech-tag">🗃️ Snipe-IT</span>
+                  <span class="plus">+</span>
+                  <span class="tech-tag">📊 Excel</span>
+                  <span class="plus">+</span>
+                  <span class="tech-tag">📱 Intune</span>
+                </div>
+              </div>
+            </li>
+            <li>
+              <span class="icon">🔄</span>
+              <div>
+                <strong>Gestion des retours & DEEE</strong>Diagnostic, réinitialisation des équipements, et recyclage.
+                <div class="tech-flow" style="margin-top: 0.8rem;">
+                  <span class="tech-badge old">Retour</span>
+                  <span class="arrow">➔</span>
+                  <span class="tech-badge new">Diagnostic</span>
+                  <span class="arrow">➔</span>
+                  <span class="tech-badge warn">Stock / DEEE</span>
+                </div>
+              </div>
+            </li>
+            <li>
+              <span class="icon">📱</span>
+              <div>
+                <strong>Flotte Mobile & Doublons</strong>
+                Lignes gérées via Orange Business et conflits résolus (Intune vs GLPI).
+              </div>
+            </li>
           </ul>
+          
+          <div class="photo-grid">
+            <div class="photo-thumb" onclick="openModal('images/sp2-cmdb-01.png')">
+              <div class="photo-thumb-label">Fichier Excel</div>
+              <img src="images/sp2-cmdb-01.png" alt="Excel" onerror="this.src='https://via.placeholder.com/300x200/f8fafc/64748b?text=Fichier+Excel'">
+            </div>
+            <div class="photo-thumb" onclick="openModal('images/mission-snipeit.png')">
+              <div class="photo-thumb-label">Snipe-IT (Actifs)</div>
+              <img src="images/mission-snipeit.png" alt="Snipe-IT" onerror="this.src='https://via.placeholder.com/300x200/f8fafc/64748b?text=Snipe-IT'">
+            </div>
+          </div>
         </div>
         <div class="card">
           <div class="card-title">✅ Bilan Technique</div>
-          <ul class="keywords" style="gap: 0.8rem;">
-            <li><span class="icon">›</span><div>Sensibilisation à l'ITAM</div></li>
-            <li><span class="icon">›</span><div>Rigueur logistique</div></li>
-            <li><span class="icon">›</span><div>Relation utilisateurs</div></li>
+          <ul class="keywords" style="gap: 0.6rem;">
+            <li><span class="icon">›</span><div><strong>Rigueur ITAM :</strong> Fiabilisation croisée des données (Snipe-IT, GLPI, Intune)</div></li>
+            <li><span class="icon">›</span><div><strong>Autonomie :</strong> Création et application stricte de procédures d'inventaire</div></li>
+            <li><span class="icon">›</span><div><strong>Logistique :</strong> Traçabilité totale du cycle de vie matériel (du retour au DEEE)</div></li>
           </ul>
         </div>
       </div>
@@ -449,26 +578,61 @@
     <div class="slide">
       <div class="slide-header">2. Stage de deuxième année</div>
       <h2>Contexte : SIA BDE INSA Lyon</h2>
-      <div class="grid-2">
+      <div class="grid-2 shrink-content">
         <div>
           <div class="logo-container" style="background: #1e293b;">
             <img src="images/logo-sia.png" alt="Logo SIA BDE" onerror="this.style.display='none'; this.parentNode.innerHTML='<span style=\'font-size:1.5rem; font-weight:bold; color:white;\'>SIA BDE INSA</span>';">
           </div>
           <div class="info-box">
-            <div class="info-box-row"><span class="info-box-icon">🎓</span><span class="info-box-text"><strong>Cible :</strong> Milliers d'étudiants</span></div>
+            <div class="info-box-row"><span class="info-box-icon">🎓</span><span class="info-box-text"><strong>Cible :</strong> 6 000 élèves-ingénieurs</span></div>
+            <div class="info-box-row"><span class="info-box-icon">🏢</span><span class="info-box-text"><strong>Réseau :</strong> 130 associations hébergées</span></div>
             <div class="info-box-row"><span class="info-box-icon">📍</span><span class="info-box-text"><strong>Lieu :</strong> INSA Lyon (Villeurbanne)</span></div>
-            <div class="info-box-row"><span class="info-box-icon">🏷️</span><span class="info-box-text"><strong>Équipe :</strong> ~20 membres</span></div>
+            <div class="info-box-row"><span class="info-box-icon">💻</span><span class="info-box-text"><strong>ADN :</strong> 100% Open Source & Bénévoles</span></div>
           </div>
         </div>
         <div>
           <h3>Missions globales</h3>
           <ul class="keywords">
-            <li><span class="icon">🧑‍💻</span><div><strong>Rôle</strong>Admin Systèmes & Réseaux</div></li>
-            <li><span class="icon">⚠️</span><div><strong>Problématique</strong>Infrastructure vieillissante</div></li>
-            <li><span class="icon">🛡️</span><div><strong>Objectifs</strong>Refonte, fiabilisation, sécurisation</div></li>
+            <li><span class="icon">🧑‍💻</span><div><strong>Rôle</strong>Administrateur Systèmes & Réseaux</div></li>
+            <li><span class="icon">⚠️</span><div><strong>Enjeu</strong>Sécurisation & Haute disponibilité</div></li>
+            <li><span class="icon">⚙️</span><div><strong>Projet</strong>Refonte d'infrastructure & SecOps</div></li>
           </ul>
         </div>
       </div>
+      <div class="slide-footer"><span>Adrien Blaize — Épreuve E4</span><span class="slide-counter"></span></div>
+    </div>
+
+    <div class="slide">
+      <div class="slide-header">SIA BDE INSA Lyon</div>
+      <h2>Enjeux & Problématiques IT</h2>
+      
+      <div class="schema-wrapper">
+        <div class="schema-box problem-1">
+          <div class="schema-box-title">⚠️ Défi 1 : Dette Technique & Accès</div>
+          <p style="color: var(--muted); margin-bottom: 1.5rem; font-size: 1.1rem; line-height: 1.5;">L'infrastructure historique est fragmentée et les accès distants manquent de sécurité.</p>
+          <ul class="schema-list">
+            <li><span class="icon">🖥️</span> Serveurs vieillissants à migrer vers Proxmox</li>
+            <li><span class="icon">🔓</span> VPN classique exposant l'ensemble du réseau</li>
+            <li><span class="icon">🔀</span> Nécessité d'adopter une approche Zero Trust</li>
+          </ul>
+        </div>
+
+        <div class="schema-box problem-2">
+          <div class="schema-box-title">⏳ Défi 2 : Continuité & Résilience</div>
+          <p style="color: var(--muted); margin-bottom: 1.5rem; font-size: 1.1rem; line-height: 1.5;">Les données critiques du BDE et des assos sont vulnérables aux cyberattaques et pannes.</p>
+          <ul class="schema-list">
+            <li><span class="icon">💾</span> Backups manuels ou inexistants des BDD</li>
+            <li><span class="icon">🦠</span> Vulnérabilités CMS (ex: plugins WordPress)</li>
+            <li><span class="icon">🔔</span> Manque de supervision et d'alertes en temps réel</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="mission-banner">
+        <span>🎯</span> 
+        <div>Mon Objectif : Fiabiliser l'infrastructure serveur, automatiser les sauvegardes et sécuriser les accès.</div>
+      </div>
+
       <div class="slide-footer"><span>Adrien Blaize — Épreuve E4</span><span class="slide-counter"></span></div>
     </div>
 
@@ -483,6 +647,17 @@
             <li><span class="icon">🔒</span><div><strong>Twingate (ZTNA)</strong>Remplacement VPN classique</div></li>
             <li><span class="icon">🔀</span><div><strong>Segmentation</strong>Isolement Wazuh & Backup</div></li>
           </ul>
+          
+          <div class="photo-grid">
+            <div class="photo-thumb" onclick="openModal('images/sia-sp3-proxmox-network.png')">
+              <div class="photo-thumb-label">Réseau Proxmox</div>
+              <img src="images/sia-sp3-proxmox-network.png" alt="Proxmox" onerror="this.src='https://via.placeholder.com/300x200/f8fafc/64748b?text=Proxmox'">
+            </div>
+            <div class="photo-thumb" onclick="openModal('images/sia-sp3-install-summary.png')">
+              <div class="photo-thumb-label">Config LXC Twingate</div>
+              <img src="images/sia-sp3-install-summary.png" alt="Twingate" onerror="this.src='https://via.placeholder.com/300x200/f8fafc/64748b?text=LXC+Twingate'">
+            </div>
+          </div>
         </div>
         <div class="card">
           <div class="card-title">✅ Bilan Technique</div>
@@ -506,6 +681,17 @@
             <li><span class="icon">⚙️</span><div><strong>Scripts Bash</strong>Crontab + Rclone</div></li>
             <li><span class="icon">🔔</span><div><strong>Alerte</strong>Webhook Discord temps réel</div></li>
           </ul>
+          
+          <div class="photo-grid">
+            <div class="photo-thumb" onclick="openModal('images/sia-sp2-crontab.png')">
+              <div class="photo-thumb-label">Tâche Crontab</div>
+              <img src="images/sia-sp2-crontab.png" alt="Bash" onerror="this.src='https://via.placeholder.com/300x200/f8fafc/64748b?text=Script+Bash'">
+            </div>
+            <div class="photo-thumb" onclick="openModal('images/sia-sp2-discord-notif.png')">
+              <div class="photo-thumb-label">Alerte Discord</div>
+              <img src="images/sia-sp2-discord-notif.png" alt="Discord" onerror="this.src='https://via.placeholder.com/300x200/f8fafc/64748b?text=Discord'">
+            </div>
+          </div>
         </div>
         <div class="card">
           <div class="card-title">✅ Bilan Technique</div>
@@ -529,6 +715,17 @@
             <li><span class="icon">🔎</span><div><strong>Forensique</strong>Analyse logs & backdoor</div></li>
             <li><span class="icon">🩹</span><div><strong>Remédiation</strong>Nettoyage BDD & durcissement WAF</div></li>
           </ul>
+          
+          <div class="photo-grid">
+            <div class="photo-thumb" onclick="openModal('images/sia-sp1-script-obfusque.png')">
+              <div class="photo-thumb-label">Code PHP Obfusqué</div>
+              <img src="images/sia-sp1-script-obfusque.png" alt="Obfusqué" onerror="this.src='https://via.placeholder.com/300x200/f8fafc/64748b?text=Code+Obfusqué'">
+            </div>
+            <div class="photo-thumb" onclick="openModal('images/sia-sp1-users-admins.png')">
+              <div class="photo-thumb-label">Comptes Piratés BDD</div>
+              <img src="images/sia-sp1-users-admins.png" alt="Admins" onerror="this.src='https://via.placeholder.com/300x200/f8fafc/64748b?text=Comptes+Piratés'">
+            </div>
+          </div>
         </div>
         <div class="card">
           <div class="card-title">✅ Bilan Technique</div>
@@ -552,6 +749,17 @@
             <li><span class="icon">📡</span><div><strong>Sources :</strong> CERT-FR, Hacker News</div></li>
             <li><span class="icon">📝</span><div><strong>Livrable :</strong> Synthèses sur Portfolio</div></li>
           </ul>
+          
+          <div class="photo-grid">
+            <div class="photo-thumb" onclick="openModal('images/feedly-dashboard.png')">
+              <div class="photo-thumb-label">Veille Feedly</div>
+              <img src="images/feedly-dashboard.png" alt="Feedly" onerror="this.src='https://via.placeholder.com/300x200/f8fafc/64748b?text=Feedly'">
+            </div>
+            <div class="photo-thumb" onclick="openModal('images/ransomware-stats.png')">
+              <div class="photo-thumb-label">Analyse RaaS</div>
+              <img src="images/ransomware-stats.png" alt="Ransomware" onerror="this.src='https://via.placeholder.com/300x200/f8fafc/64748b?text=Stats+RaaS'">
+            </div>
+          </div>
         </div>
         <div class="card" style="background: #fef2f2; border-color: #fecaca;">
           <div class="card-title" style="color: #b91c1c; border-bottom: none;">🔥 Tendances retenues</div>
@@ -572,6 +780,13 @@
       </div>
     </div>
 
+  </div>
+
+  <div class="modal-overlay" id="imageModal" onclick="closeModal(event)">
+    <div class="modal-content">
+      <button class="modal-close" onclick="closeModal(event)">&times;</button>
+      <img id="modalImage" src="" alt="Capture d'écran">
+    </div>
   </div>
 
   <script>
@@ -596,6 +811,12 @@
     function prevSlide() { showSlide(currentSlide - 1); }
 
     document.addEventListener('keydown', (e) => {
+      // Ignorer les flèches si la modale est ouverte
+      if (document.getElementById('imageModal').classList.contains('active')) {
+        if (e.key === 'Escape') closeModal({target: {id: 'imageModal'}});
+        return; 
+      }
+      
       if (e.key === 'ArrowRight' || e.key === 'Space' || e.key === 'Enter') nextSlide();
       else if (e.key === 'ArrowLeft') prevSlide();
     });
@@ -623,6 +844,17 @@
       if(diff > 600) timerEl.classList.add('overtime');
     }, 1000);
     timerEl.addEventListener('dblclick', () => { startTime = Date.now(); timerEl.classList.remove('overtime'); });
+
+    // Fonctions du Pop-up Modal
+    function openModal(imageSrc) {
+      document.getElementById('modalImage').src = imageSrc;
+      document.getElementById('imageModal').classList.add('active');
+    }
+    function closeModal(event) {
+      if (event.target.id === 'imageModal' || event.target.classList.contains('modal-close')) {
+        document.getElementById('imageModal').classList.remove('active');
+      }
+    }
   </script>
 </body>
 </html>
