@@ -168,6 +168,17 @@
       backdrop-filter: blur(2px);
     }
 
+    /* ─── CSS SPÉCIFIQUE SLIDE 5 (Layout Fix) ─── */
+    .slide-5 .schema-box { padding: 1.2rem; }
+    .slide-5 .schema-wrapper { margin-top: 0; gap: 2.5rem; }
+    .slide-5 p { margin-bottom: 0.8rem !important; font-size: 1.05rem !important; }
+    .slide-5 .schema-list { gap: 0.5rem; }
+    .slide-5 .schema-list li { padding: 0.6rem 0.8rem; font-size: 1rem; }
+    .slide-5 .photo-grid { margin-top: 0.8rem; justify-content: center; }
+    .slide-5 .photo-thumb { height: 65px; flex: 0 1 130px; }
+    .slide-5 .photo-thumb img { object-fit: contain; padding: 5px; background: white; }
+    .slide-5 .mission-banner { margin-top: 1rem; padding: 0.7rem 1.5rem; }
+
     /* ─── TIMELINE VERTICALE ─── */
     .timeline-v { position: relative; margin: 1rem auto 0; max-width: 900px; padding-left: 2.5rem; }
     .timeline-v::before { content: ''; position: absolute; left: 11px; top: 20px; bottom: 20px; width: 4px; background: var(--border); border-radius: 2px; }
@@ -392,45 +403,45 @@
       <div class="slide-footer"><span>Adrien Blaize — Épreuve E4</span><span class="slide-counter"></span></div>
     </div>
 
-    <div class="slide">
+    <div class="slide slide-5">
       <div class="slide-header">Paredes Orapi</div>
       <h2>Enjeux & Problématiques IT</h2>
       
       <div class="schema-wrapper">
         <div class="schema-box problem-1">
           <div class="schema-box-title">⚠️ Défi 1 : La Fusion IT</div>
-          <p style="color: var(--muted); margin-bottom: 1.5rem; font-size: 1.1rem; line-height: 1.5;">Suite au rachat d'Orapi par Paredes, <strong>deux environnements informatiques distincts</strong> cohabitent et doivent être unifiés.</p>
+          <p style="color: var(--muted); font-size: 1.1rem; line-height: 1.4;">Suite au rachat d'Orapi par Paredes, <strong>deux environnements informatiques distincts</strong> cohabitent et doivent être unifiés.</p>
           <ul class="schema-list">
             <li><span class="icon">🔑</span> 2 domaines Active Directory différents</li>
             <li><span class="icon">🎫</span> 2 outils de ticketing (Interne Paredes vs GLPI Orapi)</li>
             <li><span class="icon">🗂️</span> 2 bases d'inventaire (Snipe-IT vs OCS)</li>
           </ul>
           
-          <div class="photo-grid" style="margin-top: auto; padding-top: 1rem;">
-            <div class="photo-thumb" onclick="openModal('images/glpi-interface.png')">
+          <div class="photo-grid">
+            <div class="photo-thumb" onclick="openModal('images/glpi.png')">
               <div class="photo-thumb-label">GLPI Orapi</div>
-              <img src="images/glpi-interface.png" alt="Interface GLPI" onerror="this.src='https://via.placeholder.com/300x200/f8fafc/64748b?text=Interface+GLPI'">
+              <img src="images/glpi.png" alt="Logo GLPI" onerror="this.src='https://via.placeholder.com/300x200/f8fafc/64748b?text=GLPI'">
             </div>
-            <div class="photo-thumb" onclick="openModal('images/snipeit-interface.png')">
+            <div class="photo-thumb" onclick="openModal('images/snipeit.png')">
               <div class="photo-thumb-label">Snipe-IT Paredes</div>
-              <img src="images/snipeit-interface.png" alt="Interface Snipe-IT" onerror="this.src='https://via.placeholder.com/300x200/f8fafc/64748b?text=Interface+Snipe-IT'">
+              <img src="images/snipeit.png" alt="Logo Snipe-IT" onerror="this.src='https://via.placeholder.com/300x200/f8fafc/64748b?text=Snipe-IT'">
             </div>
           </div>
         </div>
 
         <div class="schema-box problem-2">
           <div class="schema-box-title">⏳ Défi 2 : Obsolescence</div>
-          <p style="color: var(--muted); margin-bottom: 1.5rem; font-size: 1.1rem; line-height: 1.5;">Vieillissement matériel et logiciel exposant l'entreprise à des risques opérationnels majeurs.</p>
+          <p style="color: var(--muted); font-size: 1.1rem; line-height: 1.4;">Vieillissement matériel et logiciel exposant l'entreprise à des risques opérationnels majeurs.</p>
           <ul class="schema-list">
             <li><span class="icon">🛑</span> Fin de support de Windows 10</li>
             <li><span class="icon">🛡️</span> Vulnérabilités de sécurité accrues</li>
             <li><span class="icon">☁️</span> <strong>Cloud</strong> Passage des PC vers Win 11 via Intune</li>
           </ul>
           
-          <div class="photo-grid" style="margin-top: auto; padding-top: 1rem;">
-            <div class="photo-thumb" onclick="openModal('images/win10-obsolete.png')">
-              <div class="photo-thumb-label">Fin Support Win 10</div>
-              <img src="images/win10-obsolete.png" alt="Windows 10" onerror="this.src='https://via.placeholder.com/300x200/f8fafc/64748b?text=Windows+10'">
+          <div class="photo-grid">
+            <div class="photo-thumb" onclick="openModal('images/intune.png')">
+              <div class="photo-thumb-label">Microsoft Intune</div>
+              <img src="images/intune.png" alt="Logo Intune" onerror="this.src='https://via.placeholder.com/300x200/f8fafc/64748b?text=Intune'">
             </div>
           </div>
         </div>
@@ -593,7 +604,7 @@
         <div>
           <h3>Missions globales</h3>
           <ul class="keywords">
-            <li><span class="icon">🧑‍💻</span><div><strong>Rôle</strong>Administrateur Systèmes & Réseaux</div></li>
+            <li><span class="icon">🧑‍💻</span><div><strong>Rôle</strong>Admin Systèmes & Réseaux</div></li>
             <li><span class="icon">⚠️</span><div><strong>Enjeu</strong>Sécurisation & Haute disponibilité</div></li>
             <li><span class="icon">⚙️</span><div><strong>Projet</strong>Refonte d'infrastructure & SecOps</div></li>
           </ul>
