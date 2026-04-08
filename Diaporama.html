@@ -187,19 +187,19 @@
     .slide-6 .photo-grid { margin-top: 0.8rem; justify-content: flex-start; gap: 0.6rem; width: 100%; } 
     .slide-6 .photo-thumb { height: 75px; flex: 1; min-width: 90px; max-width: 130px; } 
     .slide-6 .photo-thumb img { object-fit: contain; padding: 3px; background: white; }
-    
-    /* Correction du texte incomplet : Permet le retour à la ligne et enlève la limitation */
-    .slide-6 .photo-thumb-label { 
-      font-size: 0.6rem; 
-      padding: 2px 2px; 
-      white-space: normal; 
-      line-height: 1.1; 
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 22px;
-    }
+    .slide-6 .photo-thumb-label { font-size: 0.6rem; padding: 2px 2px; white-space: normal; line-height: 1.1; display: flex; align-items: center; justify-content: center; height: 22px;}
     .slide-6 .photo-thumb::after { width: 16px; height: 16px; font-size: 0.6rem; bottom: 4px; right: 4px; }
+
+    /* ─── CSS SPÉCIFIQUE SLIDE 13 (Veille - Layout Fix avec 3 photos) ─── */
+    .slide-13 .grid-2 { gap: 3rem; margin-top: 1.5rem; }
+    .slide-13 ul.keywords { gap: 1.2rem; }
+    .slide-13 ul.keywords > li { font-size: 1.1rem; line-height: 1.4;}
+    .slide-13 ul.keywords > li > strong { font-size: 1.15rem; margin-bottom: 0.3rem; }
+    .slide-13 .photo-grid { margin-top: 1.5rem; justify-content: flex-start; gap: 0.8rem; width: 100%; } 
+    .slide-13 .photo-thumb { height: 85px; flex: 1; min-width: 100px; max-width: 140px; } 
+    .slide-13 .photo-thumb img { object-fit: contain; padding: 3px; background: white; }
+    .slide-13 .photo-thumb-label { font-size: 0.65rem; padding: 2px 2px; white-space: normal; line-height: 1.1; display: flex; align-items: center; justify-content: center; height: 22px;}
+    .slide-13 .photo-thumb::after { width: 18px; height: 18px; font-size: 0.65rem; bottom: 4px; right: 4px; }
 
     /* ─── TIMELINE VERTICALE ─── */
     .timeline-v { position: relative; margin: 1rem auto 0; max-width: 900px; padding-left: 2.5rem; }
@@ -356,7 +356,7 @@
     </div>
 
     <div class="slide">
-      <div class="slide-header">Plan de la présentation</div>
+      <div class="slide-header">Plan de la presentation</div>
       <h2>Sommaire</h2>
       <div class="plan-horizontal">
         <div class="plan-step">
@@ -774,34 +774,75 @@
       <div class="slide-footer"><span>Adrien Blaize — Épreuve E4</span><span class="slide-counter"></span></div>
     </div>
 
-    <div class="slide">
-      <div class="slide-header">3. Épreuve E4</div>
+    <div class="slide slide-13">
+      <div class="slide-header">4. Épreuve E4</div>
       <h2>Ma Veille Technologique</h2>
+      <div class="badge">Thème : Ransomwares & Cybercriminalité</div>
       <div class="grid-2">
         <div>
-          <h3>Ransomware & Cybercriminalité</h3>
-          <ul class="keywords" style="margin-top:1.5rem;">
-            <li><span class="icon">🗞️</span><div><strong>Outil :</strong> Feedly (Agrégateur RSS)</div></li>
-            <li><span class="icon">📡</span><div><strong>Sources :</strong> CERT-FR, Hacker News</div></li>
-            <li><span class="icon">📝</span><div><strong>Livrable :</strong> Synthèses sur Portfolio</div></li>
+          <ul class="keywords">
+            <li>
+              <span class="icon">🔄</span>
+              <div>
+                <strong>Démarche structurée (4 étapes)</strong>
+                Collecte ➔ Tri ➔ Analyse ➔ Diffusion
+              </div>
+            </li>
+            <li>
+              <span class="icon">🗞️</span>
+              <div>
+                <strong>Outil & Sources (5 flux)</strong>
+                Utilisation de Feedly. Suivi de CERT-FR, The Hacker News, Ransomfeed.it, Krebs on Security, The Record.
+              </div>
+            </li>
+            <li>
+              <span class="icon">📝</span>
+              <div>
+                <strong>Livrable final</strong>
+                Publication de synthèses analytiques sur mon Portfolio.
+              </div>
+            </li>
           </ul>
           
           <div class="photo-grid">
-            <div class="photo-thumb" onclick="openModal('images/feedly-dashboard.png')">
-              <div class="photo-thumb-label">Veille Feedly</div>
-              <img src="images/feedly-dashboard.png" alt="Feedly" onerror="this.src='https://via.placeholder.com/300x200/f8fafc/64748b?text=Feedly'">
+            <div class="photo-thumb" onclick="openModal('images/feedly.png')">
+              <div class="photo-thumb-label">Outil Feedly</div>
+              <img src="images/feedly.png" alt="Feedly" onerror="this.src='https://via.placeholder.com/300x200/f8fafc/64748b?text=Feedly'">
             </div>
-            <div class="photo-thumb" onclick="openModal('images/ransomware-stats.png')">
-              <div class="photo-thumb-label">Analyse RaaS</div>
-              <img src="images/ransomware-stats.png" alt="Ransomware" onerror="this.src='https://via.placeholder.com/300x200/f8fafc/64748b?text=Stats+RaaS'">
+            <div class="photo-thumb" onclick="openModal('images/ransomfeed.jpg')">
+              <div class="photo-thumb-label">Ransomfeed.it</div>
+              <img src="images/ransomfeed.jpg" alt="Ransomfeed" onerror="this.src='https://via.placeholder.com/300x200/f8fafc/64748b?text=Ransomfeed'">
+            </div>
+            <div class="photo-thumb" onclick="openModal('images/veille-portfolio.png')">
+              <div class="photo-thumb-label">Ma Synthèse</div>
+              <img src="images/veille-portfolio.png" alt="Synthèse Portfolio" onerror="this.src='https://via.placeholder.com/300x200/f8fafc/64748b?text=Synthèse'">
             </div>
           </div>
         </div>
-        <div class="card" style="background: #fef2f2; border-color: #fecaca;">
-          <div class="card-title" style="color: #b91c1c; border-bottom: none;">🔥 Tendances retenues</div>
-          <ul class="keywords" style="gap: 0.8rem;">
-            <li><span class="icon" style="color: #dc2626;">›</span><div>Modèle RaaS (As-a-Service)</div></li>
-            <li><span class="icon" style="color: #dc2626;">›</span><div>Ciblage des MSP (Prestataires)</div></li>
+        <div class="card" style="background: #fef2f2; border-color: #fecaca; padding: 1.5rem 1.8rem;">
+          <div class="card-title" style="color: #b91c1c; border-bottom: 1px solid #fecaca;">🔥 Synthèse & Tendances</div>
+          <ul class="keywords" style="gap: 0.8rem; margin-top: 1rem;">
+            <li>
+              <span class="icon" style="color: #dc2626;">›</span>
+              <div>
+                <strong>Vulnérabilités critiques</strong>
+                <div style="font-size: 0.95rem; color: #475569; margin-top: 0.2rem; line-height: 1.4;">Exploitation du NTLM. Le patching est la 1ère ligne de défense.</div>
+              </div>
+            </li>
+            <li>
+              <span class="icon" style="color: #dc2626;">›</span>
+              <div>
+                <strong>Résilience criminelle</strong>
+                <div style="font-size: 0.95rem; color: #475569; margin-top: 0.2rem; line-height: 1.4;">Décentralisation post-démantèlement (ex: LockBit 4.0).</div>
+              </div>
+            </li>
+            <li>
+              <span class="icon" style="color: #dc2626;">›</span>
+              <div>
+                <strong>Ciblage des MSP (RaaS)</strong>
+                <div style="font-size: 0.95rem; color: #475569; margin-top: 0.2rem; line-height: 1.4;">Attaques en cascade vers les PME imposant le modèle Zero Trust.</div>
+              </div>
+            </li>
           </ul>
         </div>
       </div>
