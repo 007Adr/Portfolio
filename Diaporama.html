@@ -190,36 +190,42 @@
     .slide-6 .photo-thumb-label { font-size: 0.6rem; padding: 2px 2px; white-space: normal; line-height: 1.1; display: flex; align-items: center; justify-content: center; height: 22px;}
     .slide-6 .photo-thumb::after { width: 16px; height: 16px; font-size: 0.6rem; bottom: 4px; right: 4px; }
 
-    /* ─── CSS SPÉCIFIQUE SLIDE 7 (Layout Fix Flowchart et Mini-grids) ─── */
-    .slide-7 .grid-2 { gap: 2.5rem; margin-top: 0.5rem; }
-    .slide-7 ul.keywords { gap: 0.8rem; }
-    .slide-7 ul.keywords > li { font-size: 1.05rem; line-height: 1.3;}
-    .slide-7 ul.keywords > li > strong { font-size: 1.1rem; margin-bottom: 0.2rem; }
-    .slide-7 .photo-grid { margin-top: 0.5rem; justify-content: flex-start; gap: 0.5rem; width: 100%; } 
-    .slide-7 .photo-thumb { height: 50px; flex: 1; min-width: 60px; max-width: 90px; } 
-    .slide-7 .photo-thumb img { object-fit: contain; padding: 2px; background: white; }
-    .slide-7 .photo-thumb-label { display: none; } /* On cache les labels pour gagner de la place ici */
-    .slide-7 .photo-thumb::after { width: 14px; height: 14px; font-size: 0.55rem; bottom: 2px; right: 2px; }
+    /* ─── CSS SPÉCIFIQUE SLIDE 7 (Layout ULTRA COMPACT pour éviter dépassement) ─── */
+    .slide-7 .grid-2 { gap: 2rem; margin-top: 0; }
+    .slide-7 ul.keywords { gap: 0.4rem; }
+    .slide-7 ul.keywords > li { font-size: 0.95rem; line-height: 1.2;}
+    .slide-7 ul.keywords > li > strong { font-size: 1rem; margin-bottom: 0.1rem; }
     
-    /* SCHÉMA CYCLE DE VIE DEEE */
-    .flowchart { margin-top: 0.5rem; font-size: 0.85rem; }
-    .flowchart-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.3rem; }
-    .flowchart-branches { padding-left: 1.2rem; border-left: 2px solid var(--border); margin-left: 1.5rem; display: flex; flex-direction: column; gap: 0.3rem; }
-    .flowchart-branch { display: flex; align-items: center; gap: 0.5rem; position: relative; }
-    .flowchart-branch::before { content: ''; position: absolute; left: -1.2rem; top: 50%; width: 1.2rem; height: 2px; background: var(--border); }
-    .flowchart-label { font-size: 0.75rem; color: var(--muted); width: 80px; font-weight: 600;}
+    /* Grille de photos mini pour Snipe-IT et Orange ultra compacte */
+    .slide-7 .photo-grid.mini-photo-grid { margin-top: 0.2rem; justify-content: flex-start; gap: 0.4rem; width: 100%; } 
+    .slide-7 .photo-thumb.mini-photo-thumb { height: 45px; flex: 1; min-width: 50px; max-width: 85px; } 
+    .slide-7 .photo-thumb.mini-photo-thumb img { object-fit: contain; padding: 2px; background: white; }
+    .slide-7 .photo-thumb.mini-photo-thumb .photo-thumb-label { font-size: 0.5rem; padding: 1px 1px; white-space: normal; line-height: 1.1; display: flex; align-items: center; justify-content: center; height: 16px;}
+    .slide-7 .photo-thumb.mini-photo-thumb::after { width: 12px; height: 12px; font-size: 0.5rem; bottom: 2px; right: 2px; }
+    
+    /* SCHÉMA CYCLE DE VIE DEEE ultra compacté */
+    .slide-7 .flowchart { margin-top: 0.2rem; font-size: 0.8rem; }
+    .slide-7 .flowchart-row { display: flex; align-items: center; gap: 0.4rem; margin-bottom: 0.1rem; }
+    .slide-7 .flowchart-branches { padding-left: 1rem; border-left: 2px solid var(--border); margin-left: 1.2rem; display: flex; flex-direction: column; gap: 0.15rem; }
+    .slide-7 .flowchart-branch { display: flex; align-items: center; gap: 0.4rem; position: relative; }
+    .slide-7 .flowchart-branch::before { content: ''; position: absolute; left: -1rem; top: 50%; width: 1rem; height: 2px; background: var(--border); }
+    .slide-7 .flowchart-label { font-size: 0.7rem; color: var(--muted); width: 70px; font-weight: 600;}
+    .slide-7 .tech-badge { padding: 0.15rem 0.4rem; font-size: 0.75rem; }
 
-    /* ─── CSS SPÉCIFIQUE SLIDE 13 (Veille - Layout Fix) ─── */
+    /* ─── CSS SPÉCIFIQUE SLIDE 13 (Veille - Layout Fix pour éviter le dépassement) ─── */
     .slide-13 .grid-2 { gap: 3rem; margin-top: 1.5rem; }
     .slide-13 ul.keywords { gap: 1rem; }
     .slide-13 ul.keywords > li { font-size: 1.1rem; line-height: 1.4;}
     .slide-13 ul.keywords > li > strong { font-size: 1.15rem; margin-bottom: 0.3rem; }
+    
+    /* Grille de photos mini pour Ransomfeed et Synthèse */
     .slide-13 .photo-grid { margin-top: 1rem; justify-content: flex-start; gap: 0.8rem; width: 100%; } 
     .slide-13 .photo-thumb { height: 75px; flex: 1; min-width: 100px; max-width: 140px; } 
     .slide-13 .photo-thumb img { object-fit: contain; padding: 3px; background: white; }
     .slide-13 .photo-thumb-label { font-size: 0.65rem; padding: 2px 2px; white-space: normal; line-height: 1.1; display: flex; align-items: center; justify-content: center; height: 22px;}
     .slide-13 .photo-thumb::after { width: 18px; height: 18px; font-size: 0.65rem; bottom: 4px; right: 4px; }
     
+    /* Vignettes photos incrustées dans les listes (Démarche, Feedly) compactées */
     .slide-13 .photo-thumb-inlist { 
       position: relative; height: 70px; max-width: 180px; margin-top: 0.5rem;
       border-radius: 6px; overflow: hidden; border: 1px solid var(--border);
@@ -547,7 +553,7 @@
                     <div class="photo-thumb-label">Dashboard Intune</div>
                     <img src="images/dashboard-intune.png" alt="Intune" onerror="this.src='https://via.placeholder.com/300x200/f8fafc/64748b?text=Intune'">
                   </div>
-                  <div class="photo-thumb" onclick="openModal('images/azure-licences.png')">
+                  <div class="photo-thumb" onclick="openModal('images/azure-licences.jpg')">
                     <div class="photo-thumb-label">Licences Entra</div>
                     <img src="images/azure-licences.png" alt="Licences Azure" onerror="this.src='https://via.placeholder.com/300x200/f8fafc/64748b?text=Licences+Azure'">
                   </div>
@@ -588,8 +594,8 @@
             <li>
               <span class="icon">🗂️</span>
               <div style="width:100%">
-                <strong>Mise à jour massive (Snipe-IT)</strong>Traitement de plus de 1 030 postes pour fiabiliser la base.
-                <div class="tech-stack">
+                <strong>Mise à jour massive</strong>Traitement de plus de 1 030 postes pour fiabiliser la base.
+                <div class="tech-stack" style="margin-top: 0.1rem;">
                   <span class="tech-tag">📊 Excel</span>
                   <span class="plus">+</span>
                   <span class="tech-tag">📱 Intune</span>
@@ -598,15 +604,19 @@
                 </div>
                 <div class="photo-grid mini-photo-grid">
                   <div class="photo-thumb mini-photo-thumb" onclick="openModal('images/excel.jpg')">
+                    <div class="photo-thumb-label">Excel</div>
                     <img src="images/excel.jpg" alt="Excel" onerror="this.src='https://via.placeholder.com/150x100/f8fafc/64748b?text=Excel'">
                   </div>
                   <div class="photo-thumb mini-photo-thumb" onclick="openModal('images/autopilot.png')">
+                    <div class="photo-thumb-label">Autopilot</div>
                     <img src="images/autopilot.png" alt="Autopilot" onerror="this.src='https://via.placeholder.com/150x100/f8fafc/64748b?text=Autopilot'">
                   </div>
                   <div class="photo-thumb mini-photo-thumb" onclick="openModal('images/snipeit-dash.png')">
+                    <div class="photo-thumb-label">Snipe-IT</div>
                     <img src="images/snipeit-dash.png" alt="Snipe-IT" onerror="this.src='https://via.placeholder.com/150x100/f8fafc/64748b?text=Snipe-IT'">
                   </div>
                   <div class="photo-thumb mini-photo-thumb" onclick="openModal('images/glpi-parc.png')">
+                    <div class="photo-thumb-label">GLPI</div>
                     <img src="images/glpi-parc.png" alt="GLPI" onerror="this.src='https://via.placeholder.com/150x100/f8fafc/64748b?text=GLPI'">
                   </div>
                 </div>
@@ -617,8 +627,9 @@
               <div style="width:100%">
                 <strong>Flotte Mobile</strong>
                 Lignes gérées via Orange Business seulement.
-                <div class="photo-grid mini-photo-grid" style="margin-top: 0.4rem;">
-                  <div class="photo-thumb mini-photo-thumb" onclick="openModal('images/orange-business.png')">
+                <div class="photo-grid mini-photo-grid" style="margin-top: 0.2rem;">
+                  <div class="photo-thumb mini-photo-thumb" onclick="openModal('images/orange-business.png')" style="max-width: 100px;">
+                    <div class="photo-thumb-label">Orange Pro</div>
                     <img src="images/orange-business.png" alt="Orange Business" onerror="this.src='https://via.placeholder.com/150x100/f8fafc/64748b?text=Orange+Business'">
                   </div>
                 </div>
