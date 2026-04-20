@@ -55,7 +55,7 @@
 
     .slide {
       position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-      padding: 3.25rem 4.25rem 2.75rem;
+      padding: 2.75rem 4.25rem 2.5rem;
       opacity: 0; visibility: hidden;
       transform: translateX(30px) scale(0.98);
       transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1);
@@ -76,7 +76,7 @@
     h1 span { color: var(--accent); }
     h2 {
       font-family: 'Playfair Display', serif; font-weight: 800;
-      font-size: 1.85rem; color: var(--text); margin-bottom: 1rem;
+      font-size: 1.85rem; color: var(--text); margin-bottom: 0.75rem;
       display: flex; align-items: center; gap: 1rem;
     }
     h2::after {
@@ -972,65 +972,67 @@
     <div class="slide-footer"><span>Adrien Blaize · Épreuve E4</span><span class="slide-counter"></span></div>
   </div>
 
-  <!-- ══ 7 · SP2 CMDB (IMAGES SOUS LES BLOCS) ══ -->
+  <!-- ══ 7 · SP2 CMDB ══ -->
   <div class="slide">
     <div class="slide-header">Paredes Orapi · SP2</div>
     <h2>Gestion des Actifs (CMDB)</h2>
     <div class="badge">🎯 Traçabilité complète du cycle de vie matériel — + 1 030 postes</div>
-    <div class="grid-2" style="gap: 2rem;">
+    <div class="grid-2" style="gap: 2rem; margin-top: 0.2rem;">
       <div>
-        <ul class="keywords" style="gap: 1rem;">
+        <ul class="keywords" style="gap: 0.6rem;">
           <li>
             <span class="icon">🗂️</span>
             <div style="width:100%">
-              <strong>Fiabilisation croisée du parc</strong>Traitement massif des données via 4 outils
-              <div class="tech-stack" style="margin-top: 0.35rem;">
+              <strong style="font-size:1.1rem;">Fiabilisation croisée du parc</strong>
+              <div style="font-size:0.88rem; color:var(--muted); margin-bottom:0.3rem;">Traitement massif des données via 4 outils</div>
+              <div class="tech-stack" style="margin-bottom: 0.35rem;">
                 <span class="tech-tag">📊 Excel</span><span class="plus">+</span>
                 <span class="tech-tag">📱 Intune</span><span class="plus">+</span>
                 <span class="tech-tag">🗃️ Snipe-IT</span><span class="plus">+</span>
                 <span class="tech-tag">📦 GLPI</span>
               </div>
-              <!-- Image Excel directement sous le bloc de fiabilisation -->
-              <div class="photo-mini-inline" onclick="openModal('images/excel.jpg')">
+              <!-- Excel sous fiabilisation, Snipe-IT et GLPI côte à côte -->
+              <div class="photo-mini-inline" onclick="openModal('images/excel.jpg')" style="height:48px; max-width:100%; margin-bottom:0.3rem;">
                 <div class="mini-label">📊 Excel · Consolidation données</div>
-                <img src="images/excel.jpg" alt="Excel" onerror="this.src='https://placehold.co/400x55/f8fafc/64748b?text=Excel'">
+                <img src="images/excel.jpg" alt="Excel" onerror="this.src='https://placehold.co/400x48/f8fafc/64748b?text=Excel'">
+              </div>
+              <div style="display:flex; gap:0.4rem;">
+                <div class="photo-mini-inline" onclick="openModal('images/snipeit-dash.png')" style="height:48px; flex:1; max-width:none;">
+                  <div class="mini-label">🗃️ Snipe-IT</div>
+                  <img src="images/snipeit-dash.png" alt="Snipe-IT" onerror="this.src='https://placehold.co/200x48/f8fafc/64748b?text=Snipe-IT'">
+                </div>
+                <div class="photo-mini-inline" onclick="openModal('images/glpi-parc.png')" style="height:48px; flex:1; max-width:none;">
+                  <div class="mini-label">📦 GLPI</div>
+                  <img src="images/glpi-parc.png" alt="GLPI" onerror="this.src='https://placehold.co/200x48/f8fafc/64748b?text=GLPI'">
+                </div>
               </div>
             </div>
           </li>
           <li>
             <span class="icon">📱</span>
             <div style="width:100%">
-              <strong>Flotte mobile</strong>Gestion des lignes via Orange Business
-              <!-- Image Orange sous le bloc flotte mobile -->
-              <div class="photo-mini-inline" onclick="openModal('images/orange-business.png')">
+              <strong style="font-size:1.1rem;">Flotte mobile</strong>
+              <div style="font-size:0.88rem; color:var(--muted); margin-bottom:0.3rem;">Gestion des lignes via Orange Business</div>
+              <div class="photo-mini-inline" onclick="openModal('images/orange-business.png')" style="height:48px; max-width:100%;">
                 <div class="mini-label">📱 Orange Business Pro</div>
-                <img src="images/orange-business.png" alt="Orange" onerror="this.src='https://placehold.co/400x55/f8fafc/64748b?text=Orange+Business'">
+                <img src="images/orange-business.png" alt="Orange" onerror="this.src='https://placehold.co/400x48/f8fafc/64748b?text=Orange+Business'">
               </div>
             </div>
           </li>
           <li>
             <span class="icon">🔄</span>
             <div style="width:100%">
-              <strong>Cycle de vie DEEE</strong>
-              <div class="flowchart">
+              <strong style="font-size:1.1rem;">Cycle de vie DEEE</strong>
+              <div class="flowchart" style="margin-top:0.25rem;">
                 <div class="flowchart-row">
                   <span class="tech-badge old">Retour</span>
                   <span class="arrow">→</span>
                   <span class="tech-badge new">Diagnostic</span>
                 </div>
                 <div class="flowchart-branches">
-                  <div class="flowchart-branch">
-                    <span class="flowchart-label">Viable :</span>
-                    <span class="flowchart-badge ok">Stock / Alternance</span>
-                  </div>
-                  <div class="flowchart-branch">
-                    <span class="flowchart-label">Garantie :</span>
-                    <span class="flowchart-badge warn">Réparation</span>
-                  </div>
-                  <div class="flowchart-branch">
-                    <span class="flowchart-label">Fin de vie :</span>
-                    <span class="flowchart-badge err">Vente / DEEE</span>
-                  </div>
+                  <div class="flowchart-branch"><span class="flowchart-label">Viable :</span><span class="flowchart-badge ok">Stock / Alternance</span></div>
+                  <div class="flowchart-branch"><span class="flowchart-label">Garantie :</span><span class="flowchart-badge warn">Réparation</span></div>
+                  <div class="flowchart-branch"><span class="flowchart-label">Fin de vie :</span><span class="flowchart-badge err">Vente / DEEE</span></div>
                 </div>
               </div>
             </div>
@@ -1040,23 +1042,12 @@
       <div>
         <div class="card">
           <div class="card-title">✅ Bilan Technique</div>
-          <ul class="keywords" style="margin-top: 0.4rem;">
+          <ul class="keywords" style="margin-top: 0.4rem; gap: 0.55rem;">
             <li><span class="icon">›</span><div><strong>Rigueur ITAM :</strong> Données croisées sur 4 outils</div></li>
             <li><span class="icon">›</span><div><strong>Autonomie :</strong> Procédures d'inventaire créées</div></li>
             <li><span class="icon">›</span><div><strong>Logistique :</strong> Traçabilité du retour au DEEE</div></li>
             <li><span class="icon">›</span><div><strong>Volume :</strong> + 1 030 postes traités</div></li>
           </ul>
-        </div>
-        <!-- Captures des 2 outils principaux : Snipe-IT et GLPI (mêmes dimensions que slide 6) -->
-        <div style="margin-top: 0.75rem; display: flex; flex-direction: column; gap: 0.5rem;">
-          <div class="photo-mini-inline" onclick="openModal('images/snipeit-dash.png')" style="height: 55px; max-width: 100%;">
-            <div class="mini-label">🗃️ Dashboard Snipe-IT</div>
-            <img src="images/snipeit-dash.png" alt="Snipe-IT" onerror="this.src='https://placehold.co/400x55/f8fafc/64748b?text=Snipe-IT+Dashboard'">
-          </div>
-          <div class="photo-mini-inline" onclick="openModal('images/glpi-parc.png')" style="height: 55px; max-width: 100%;">
-            <div class="mini-label">📦 Interface GLPI</div>
-            <img src="images/glpi-parc.png" alt="GLPI" onerror="this.src='https://placehold.co/400x55/f8fafc/64748b?text=GLPI+Interface'">
-          </div>
         </div>
       </div>
     </div>
@@ -1131,55 +1122,43 @@
     <div class="slide-header">SIA BDE INSA Lyon · SP1</div>
     <h2>Proxmox & Twingate — Accès sécurisé aux VMs</h2>
     <div class="badge">🎯 Connecter le nouveau Proxmox au réseau interne via Twingate</div>
-    <div class="grid-2" style="gap: 2rem;">
+    <div class="grid-2" style="gap: 2rem; margin-top: 0.2rem;">
       <div>
-        <ul class="keywords" style="gap: 1rem;">
+        <ul class="keywords" style="gap: 0.7rem;">
           <li>
             <span class="icon">🖥️</span>
-            <div>
-              <strong>Nouveau Proxmox VE</strong>
-              Recréation des VMs · redéploiement des scripts GitLab · reconfiguration des services
-            </div>
+            <div><strong>Nouveau Proxmox VE</strong>Recréation des VMs · redéploiement scripts GitLab</div>
           </li>
           <li>
             <span class="icon">🔒</span>
-            <div>
-              <strong>Configuration Twingate</strong>
-              Connexion au ZTNA existant du SIA · 3 Remote Networks configurés
-            </div>
+            <div><strong>Configuration Twingate</strong>Connexion au ZTNA existant · 3 Remote Networks configurés</div>
           </li>
           <li>
             <span class="icon">🔀</span>
-            <div>
-              <strong>Bridge interne dédié</strong>
-              Contourner la whitelist MAC imposée par l'infra INSA
-            </div>
+            <div><strong>Bridge interne dédié</strong>Contourner la whitelist MAC imposée par l'infra INSA</div>
           </li>
           <li>
             <span class="icon">🛠️</span>
-            <div>
-              <strong>Tests sur serveurs vieillissants</strong>
-              Budget asso limité · faire avec les moyens du bord
-            </div>
+            <div><strong>Tests sur serveurs vieillissants</strong>Budget asso limité · faire avec les moyens du bord</div>
           </li>
         </ul>
-        <div class="card" style="margin-top: 1rem;">
-          <div class="card-title">✅ Bilan Technique</div>
-          <ul class="keywords" style="margin-top: 0.4rem;">
-            <li><span class="icon">›</span><div><strong>Migration :</strong> Infrastructure Proxmox opérationnelle</div></li>
-            <li><span class="icon">›</span><div><strong>Accès distants :</strong> Twingate connecté au réseau interne</div></li>
-            <li><span class="icon">›</span><div><strong>Autonomie :</strong> Déploiement VM sans demande whitelist</div></li>
+        <div class="card" style="margin-top: 0.75rem; padding: 0.8rem 1.1rem;">
+          <div class="card-title" style="font-size: 1rem; margin-bottom: 0.5rem; padding-bottom: 0.4rem;">✅ Bilan Technique</div>
+          <ul class="keywords" style="margin-top: 0.2rem; gap: 0.4rem;">
+            <li style="font-size:0.9rem;"><span class="icon" style="font-size:1.1rem;">›</span><div><strong>Migration :</strong> Infrastructure Proxmox opérationnelle</div></li>
+            <li style="font-size:0.9rem;"><span class="icon" style="font-size:1.1rem;">›</span><div><strong>Accès distants :</strong> Twingate connecté au réseau interne</div></li>
+            <li style="font-size:0.9rem;"><span class="icon" style="font-size:1.1rem;">›</span><div><strong>Autonomie :</strong> Déploiement VM sans demande whitelist</div></li>
           </ul>
         </div>
       </div>
-      <div>
-        <div class="photo-thumb" style="max-width: 100%; height: 165px;" onclick="openModal('images/sia-sp3-proxmox-network.png')">
-          <div class="photo-thumb-label">🖥️ Config réseau Proxmox — Bridges vmbr0 / bridge interne</div>
-          <img src="images/sia-sp3-proxmox-network.png" alt="Proxmox Network" onerror="this.src='https://placehold.co/400x165/f8fafc/64748b?text=Config+Réseau+Proxmox'">
+      <div style="display:flex; flex-direction:column; gap:0.55rem;">
+        <div class="photo-mini-inline" onclick="openModal('images/sia-sp3-proxmox-network.png')" style="height:120px; max-width:100%;">
+          <div class="mini-label">🖥️ Config réseau Proxmox — Bridges vmbr0 / bridge interne</div>
+          <img src="images/sia-sp3-proxmox-network.png" alt="Proxmox" onerror="this.src='https://placehold.co/400x120/f8fafc/64748b?text=Config+Réseau+Proxmox'">
         </div>
-        <div class="photo-thumb" style="max-width: 100%; height: 165px; margin-top: 0.6rem;" onclick="openModal('images/sia-sp3-twingate-shell.png')">
-          <div class="photo-thumb-label">🔒 Installation Twingate · LXC shell</div>
-          <img src="images/sia-sp3-twingate-shell.png" alt="Twingate" onerror="this.src='https://placehold.co/400x165/f8fafc/64748b?text=Shell+Twingate'">
+        <div class="photo-mini-inline" onclick="openModal('images/sia-sp3-twingate-shell.png')" style="height:120px; max-width:100%;">
+          <div class="mini-label">🔒 Installation Twingate · LXC shell</div>
+          <img src="images/sia-sp3-twingate-shell.png" alt="Twingate" onerror="this.src='https://placehold.co/400x120/f8fafc/64748b?text=Shell+Twingate'">
         </div>
       </div>
     </div>
@@ -1190,35 +1169,31 @@
   <div class="slide">
     <div class="slide-header">SIA BDE INSA Lyon · SP1 — Architecture</div>
     <h2>Contourner la whitelist MAC INSA</h2>
-    <div class="badge">🌐 Bridge interne dédié pour déployer des VMs sans demande d'autorisation</div>
+    <div class="badge">🌐 Bridge interne dédié · Déploiement autonome sans demande d'autorisation</div>
 
-    <div class="grid-2" style="gap: 2.5rem; align-items: stretch;">
-      <!-- Colonne gauche : schéma -->
+    <div class="grid-2" style="gap: 2rem; margin-top: 0.2rem; align-items: start;">
+      <!-- Colonne gauche : schéma compact -->
       <div>
-        <div class="network-schema" style="margin-top: 0;">
+        <div class="network-schema" style="margin-top: 0; padding: 0.75rem 0.9rem;">
           <div class="network-schema-title">🌐 Architecture réseau — Contrainte INSA</div>
-          <div class="net-layer internet">
-            🌍 Internet
-            <span class="net-ip">WAN</span>
+          <div class="net-layer internet" style="padding: 0.38rem 0.65rem; font-size: 0.8rem;">
+            🌍 Internet <span class="net-ip">WAN</span>
           </div>
-          <div class="net-arrow-down">↓</div>
-          <div class="net-layer insa">
-            🏛️ Infra INSA (externe)
-            <span class="net-ip">134.214.129.0/24</span>
+          <div class="net-arrow-down" style="margin: 0.15rem 0; font-size: 0.85rem;">↓</div>
+          <div class="net-layer insa" style="padding: 0.38rem 0.65rem; font-size: 0.8rem;">
+            🏛️ Infra INSA (externe) <span class="net-ip">134.214.129.0/24</span>
           </div>
-          <div class="net-warning">⚠️ Whitelist MAC requise à chaque nouvelle VM</div>
-          <div class="net-arrow-down">↓</div>
-          <div class="net-layer proxmox-host">
-            🖥️ Host Proxmox SIA
-            <span class="net-ip">vmbr0</span>
+          <div class="net-warning" style="font-size: 0.68rem; padding: 0.2rem 0.5rem; margin: 0.2rem 0 0.2rem 1.2rem;">⚠️ Whitelist MAC requise à chaque nouvelle VM</div>
+          <div class="net-arrow-down" style="margin: 0.15rem 0; font-size: 0.85rem;">↓</div>
+          <div class="net-layer proxmox-host" style="padding: 0.38rem 0.65rem; font-size: 0.8rem;">
+            🖥️ Host Proxmox SIA <span class="net-ip">vmbr0</span>
           </div>
-          <div class="net-arrow-down">↓</div>
-          <div class="net-layer bridge">
-            🔀 Bridge interne (ma config)
-            <span class="net-ip">10.129.234.0/24</span>
+          <div class="net-arrow-down" style="margin: 0.15rem 0; font-size: 0.85rem;">↓</div>
+          <div class="net-layer bridge" style="padding: 0.38rem 0.65rem; font-size: 0.8rem;">
+            🔀 Bridge interne (ma config) <span class="net-ip">10.129.234.0/24</span>
           </div>
-          <div class="net-solution">✅ Aucune whitelist MAC nécessaire</div>
-          <div class="net-vms">
+          <div class="net-solution" style="font-size: 0.68rem; padding: 0.2rem 0.5rem; margin: 0.2rem 0 0.35rem 1.2rem;">✅ Aucune whitelist MAC nécessaire</div>
+          <div class="net-vms" style="padding-left: 1.2rem;">
             <span class="net-vm">🐧 Ubuntu</span>
             <span class="net-vm">💾 Backup</span>
             <span class="net-vm">🌐 Sites assos</span>
@@ -1227,23 +1202,23 @@
         </div>
       </div>
 
-      <!-- Colonne droite : explication du problème et solution -->
-      <div style="display: flex; flex-direction: column; gap: 1rem;">
-        <div class="card" style="border-left: 4px solid #ef4444;">
-          <div class="card-title" style="color: #b91c1c; border-color: #fecaca;">⚠️ Le problème</div>
-          <ul class="keywords" style="margin-top: 0.4rem;">
-            <li><span class="icon">›</span><div>Le SIA dépend du <strong>réseau de l'INSA</strong> (134.214.129.0/24)</div></li>
-            <li><span class="icon">›</span><div>Pour chaque nouvelle VM → <strong>demande MAC whitelist</strong> au service INSA</div></li>
-            <li><span class="icon">›</span><div>Processus lent, bloquant et peu évolutif pour une asso</div></li>
+      <!-- Colonne droite : cards compactes -->
+      <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+        <div class="card" style="border-left: 4px solid #ef4444; padding: 0.9rem 1.1rem;">
+          <div class="card-title" style="color: #b91c1c; border-color: #fecaca; font-size: 1rem; margin-bottom: 0.5rem; padding-bottom: 0.4rem;">⚠️ Le problème</div>
+          <ul class="keywords" style="margin-top: 0; gap: 0.4rem;">
+            <li style="font-size:0.88rem;"><span class="icon" style="font-size:1.1rem;">›</span><div>Le SIA dépend du <strong>réseau INSA</strong> (134.214.129.0/24)</div></li>
+            <li style="font-size:0.88rem;"><span class="icon" style="font-size:1.1rem;">›</span><div>Chaque nouvelle VM → <strong>demande MAC whitelist</strong> au service INSA</div></li>
+            <li style="font-size:0.88rem;"><span class="icon" style="font-size:1.1rem;">›</span><div>Processus lent et bloquant pour une asso bénévole</div></li>
           </ul>
         </div>
-        <div class="card" style="border-left: 4px solid var(--accent); background: var(--accent-light);">
-          <div class="card-title" style="color: var(--accent);">💡 Ma solution</div>
-          <ul class="keywords" style="margin-top: 0.4rem;">
-            <li><span class="icon">›</span><div>Création d'un <strong>bridge interne</strong> dédié (10.129.234.0/24)</div></li>
-            <li><span class="icon">›</span><div>Les VMs passent par ce réseau → <strong>zéro dépendance INSA</strong></div></li>
-            <li><span class="icon">›</span><div>Autonomie totale pour déployer des nouvelles VMs</div></li>
-            <li><span class="icon">›</span><div>Twingate expose les VMs en toute sécurité vers l'extérieur</div></li>
+        <div class="card" style="border-left: 4px solid var(--accent); background: var(--accent-light); padding: 0.9rem 1.1rem;">
+          <div class="card-title" style="color: var(--accent); font-size: 1rem; margin-bottom: 0.5rem; padding-bottom: 0.4rem;">💡 Ma solution</div>
+          <ul class="keywords" style="margin-top: 0; gap: 0.4rem;">
+            <li style="font-size:0.88rem;"><span class="icon" style="font-size:1.1rem;">›</span><div>Création d'un <strong>bridge interne</strong> (10.129.234.0/24)</div></li>
+            <li style="font-size:0.88rem;"><span class="icon" style="font-size:1.1rem;">›</span><div>Les VMs passent par ce réseau → <strong>zéro dépendance INSA</strong></div></li>
+            <li style="font-size:0.88rem;"><span class="icon" style="font-size:1.1rem;">›</span><div>Autonomie totale pour déployer de nouvelles VMs</div></li>
+            <li style="font-size:0.88rem;"><span class="icon" style="font-size:1.1rem;">›</span><div>Twingate expose les VMs en sécurité vers l'extérieur</div></li>
           </ul>
         </div>
       </div>
@@ -1252,20 +1227,20 @@
     <div class="slide-footer"><span>Adrien Blaize · Épreuve E4</span><span class="slide-counter"></span></div>
   </div>
 
-  <!-- ══ 11 · SP2 BACKUP — LAYOUT ÉQUILIBRÉ ══ -->
+  <!-- ══ 11 · SP2 BACKUP ══ -->
   <div class="slide">
     <div class="slide-header">SIA BDE INSA Lyon · SP2</div>
     <h2>Serveur de Backup Automatisé</h2>
     <div class="badge">🎯 Garantir la récupération des données — Règle du 3-2-1</div>
-    <div class="grid-2" style="gap: 2rem;">
+    <div class="grid-2" style="gap: 2rem; margin-top: 0.2rem;">
       <div>
-        <ul class="keywords" style="gap: 0.9rem;">
+        <ul class="keywords" style="gap: 0.7rem;">
           <li><span class="icon">🐧</span><div><strong>VM Ubuntu dédiée</strong>Centralisation sous le nouveau Proxmox</div></li>
           <li><span class="icon">⚙️</span><div><strong>Scripts Bash + Crontab</strong>BDD + fichiers automatisés</div></li>
           <li><span class="icon">☁️</span><div><strong>Rclone → Cloud</strong>Externalisation chiffrée</div></li>
           <li><span class="icon">🔔</span><div><strong>Webhook Discord</strong>Alertes temps réel : succès / échec</div></li>
         </ul>
-        <div class="backup-flow" style="margin-top: 0.9rem;">
+        <div class="backup-flow" style="margin-top: 0.8rem;">
           <div class="backup-node"><div class="bicon db">🗄️</div>BDD<br>MySQL</div>
           <span class="backup-arr">→</span>
           <div class="backup-node"><div class="bicon script">⚙️</div>Script<br>Crontab</div>
@@ -1274,24 +1249,22 @@
           <span class="backup-arr">→</span>
           <div class="backup-node"><div class="bicon alert">🔔</div>Discord<br>Alerte</div>
         </div>
-        <div class="card" style="margin-top: 0.9rem; padding: 0.8rem 1.1rem;">
-          <div class="card-title" style="margin-bottom: 0.4rem; padding-bottom: 0.35rem; font-size: 0.95rem;">✅ Bilan</div>
-          <ul class="keywords" style="gap: 0.3rem;">
-            <li style="font-size: 0.85rem;"><span class="icon" style="font-size: 1rem;">›</span><div>Règle 3-2-1 appliquée · Externalisation chiffrée automatisée</div></li>
+        <div class="card" style="margin-top: 0.8rem; padding: 0.7rem 1rem;">
+          <div class="card-title" style="font-size:0.95rem; margin-bottom:0.35rem; padding-bottom:0.3rem;">✅ Bilan</div>
+          <ul class="keywords" style="gap: 0.25rem;">
+            <li style="font-size:0.85rem;"><span class="icon" style="font-size:1rem;">›</span><div>Règle 3-2-1 appliquée · Externalisation chiffrée automatisée</div></li>
           </ul>
         </div>
       </div>
-      <div>
-        <!-- Images en format mini-inline comme slide 6/7 pour cohérence -->
-        <div style="display: flex; flex-direction: column; gap: 0.6rem;">
-          <div class="photo-mini-inline" onclick="openModal('images/sia-sp2-crontab.png')" style="height: 95px; max-width: 100%;">
-            <div class="mini-label">⚙️ Tâche Crontab · Script Bash</div>
-            <img src="images/sia-sp2-crontab.png" alt="Crontab" onerror="this.src='https://placehold.co/400x95/f8fafc/64748b?text=Script+Crontab'">
-          </div>
-          <div class="photo-mini-inline" onclick="openModal('images/sia-sp2-discord-notif.png')" style="height: 180px; max-width: 100%;">
-            <div class="mini-label">🔔 Notification Discord · Backup success</div>
-            <img src="images/sia-sp2-discord-notif.png" alt="Discord" onerror="this.src='https://placehold.co/400x180/f8fafc/64748b?text=Alerte+Discord'">
-          </div>
+      <div style="display:flex; flex-direction:column; gap:0.5rem;">
+        <!-- 2 captures égales côte à côte en hauteur -->
+        <div class="photo-mini-inline" onclick="openModal('images/sia-sp2-crontab.png')" style="height:115px; max-width:100%;">
+          <div class="mini-label">⚙️ Tâche Crontab · Script Bash</div>
+          <img src="images/sia-sp2-crontab.png" alt="Crontab" onerror="this.src='https://placehold.co/400x115/f8fafc/64748b?text=Script+Crontab'">
+        </div>
+        <div class="photo-mini-inline" onclick="openModal('images/sia-sp2-discord-notif.png')" style="height:115px; max-width:100%;">
+          <div class="mini-label">🔔 Notification Discord · Backup success</div>
+          <img src="images/sia-sp2-discord-notif.png" alt="Discord" onerror="this.src='https://placehold.co/400x115/f8fafc/64748b?text=Alerte+Discord'">
         </div>
       </div>
     </div>
