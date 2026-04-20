@@ -111,13 +111,7 @@
     .slide-header::before {
       content: ''; width: 16px; height: 2px; background: var(--accent); border-radius: 1px;
     }
-    .slide-footer {
-      position: absolute; bottom: 1.25rem; left: 4.25rem; right: 4.25rem;
-      display: flex; justify-content: space-between; align-items: center;
-      font-size: 0.78rem; color: var(--muted);
-      border-top: 1px solid var(--border); padding-top: 0.6rem;
-    }
-    .slide-counter { font-weight: 600; color: var(--accent); }
+
 
     .grid-2 {
       display: grid; grid-template-columns: 1fr 1fr;
@@ -651,22 +645,31 @@
     .final-info { display: flex; align-items: center; gap: 0.55rem; color: #94a3b8; font-size: 0.85rem; }
     .final-info strong { color: white; }
 
-    /* CONTRÔLES */
+    /* FOOTER supprimé — espace récupéré */
+
+    /* CONTRÔLES AVEC COMPTEUR */
     .controls {
-      position: absolute; bottom: 1.25rem; right: 1.75rem;
-      display: flex; gap: 0.4rem; z-index: 100;
-      opacity: 0; transition: opacity 0.3s;
+      position: absolute; bottom: 1.1rem; right: 1.6rem;
+      display: flex; align-items: center; gap: 0.4rem; z-index: 100;
     }
-    .presentation-container:hover .controls { opacity: 1; }
     .btn-nav {
       background: rgba(255,255,255,0.9); backdrop-filter: blur(8px);
       color: var(--text); border: 1px solid var(--border);
-      width: 42px; height: 42px; border-radius: 8px;
+      width: 38px; height: 38px; border-radius: 8px;
       cursor: pointer; font-size: 1rem;
       display: flex; align-items: center; justify-content: center;
       transition: all 0.2s; font-weight: bold;
     }
     .btn-nav:hover { background: var(--accent); color: white; border-color: var(--accent); }
+    .slide-counter-nav {
+      background: rgba(255,255,255,0.92); backdrop-filter: blur(8px);
+      border: 1px solid var(--border); border-radius: 8px;
+      padding: 0 0.75rem; height: 38px;
+      display: flex; align-items: center;
+      font-size: 0.82rem; font-weight: 700; color: var(--accent);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      min-width: 52px; justify-content: center;
+    }
 
     /* MODAL */
     .modal-overlay {
@@ -708,6 +711,7 @@
   </div>
   <div class="controls">
     <button class="btn-nav" onclick="prevSlide()">←</button>
+    <div class="slide-counter-nav" id="slideCounter">1 / 16</div>
     <button class="btn-nav" onclick="nextSlide()">→</button>
   </div>
 
@@ -782,7 +786,6 @@
         <span class="timeline-duration">2 ans</span>
       </div>
     </div>
-    <div class="slide-footer"><span>Adrien Blaize · Épreuve E4</span><span class="slide-counter"></span></div>
   </div>
 
   <!-- ══ 3 · SOMMAIRE ══ -->
@@ -826,7 +829,6 @@
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Adrien Blaize · Épreuve E4</span><span class="slide-counter"></span></div>
   </div>
 
   <!-- ══ 4 · CONTEXTE PAREDES ══ -->
@@ -857,7 +859,6 @@
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Adrien Blaize · Épreuve E4</span><span class="slide-counter"></span></div>
   </div>
 
   <!-- ══ 5 · ENJEUX PAREDES ══ -->
@@ -897,6 +898,10 @@
             <div class="photo-thumb-label">Microsoft Intune</div>
             <img src="images/intune.png" alt="Intune" onerror="this.src='https://placehold.co/300x100/f8fafc/64748b?text=Logo+Intune'">
           </div>
+          <div class="photo-thumb" onclick="openModal('images/azure-ad.png')">
+            <div class="photo-thumb-label">Azure Active Directory</div>
+            <img src="images/azure-ad.png" alt="Azure AD" onerror="this.src='https://placehold.co/300x100/f8fafc/64748b?text=Azure+AD'">
+          </div>
         </div>
       </div>
     </div>
@@ -904,7 +909,6 @@
       <span>🎯</span>
       Accompagner la transition technique et moderniser le parc sans interrompre la production.
     </div>
-    <div class="slide-footer"><span>Adrien Blaize · Épreuve E4</span><span class="slide-counter"></span></div>
   </div>
 
   <!-- ══ 6 · SP1 WIN11 — IMAGES SOUS BLOCS RESPECTIFS ══ -->
@@ -924,11 +928,6 @@
                 <span class="arrow">➔</span>
                 <span class="tech-badge new">🪟 Win 11</span>
               </div>
-              <!-- Autopilot sous bloc déploiement -->
-              <div class="photo-mini-inline" onclick="openModal('images/autopilot.png')">
-                <div class="mini-label">⚙️ Windows Autopilot · Enrôlement</div>
-                <img src="images/autopilot.png" alt="Autopilot" onerror="this.src='https://placehold.co/400x55/f8fafc/64748b?text=Autopilot'">
-              </div>
             </div>
           </li>
           <li>
@@ -940,14 +939,18 @@
                 <span class="tech-tag">☁️ Azure</span><span class="plus">+</span>
                 <span class="tech-tag">🆔 Entra ID</span>
               </div>
-              <!-- 2 captures : Intune + Entra ID sous le bloc cloud -->
-              <div style="display: flex; gap: 0.5rem; margin-top: 0.4rem;">
+              <!-- Intune | Autopilot | Entra ID — 3 images de même taille dans l'ordre -->
+              <div style="display: flex; gap: 0.4rem; margin-top: 0.4rem;">
                 <div class="photo-mini-inline" style="flex: 1; max-width: none;" onclick="openModal('images/dashboard-intune.png')">
                   <div class="mini-label">📱 Dashboard Intune</div>
                   <img src="images/dashboard-intune.png" alt="Intune" onerror="this.src='https://placehold.co/200x55/f8fafc/64748b?text=Intune'">
                 </div>
+                <div class="photo-mini-inline" style="flex: 1; max-width: none;" onclick="openModal('images/autopilot.png')">
+                  <div class="mini-label">⚙️ Windows Autopilot</div>
+                  <img src="images/autopilot.png" alt="Autopilot" onerror="this.src='https://placehold.co/200x55/f8fafc/64748b?text=Autopilot'">
+                </div>
                 <div class="photo-mini-inline" style="flex: 1; max-width: none;" onclick="openModal('images/entra-id.png')">
-                  <div class="mini-label">🆔 Entra ID · MDP temp</div>
+                  <div class="mini-label">🆔 Entra ID · MDP</div>
                   <img src="images/entra-id.png" alt="Entra ID" onerror="this.src='https://placehold.co/200x55/f8fafc/64748b?text=Entra+ID'">
                 </div>
               </div>
@@ -969,7 +972,6 @@
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Adrien Blaize · Épreuve E4</span><span class="slide-counter"></span></div>
   </div>
 
   <!-- ══ 7 · SP2 CMDB ══ -->
@@ -1051,16 +1053,15 @@
         </div>
       </div>
     </div>
-    <div class="slide-footer"><span>Adrien Blaize · Épreuve E4</span><span class="slide-counter"></span></div>
   </div>
 
   <!-- ══ 8 · CONTEXTE SIA ══ -->
   <div class="slide">
     <div class="slide-header">2. Stage de deuxième année</div>
     <h2>Contexte : SIA BDE INSA Lyon</h2>
-    <div class="grid-2">
+    <div class="grid-2" style="gap: 2rem; margin-top: 0.2rem;">
       <div>
-        <div class="logo-container" style="background:#1e293b;">
+        <div class="logo-container" style="background:#1e293b; height:120px; margin-bottom:0.85rem;">
           <img src="images/logo-sia.png" alt="SIA BDE INSA"
             onerror="this.style.display='none'; this.parentNode.innerHTML='<span style=\'font-size:1.5rem; font-weight:800; color:white;\'>SIA BDE INSA</span>';">
         </div>
@@ -1068,20 +1069,24 @@
           <div class="info-box-row"><span class="info-box-icon">🎓</span><span class="info-box-text"><strong>Cible :</strong> 6 000 élèves-ingénieurs</span></div>
           <div class="info-box-row"><span class="info-box-icon">🏢</span><span class="info-box-text"><strong>Réseau :</strong> 130 associations hébergées</span></div>
           <div class="info-box-row"><span class="info-box-icon">📍</span><span class="info-box-text"><strong>Lieu :</strong> INSA Lyon · Villeurbanne</span></div>
-          <div class="info-box-row"><span class="info-box-icon">💻</span><span class="info-box-text"><strong>ADN :</strong> 100% Open Source · Bénévoles</span></div>
+          <div class="info-box-row"><span class="info-box-icon">💻</span><span class="info-box-text"><strong>Stack :</strong> Majoritairement Open Source · Bénévoles</span></div>
         </div>
       </div>
       <div>
-        <h3>Mes missions globales</h3>
-        <ul class="keywords">
-          <li><span class="icon">🧑‍💻</span><div><strong>Rôle</strong>Admin Systèmes & Réseaux</div></li>
-          <li><span class="icon">⚠️</span><div><strong>Enjeu</strong>Migration serveurs & continuité</div></li>
-          <li><span class="icon">💡</span><div><strong>Contrainte</strong>Budget asso · moyens du bord</div></li>
-          <li><span class="icon">🔔</span><div><strong>Contexte</strong>3 SP réalisées en 6 semaines</div></li>
+        <h3 style="margin-bottom:0.75rem;">Missions confiées</h3>
+        <ul class="keywords" style="gap:0.65rem;">
+          <li><span class="icon">🖥️</span><div><strong>Migration Proxmox</strong>Recréation des VMs · redéploiement GitLab CI/CD</div></li>
+          <li><span class="icon">🔒</span><div><strong>Configuration Twingate</strong>Accès sécurisé au réseau interne · bridge dédié</div></li>
+          <li><span class="icon">💾</span><div><strong>Backup automatisé</strong>Scripts Bash · Rclone · alertes Discord</div></li>
+          <li><span class="icon">🦠</span><div><strong>Réponse à incident</strong>Analyse forensique WordPress · remédiation</div></li>
         </ul>
+        <!-- Baie informatique du SIA -->
+        <div class="photo-mini-inline" onclick="openModal('images/baie-informatique.jpeg')" style="height:105px; max-width:100%; margin-top:0.75rem;">
+          <div class="mini-label">🏗️ Baie informatique SIA — infrastructure physique</div>
+          <img src="images/baie-informatique.jpeg" alt="Baie SIA" onerror="this.src='https://placehold.co/400x105/1e293b/ffffff?text=Baie+Informatique+SIA'">
+        </div>
       </div>
     </div>
-    <div class="slide-footer"><span>Adrien Blaize · Épreuve E4</span><span class="slide-counter"></span></div>
   </div>
 
   <!-- ══ 9 · ENJEUX SIA (REFORMULÉ) ══ -->
@@ -1098,6 +1103,11 @@
           <li><span class="icon">🛠️</span> Tests sur serveurs de rab malgré le vieillissement</li>
           <li><span class="icon">💰</span> Budget asso limité : faire avec l'existant</li>
         </ul>
+        <!-- Photo serveurs vieillissants -->
+        <div class="photo-mini-inline" onclick="openModal('images/serveurs.jpeg')" style="height:55px; max-width:100%; margin-top:0.5rem; border-color: #fca5a5;">
+          <div class="mini-label" style="background:rgba(185,28,28,0.7);">🛠️ Serveurs vieillissants — "de rab"</div>
+          <img src="images/serveurs.jpeg" alt="Serveurs" onerror="this.src='https://placehold.co/400x55/fef2f2/b91c1c?text=Serveurs+vieillissants'">
+        </div>
       </div>
       <div class="schema-box problem-2">
         <div class="schema-box-title">⏳ Défi 2 · Contraintes & Sécurité</div>
@@ -1114,7 +1124,6 @@
       <span>🎯</span>
       Migrer, sécuriser et fiabiliser l'infrastructure tout en respectant les contraintes associatives et réseau.
     </div>
-    <div class="slide-footer"><span>Adrien Blaize · Épreuve E4</span><span class="slide-counter"></span></div>
   </div>
 
   <!-- ══ 10 · SP1 PROXMOX / TWINGATE — partie 1 : descriptif ══ -->
@@ -1162,7 +1171,6 @@
         </div>
       </div>
     </div>
-    <div class="slide-footer"><span>Adrien Blaize · Épreuve E4</span><span class="slide-counter"></span></div>
   </div>
 
   <!-- ══ 10 bis · SCHÉMA RÉSEAU DÉDIÉ (pour lisibilité) ══ -->
@@ -1223,8 +1231,6 @@
         </div>
       </div>
     </div>
-
-    <div class="slide-footer"><span>Adrien Blaize · Épreuve E4</span><span class="slide-counter"></span></div>
   </div>
 
   <!-- ══ 11 · SP2 BACKUP ══ -->
@@ -1234,13 +1240,13 @@
     <div class="badge">🎯 Garantir la récupération des données — Règle du 3-2-1</div>
     <div class="grid-2" style="gap: 2rem; margin-top: 0.2rem;">
       <div>
-        <ul class="keywords" style="gap: 0.7rem;">
+        <ul class="keywords" style="gap: 0.6rem;">
           <li><span class="icon">🐧</span><div><strong>VM Ubuntu dédiée</strong>Centralisation sous le nouveau Proxmox</div></li>
           <li><span class="icon">⚙️</span><div><strong>Scripts Bash + Crontab</strong>BDD + fichiers automatisés</div></li>
           <li><span class="icon">☁️</span><div><strong>Rclone → Cloud</strong>Externalisation chiffrée</div></li>
           <li><span class="icon">🔔</span><div><strong>Webhook Discord</strong>Alertes temps réel : succès / échec</div></li>
         </ul>
-        <div class="backup-flow" style="margin-top: 0.8rem;">
+        <div class="backup-flow" style="margin-top: 0.65rem;">
           <div class="backup-node"><div class="bicon db">🗄️</div>BDD<br>MySQL</div>
           <span class="backup-arr">→</span>
           <div class="backup-node"><div class="bicon script">⚙️</div>Script<br>Crontab</div>
@@ -1249,15 +1255,32 @@
           <span class="backup-arr">→</span>
           <div class="backup-node"><div class="bicon alert">🔔</div>Discord<br>Alerte</div>
         </div>
-        <div class="card" style="margin-top: 0.8rem; padding: 0.7rem 1rem;">
-          <div class="card-title" style="font-size:0.95rem; margin-bottom:0.35rem; padding-bottom:0.3rem;">✅ Bilan</div>
-          <ul class="keywords" style="gap: 0.25rem;">
-            <li style="font-size:0.85rem;"><span class="icon" style="font-size:1rem;">›</span><div>Règle 3-2-1 appliquée · Externalisation chiffrée automatisée</div></li>
+        <!-- Politique de rétention -->
+        <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 0.6rem 0.9rem; margin-top: 0.65rem;">
+          <div style="font-size: 0.7rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.4rem;">🗓️ Politique de rétention</div>
+          <div style="display: flex; gap: 0.5rem;">
+            <div style="flex: 1; background: white; border: 1px solid var(--border); border-radius: 8px; padding: 0.4rem 0.6rem; text-align: center;">
+              <div style="font-size: 0.78rem; font-weight: 800; color: var(--accent);">Quotidien</div>
+              <div style="font-size: 0.7rem; color: var(--muted); margin-top: 0.15rem;">7 jours</div>
+            </div>
+            <div style="flex: 1; background: white; border: 1px solid var(--border); border-radius: 8px; padding: 0.4rem 0.6rem; text-align: center;">
+              <div style="font-size: 0.78rem; font-weight: 800; color: var(--green);">Hebdomadaire</div>
+              <div style="font-size: 0.7rem; color: var(--muted); margin-top: 0.15rem;">4 semaines</div>
+            </div>
+            <div style="flex: 1; background: white; border: 1px solid var(--border); border-radius: 8px; padding: 0.4rem 0.6rem; text-align: center;">
+              <div style="font-size: 0.78rem; font-weight: 800; color: var(--amber);">Mensuel</div>
+              <div style="font-size: 0.7rem; color: var(--muted); margin-top: 0.15rem;">12 mois</div>
+            </div>
+          </div>
+        </div>
+        <div class="card" style="margin-top: 0.6rem; padding: 0.55rem 0.9rem;">
+          <div class="card-title" style="font-size:0.88rem; margin-bottom:0.25rem; padding-bottom:0.25rem;">✅ Bilan</div>
+          <ul class="keywords" style="gap: 0.2rem;">
+            <li style="font-size:0.82rem;"><span class="icon" style="font-size:0.95rem;">›</span><div>Règle 3-2-1 · Rétention 3 niveaux · Zéro intervention manuelle</div></li>
           </ul>
         </div>
       </div>
       <div style="display:flex; flex-direction:column; gap:0.5rem;">
-        <!-- 2 captures égales côte à côte en hauteur -->
         <div class="photo-mini-inline" onclick="openModal('images/sia-sp2-crontab.png')" style="height:115px; max-width:100%;">
           <div class="mini-label">⚙️ Tâche Crontab · Script Bash</div>
           <img src="images/sia-sp2-crontab.png" alt="Crontab" onerror="this.src='https://placehold.co/400x115/f8fafc/64748b?text=Script+Crontab'">
@@ -1268,7 +1291,6 @@
         </div>
       </div>
     </div>
-    <div class="slide-footer"><span>Adrien Blaize · Épreuve E4</span><span class="slide-counter"></span></div>
   </div>
 
   <!-- ══ 12 · SP3 INCIDENT WORDPRESS ══ -->
@@ -1276,14 +1298,14 @@
     <div class="slide-header">SIA BDE INSA Lyon · SP3</div>
     <h2>Incident WordPress — SecOps</h2>
     <div class="badge">🎯 Contenir, analyser et corriger une cyberattaque réelle</div>
-    <div class="grid-2" style="gap: 2rem;">
+    <div class="grid-2" style="gap: 2rem; margin-top: 0.2rem;">
       <div>
-        <ul class="keywords" style="gap: 0.85rem;">
+        <ul class="keywords" style="gap: 0.7rem;">
           <li>
             <span class="icon">🦠</span>
             <div>
               <strong>Vecteur : ClickFix</strong>Injection PHP via plugin vulnérable
-              <div class="tech-flow" style="margin-top: 0.35rem;">
+              <div class="tech-flow" style="margin-top: 0.3rem;">
                 <span class="tech-badge warn">Plugin vulnérable</span>
                 <span class="arrow">→</span>
                 <span class="tech-badge" style="background:#fef2f2;color:#b91c1c;border:1px solid #fecaca;">Backdoor PHP</span>
@@ -1293,20 +1315,20 @@
           <li><span class="icon">🔎</span><div><strong>Analyse forensique</strong>Logs Apache · PHP obfusqué · BDD compromise</div></li>
           <li><span class="icon">🩹</span><div><strong>Remédiation</strong>Nettoyage BDD · Backdoor supprimée · WAF</div></li>
         </ul>
-        <div class="photo-grid" style="margin-top: 0.8rem;">
-          <div class="photo-thumb" onclick="openModal('images/sia-sp1-script-obfusque.png')">
-            <div class="photo-thumb-label">Code PHP obfusqué</div>
-            <img src="images/sia-sp1-script-obfusque.png" alt="Obfusqué" onerror="this.src='https://placehold.co/300x100/f8fafc/64748b?text=PHP+Malveillant'">
+        <div style="display:flex; gap:0.55rem; margin-top: 0.75rem;">
+          <div class="photo-mini-inline" onclick="openModal('images/sia-sp1-script-obfusque.png')" style="flex:1; height:90px; max-width:none;">
+            <div class="mini-label">Code PHP obfusqué</div>
+            <img src="images/sia-sp1-script-obfusque.png" alt="Obfusqué" onerror="this.src='https://placehold.co/300x90/f8fafc/64748b?text=PHP+Malveillant'">
           </div>
-          <div class="photo-thumb" onclick="openModal('images/sia-sp1-users-admins.png')">
-            <div class="photo-thumb-label">Comptes piratés BDD</div>
-            <img src="images/sia-sp1-users-admins.png" alt="BDD" onerror="this.src='https://placehold.co/300x100/f8fafc/64748b?text=wp_users+piraté'">
+          <div class="photo-mini-inline" onclick="openModal('images/sia-sp1-users-admins.png')" style="flex:1; height:90px; max-width:none;">
+            <div class="mini-label">Comptes piratés BDD</div>
+            <img src="images/sia-sp1-users-admins.png" alt="BDD" onerror="this.src='https://placehold.co/300x90/f8fafc/64748b?text=wp_users+piraté'">
           </div>
         </div>
       </div>
       <div class="card">
         <div class="card-title">✅ Bilan Technique</div>
-        <ul class="keywords" style="margin-top: 0.4rem;">
+        <ul class="keywords" style="margin-top: 0.4rem; gap: 0.55rem;">
           <li><span class="icon">›</span><div><strong>Gestion de crise :</strong> Processus complet en conditions réelles</div></li>
           <li><span class="icon">›</span><div><strong>Analyse :</strong> Identification vecteur + étendue de compromission</div></li>
           <li><span class="icon">›</span><div><strong>Durcissement :</strong> WAF + politique MàJ plugins</div></li>
@@ -1314,7 +1336,6 @@
         </ul>
       </div>
     </div>
-    <div class="slide-footer"><span>Adrien Blaize · Épreuve E4</span><span class="slide-counter"></span></div>
   </div>
 
   <!-- ══ 13 · VEILLE ══ -->
@@ -1386,7 +1407,6 @@
         </div>
       </div>
     </div>
-    <div class="slide-footer"><span>Adrien Blaize · Épreuve E4</span><span class="slide-counter"></span></div>
   </div>
 
   <!-- ══ 14 · BILAN (NOUVEAU) ══ -->
@@ -1442,8 +1462,6 @@
         Du support N1 chez <span>Paredes</span> à l'analyse forensique au <span>SIA</span> : un parcours qui m'a fait passer de <span>technicien</span> à <span>administrateur autonome</span>.
       </div>
     </div>
-
-    <div class="slide-footer"><span>Adrien Blaize · Épreuve E4</span><span class="slide-counter"></span></div>
   </div>
 
   <!-- ══ 15 · FINALE ══ -->
@@ -1483,9 +1501,7 @@
     currentSlide = index;
     slides[currentSlide].classList.add('active');
     progressBar.style.width = `${(currentSlide / (TOTAL - 1)) * 100}%`;
-    document.querySelectorAll('.slide-counter').forEach(c => {
-      c.textContent = `${currentSlide + 1} / ${TOTAL}`;
-    });
+    document.getElementById('slideCounter').textContent = `${currentSlide + 1} / ${TOTAL}`;
   }
   function nextSlide() { showSlide(currentSlide + 1); }
   function prevSlide() { showSlide(currentSlide - 1); }
