@@ -221,11 +221,10 @@
       box-shadow: 0 0 0 3px var(--accent-light), 0 4px 12px rgba(29,78,216,0.15);
     }
     .timeline-item-v.current::after {
-      content: '👉 Vous êtes ici'; position: absolute;
-      right: 1rem; top: 50%; transform: translateY(-50%);
+      right: 5.5rem; top: 50%; transform: translateY(-50%);
       background: var(--accent); color: white;
       font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.6rem;
-      border-radius: 100px;
+      border-radius: 100px; white-space: nowrap;
     }
     .timeline-date-v {
       font-weight: 800; font-size: 0.95rem; min-width: 140px;
@@ -754,12 +753,13 @@
         </div>
         <span class="timeline-duration">1 an</span>
       </div>
-      <div class="timeline-item-v stage current">
+      <div class="timeline-item-v stage">
         <div class="timeline-date-v">Jan – Fév 2026</div>
         <div class="timeline-content-v">
           <div class="timeline-title-v">SIA BDE INSA Lyon <span class="timeline-tag tag-stage">Stage</span></div>
           <div class="timeline-sub-v">Admin Systèmes & Réseaux · 3 situations pro.</div>
         </div>
+        <span class="timeline-duration">6 semaines</span>
       </div>
       <div class="timeline-item-v stage">
         <div class="timeline-date-v">Mai – Juin 2025</div>
@@ -769,21 +769,21 @@
         </div>
         <span class="timeline-duration">6 semaines</span>
       </div>
-      <div class="timeline-item-v school">
+      <div class="timeline-item-v school current">
         <div class="timeline-date-v">2024 – 2026</div>
         <div class="timeline-content-v">
           <div class="timeline-title-v">BTS SIO Option SISR <span class="timeline-tag tag-school">La Martinière Duchère</span></div>
-          <div class="timeline-sub-v">Solutions d'Infrastructure, Systèmes et Réseaux</div>
+          <div class="timeline-sub-v">Je suis en formation en Solutions d'Infrastructure, Systèmes et Réseaux</div>
         </div>
         <span class="timeline-duration">2 ans</span>
       </div>
       <div class="timeline-item-v school">
-        <div class="timeline-date-v">2022 – 2024</div>
+        <div class="timeline-date-v">2022 – 2025</div>
         <div class="timeline-content-v">
           <div class="timeline-title-v">Bac Pro SN <span class="timeline-tag tag-school">Jacques de Flesselles</span></div>
           <div class="timeline-sub-v">Systèmes Numériques · option Réseaux Informatiques</div>
         </div>
-        <span class="timeline-duration">2 ans</span>
+        <span class="timeline-duration">3 ans</span>
       </div>
     </div>
   </div>
