@@ -192,45 +192,77 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalBody = document.getElementById('modal-body');
     const modalData = {
       cub: { 
-        title: "Projet CUB : Architecture Cisco", 
+        title: "Projet CUB : Architecture réseau", 
         imageSrc: "../files/Schema_Radius.jpg",
         imageAlt: "Schéma Infrastructure CUB",
         content: `
-          <h3 style="color:var(--accent); margin-top:0;">Contexte & Architecture</h3>
-          <p style="color:var(--muted); line-height:1.7;">Maquettage et déploiement d'une architecture réseau complexe pour l'entreprise CUB, intégrant une affectation dynamique de VLANs et un routage inter-VLAN sécurisé.</p>
-          
-          <h3 style="color:var(--accent);">Détails Techniques</h3>
-          <ul style="color:var(--muted); line-height:1.7; padding-left:1.2rem;">
-            <li style="margin-bottom:0.5rem"><strong>Authentification 802.1X / RADIUS :</strong> Sécurisation des accès sans-fil via une borne TP-Link Omada (PEAP-MSCHAPv2). Les requêtes EAPOL sont transmises au serveur RADIUS (Windows NPS).</li>
-            <li style="margin-bottom:0.5rem"><strong>Affectation Dynamique :</strong> Vérification de l'identité via Active Directory (LDAP/Kerberos). Le serveur RADIUS renvoie un <code>Access-Accept</code> avec l'attribut du VLAN correspondant au profil de l'utilisateur (ex: VLAN 4 Marketing, VLAN 54 Infrasys, VLAN 206).</li>
-            <li style="margin-bottom:0.5rem"><strong>Cœur de Réseau (Cisco L3) :</strong> Routage inter-VLAN assuré par un switch de niveau 3 (Cisco 3650) via des interfaces SVI, interconnecté aux switchs de distribution (Catalyst 2960 et 3750 PoE) par des liens TRUNK 802.1Q.</li>
-            <li style="margin-bottom:0.5rem"><strong>Ferme de Serveurs (VLAN 306) :</strong> Isolation de l'infrastructure critique contenant l'Active Directory, le contrôleur Omada SDN, le serveur RADIUS et le système de ticketing GLPI.</li>
-          </ul>
+          <section style="color:var(--muted); line-height:1.7;">
+            <h3 style="color:var(--accent); margin-top:0;">1. Contexte</h3>
+            <p>Le projet CUB concerne une infrastructure réseau réellement déployée. Le schéma présente une architecture segmentée combinant un cœur de réseau Cisco de niveau 3, des équipements TP-Link Omada et une authentification centralisée des accès Wi-Fi.</p>
+
+            <h3 style="color:var(--accent);">2. Objectifs</h3>
+            <p>L'architecture vise à contrôler les accès au réseau, à séparer les usages par VLAN et à permettre le routage inter-VLAN depuis le cœur de réseau. L'authentification centralisée permet d'associer un utilisateur à un profil réseau sans gérer séparément chaque accès.</p>
+
+            <h3 style="color:var(--accent);">3. Architecture</h3>
+            <p>Les clients se connectent à l'infrastructure Wi-Fi TP-Link Omada en 802.1X. La demande d'authentification est transmise au serveur RADIUS Windows NPS, qui s'appuie sur Active Directory pour vérifier l'identité. En cas d'acceptation, la réponse RADIUS fournit l'attribut du VLAN correspondant au profil autorisé : le point d'accès et les commutateurs appliquent alors l'affectation dynamique prévue. Le cœur Cisco L3 assure le routage inter-VLAN via ses interfaces de niveau 3 ; les liaisons entre équipements sont transportées en trunks 802.1Q.</p>
+
+            <h3 style="color:var(--accent);">4. Technologies</h3>
+            <ul style="padding-left:1.2rem;">
+              <li style="margin-bottom:0.5rem;"><strong>Réseau :</strong> Cisco L3, VLAN, routage inter-VLAN et trunks 802.1Q.</li>
+              <li style="margin-bottom:0.5rem;"><strong>Contrôle d'accès :</strong> 802.1X, RADIUS et Windows NPS.</li>
+              <li style="margin-bottom:0.5rem;"><strong>Annuaire :</strong> Active Directory.</li>
+              <li style="margin-bottom:0.5rem;"><strong>Accès sans-fil :</strong> TP-Link Omada.</li>
+            </ul>
+
+            <h3 style="color:var(--accent);">5. Réalisations</h3>
+            <ul style="padding-left:1.2rem;">
+              <li style="margin-bottom:0.5rem;">Documentation du chemin d'authentification 802.1X/RADIUS entre les clients, l'accès Wi-Fi, Windows NPS et Active Directory.</li>
+              <li style="margin-bottom:0.5rem;">Mise en œuvre documentée de la segmentation par VLAN et de l'affectation dynamique renvoyée par RADIUS.</li>
+              <li style="margin-bottom:0.5rem;">Intégration du routage inter-VLAN Cisco L3 et des trunks 802.1Q dans l'architecture déployée.</li>
+            </ul>
+
+            <h3 style="color:var(--accent);">6. Résultats et limites</h3>
+            <p>Le schéma permet de présenter clairement une séparation des flux, une authentification centralisée et une attribution dynamique des VLAN. Aucun résultat chiffré ni compte-rendu de test n'est publié ici. OSPF et HSRP ne sont pas présentés comme des réalisations personnelles dans cette fiche.</p>
+          </section>
         ` 
       },
       python: { 
-        title: "Projet HunterDex : Architecture & Automatisation", 
+        title: "Projet HunterDex : Plateforme applicative", 
         imageSrc: "../files/Schema_Hunterdex.png",
         imageAlt: "Architecture HunterDex",
         content: `
-          <h3 style="color:var(--accent); margin-top:0;">Vue d'Ensemble</h3>
-          <p style="color:var(--muted); line-height:1.7;">Le projet HunterDex est un écosystème complet séparant le Backend, le Frontend et le Bot Discord, hébergé sur un hyperviseur Proxmox VE avec une approche Zero Trust.</p>
-  
-          <h3 style="color:var(--accent);">Infrastructure & Sécurité</h3>
-          <ul style="color:var(--muted); line-height:1.7; padding-left:1.2rem;">
-            <li style="margin-bottom:0.5rem">Déploiement de l'application via Docker Compose sur un réseau bridge isolé (hunterdex_net).</li>
-            <li style="margin-bottom:0.5rem">Mise en place d'un tunnel Cloudflare (cloudflared) pour sécuriser le trafic sortant sans ouvrir de ports sur le pare-feu externe.</li>
-            <li style="margin-bottom:0.5rem">Sécurisation avancée de l'hôte via pare-feu UFW, Fail2Ban (jail SSH), et authentification Multi-Facteurs (MFA) via Cloudflare Access.</li>
-            <li style="margin-bottom:0.5rem">Automatisation des sauvegardes vers Google Drive via Rclone et supervision interne en temps réel.</li>
-          </ul>
-  
-          <h3 style="color:var(--accent);">Développement Applicatif</h3>
-          <ul style="color:var(--muted); line-height:1.7; padding-left:1.2rem;">
-            <li style="margin-bottom:0.5rem">Utilisation de PocketBase comme Backend léger pour gérer la base de données SQLite et l'API REST.</li>
-            <li style="margin-bottom:0.5rem">Création d'un Dashboard d'administration (SPA) en Vue.js intégrant un système de verrouillage concurrentiel d'édition et la compression d'images côté client.</li>
-            <li style="margin-bottom:0.5rem">Développement du Bot Discord en Python (discord.py) avec une refonte asynchrone utilisant <code>aiohttp</code> pour garantir de hautes performances et limiter les connexions bloquantes.</li>
-            <li style="margin-bottom:0.5rem">Intégration d'une recherche autocomplétée tolérante aux fautes (Fuzzy Search), d'un radar de salon intelligent, et de tâches CRON d'arrière-plan.</li>
-          </ul>
+          <section style="color:var(--muted); line-height:1.7;">
+            <h3 style="color:var(--accent); margin-top:0;">1. Contexte</h3>
+            <p>HunterDex est une plateforme applicative opérationnelle hébergée sur un hyperviseur Proxmox VE, dans une machine virtuelle Debian. Son architecture sépare le backend, l'interface frontend et le bot Discord afin de distinguer les responsabilités et les flux.</p>
+
+            <h3 style="color:var(--accent);">2. Objectifs</h3>
+            <p>Le projet vise à fournir une application accessible via une interface web, un backend exposant ses données par API REST et un bot Discord indépendant. Le déploiement doit conserver une séparation des composants, limiter les flux entrants et protéger les accès d'administration.</p>
+
+            <h3 style="color:var(--accent);">3. Architecture</h3>
+            <p>Proxmox VE héberge une VM Debian qui exécute les services conteneurisés avec Docker et Docker Compose. Le backend PocketBase utilise SQLite et fournit l'API REST. Le frontend Vue.js est servi par Nginx. Le bot Discord est exécuté séparément en Python et communique avec les services nécessaires via <code>discord.py</code> et <code>aiohttp</code>.</p>
+            <p>Les services sont reliés par un réseau Docker interne. Le tunnel Cloudflare assure l'accès publié sans exposer directement les services applicatifs ; l'isolation des flux est complétée par UFW, tandis que Fail2Ban protège notamment les accès SSH. La MFA renforce les accès protégés.</p>
+
+            <h3 style="color:var(--accent);">4. Technologies</h3>
+            <ul style="padding-left:1.2rem;">
+              <li style="margin-bottom:0.5rem;"><strong>Infrastructure :</strong> Proxmox VE et machine virtuelle Debian.</li>
+              <li style="margin-bottom:0.5rem;"><strong>Conteneurisation :</strong> Docker et Docker Compose.</li>
+              <li style="margin-bottom:0.5rem;"><strong>Backend :</strong> PocketBase, SQLite et API REST.</li>
+              <li style="margin-bottom:0.5rem;"><strong>Frontend :</strong> Vue.js et Nginx.</li>
+              <li style="margin-bottom:0.5rem;"><strong>Bot :</strong> Python, <code>discord.py</code> et <code>aiohttp</code>.</li>
+              <li style="margin-bottom:0.5rem;"><strong>Sécurité et exposition :</strong> Cloudflare Tunnel, MFA, UFW et Fail2Ban.</li>
+            </ul>
+
+            <h3 style="color:var(--accent);">5. Réalisations</h3>
+            <ul style="padding-left:1.2rem;">
+              <li style="margin-bottom:0.5rem;">Déploiement séparé du backend PocketBase, du frontend Vue.js/Nginx et du bot Discord.</li>
+              <li style="margin-bottom:0.5rem;">Organisation des services dans Docker Compose et séparation des échanges par réseau interne.</li>
+              <li style="margin-bottom:0.5rem;">Publication contrôlée via Cloudflare Tunnel et ajout de mesures de protection avec MFA, UFW et Fail2Ban.</li>
+              <li style="margin-bottom:0.5rem;">Documentation d'une chaîne de sauvegarde comprenant une tâche planifiée, une archive ZIP, une copie vers Google Drive via Rclone, un webhook Discord et la conservation d'une copie locale.</li>
+            </ul>
+
+            <h3 style="color:var(--accent);">6. Résultats et limites</h3>
+            <p>La séparation des composants, l'isolation réseau et les contrôles d'accès structurent une plateforme maintenable et protégée. L'architecture de sauvegarde est documentée, mais aucun résultat de restauration, taux de disponibilité ou indicateur chiffré n'est publié. Les fonctionnalités non explicitement décrites dans cette présentation ne sont pas considérées comme garanties.</p>
+          </section>
         ` 
       }
     };

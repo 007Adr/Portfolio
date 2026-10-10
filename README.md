@@ -19,7 +19,7 @@ L'interface est développée sans framework lourd afin de garantir des performan
 
 ## 🚀 Projets & Compétences Mis en Avant
 
-*   **Infrastructure & Réseau (Projet CUB) :** Conception d'une architecture multi-sites sécurisée. Implémentation du routage inter-VLAN (Cisco L3), des protocoles OSPF et HSRP, ainsi que d'une authentification centralisée RADIUS (802.1X).
+*   **Infrastructure & Réseau (Projet CUB) :** Infrastructure réseau déployée et documentée, avec segmentation et routage inter-VLAN (Cisco L3), trunks 802.1Q, authentification centralisée RADIUS (802.1X), Windows NPS, Active Directory et équipements TP-Link Omada. OSPF et HSRP ne sont pas présentés comme des réalisations personnelles.
 *   **Automatisation & Développement (HunterDex) :** Architecture séparant Backend (PocketBase), Frontend (Vue.js) et un Bot Discord asynchrone (Python). 
 *   **Laboratoire Personnel (Homelab) :** Déploiement, sécurisation et maintien en condition opérationnelle de services auto-hébergés sur un hyperviseur Proxmox VE (Conteneurisation Docker, Cloudflare Tunnels, isolation réseau).
 
