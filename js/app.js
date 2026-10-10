@@ -1,56 +1,147 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+  const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let reducedMotion = motionPreference.matches;
+  const motionPreferenceHandlers = [];
+  const onMotionPreferenceChange = handler => motionPreferenceHandlers.push(handler);
+  const updateMotionPreference = () => {
+    reducedMotion = motionPreference.matches;
+    document.documentElement.classList.toggle('reduced-motion', reducedMotion);
+    motionPreferenceHandlers.forEach(handler => handler(reducedMotion));
+  };
+  updateMotionPreference();
+  if (typeof motionPreference.addEventListener === 'function') motionPreference.addEventListener('change', updateMotionPreference);
+  else if (typeof motionPreference.addListener === 'function') motionPreference.addListener(updateMotionPreference);
+
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
   // 1. SUPPRESSION PRELOADER
-  window.addEventListener('load', () => {
-    const preloader = document.getElementById('preloader');
-    if (preloader) preloader.classList.add('hidden');
-  });
+  const preloader = document.getElementById('preloader');
+  if (preloader) {
+    let preloaderFallbackTimer;
+    const hidePreloader = () => {
+      if (preloader.classList.contains('hidden')) return;
+      preloader.classList.add('hidden');
+      window.clearTimeout(preloaderFallbackTimer);
+    };
+    window.addEventListener('load', hidePreloader, { once: true });
+    preloaderFallbackTimer = window.setTimeout(hidePreloader, 4000);
+    onMotionPreferenceChange(isReduced => { if (isReduced) hidePreloader(); });
+    if (reducedMotion) hidePreloader();
+  }
 
   // 2. EFFET CYBER GLITCH SUR LE TITRE (ACCUEIL)
   const glitchTarget = document.querySelector('.highlight');
   if (glitchTarget) {
     const originalText = glitchTarget.textContent;
     const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
-    let iteration = 0;
-    let interval = setInterval(() => {
-      glitchTarget.textContent = originalText.split('').map((letter, index) => {
-        if(index < iteration) return originalText[index];
-        return chars[Math.floor(Math.random() * chars.length)];
-      }).join('');
-      if(iteration >= originalText.length) clearInterval(interval);
-      iteration += 1 / 3;
-    }, 30);
+    let glitchInterval = null;
+    const stopGlitch = () => {
+      if (glitchInterval !== null) window.clearInterval(glitchInterval);
+      glitchInterval = null;
+      glitchTarget.textContent = originalText;
+    };
+    const startGlitch = () => {
+      if (reducedMotion || glitchInterval !== null) return;
+      let iteration = 0;
+      glitchInterval = window.setInterval(() => {
+        glitchTarget.textContent = originalText.split('').map((letter, index) => {
+          if(index < iteration) return originalText[index];
+          return chars[Math.floor(Math.random() * chars.length)];
+        }).join('');
+        if(iteration >= originalText.length) {
+          window.clearInterval(glitchInterval);
+          glitchInterval = null;
+        }
+        iteration += 1 / 3;
+      }, 30);
+    };
+    startGlitch();
+    onMotionPreferenceChange(isReduced => isReduced ? stopGlitch() : startGlitch());
   }
 
   // 3. EFFET SPOTLIGHT SUR LES CARTES
   const spotlightCards = document.querySelectorAll('.project-card, .exp-card, .contact-card, .objectif-card, .tool-card');
   spotlightCards.forEach(card => {
     card.classList.add('spotlight-card');
-    card.addEventListener('mousemove', e => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      card.style.setProperty('--mouse-x', `${x}px`);
-      card.style.setProperty('--mouse-y', `${y}px`);
-    });
+    if (!isTouchDevice) {
+      card.addEventListener('mousemove', e => {
+        if (reducedMotion) return;
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty('--mouse-x', `${x}px`);
+        card.style.setProperty('--mouse-y', `${y}px`);
+      });
+    }
   });
 
   // 4. MENU MOBILE HAMBURGER
   const menuToggle = document.getElementById('menu-toggle');
   const navLinks = document.querySelector('.nav-links');
   if (menuToggle && navLinks) {
-    menuToggle.addEventListener('click', () => {
-      navLinks.classList.toggle('active');
-      document.body.classList.toggle('no-scroll'); // Empêche le scroll en arrière-plan
-    });
-    
-    // Fermeture automatique du menu au clic sur un lien interne
-    const mobileLinks = navLinks.querySelectorAll('a');
-    mobileLinks.forEach(link => {
-      link.addEventListener('click', () => {
+    const mobileBreakpoint = window.matchMedia('(max-width: 860px)');
+    const menuItems = [...navLinks.querySelectorAll('a, button')];
+    const originalTabIndexes = new Map(menuItems.map(item => [item, item.getAttribute('tabindex')]));
+
+    menuToggle.setAttribute('aria-controls', navLinks.id || 'primary-navigation');
+
+    const setMenuAccessibility = (open) => {
+      const isMobile = mobileBreakpoint.matches;
+      const menuIsOpen = isMobile && open;
+      menuToggle.setAttribute('aria-expanded', String(menuIsOpen));
+      menuToggle.setAttribute('aria-label', menuIsOpen ? 'Fermer le menu de navigation' : 'Ouvrir le menu de navigation');
+      navLinks.setAttribute('aria-hidden', String(isMobile && !menuIsOpen));
+
+      menuItems.forEach(item => {
+        if (isMobile && !menuIsOpen) {
+          item.setAttribute('tabindex', '-1');
+        } else {
+          const originalTabIndex = originalTabIndexes.get(item);
+          if (originalTabIndex === null) item.removeAttribute('tabindex');
+          else item.setAttribute('tabindex', originalTabIndex);
+        }
+      });
+    };
+
+    const closeMenu = (restoreFocus = false) => {
+      navLinks.classList.remove('active');
+      document.body.classList.remove('no-scroll'); // Empêche le scroll en arrière-plan
+      setMenuAccessibility(false);
+      if (restoreFocus) menuToggle.focus();
+    };
+
+    const syncMenuWithViewport = () => {
+      if (!mobileBreakpoint.matches) {
         navLinks.classList.remove('active');
         document.body.classList.remove('no-scroll');
-      });
+      }
+      setMenuAccessibility(navLinks.classList.contains('active'));
+    };
+
+    syncMenuWithViewport();
+    if (typeof mobileBreakpoint.addEventListener === 'function') mobileBreakpoint.addEventListener('change', syncMenuWithViewport);
+    else if (typeof mobileBreakpoint.addListener === 'function') mobileBreakpoint.addListener(syncMenuWithViewport);
+
+    menuToggle.addEventListener('click', () => {
+      const menuIsOpen = !navLinks.classList.contains('active');
+      navLinks.classList.toggle('active', menuIsOpen);
+      document.body.classList.toggle('no-scroll', menuIsOpen);
+      setMenuAccessibility(menuIsOpen);
+      if (menuIsOpen) menuItems[0]?.focus();
+      else menuToggle.focus();
+    });
+
+    // Fermeture automatique du menu au clic sur un lien interne
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => closeMenu());
+    });
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape' && navLinks.classList.contains('active')) {
+        event.preventDefault();
+        closeMenu(true);
+      }
     });
   }
 
@@ -62,21 +153,30 @@ document.addEventListener('DOMContentLoaded', () => {
   progressContainer.appendChild(progressBar);
   document.body.appendChild(progressContainer);
 
+  let scrollFrame = null;
+  const updateScrollUI = () => {
+    scrollFrame = null;
+    const scrollableHeight = Math.max(0, document.documentElement.scrollHeight - document.documentElement.clientHeight);
+    const scrolled = scrollableHeight > 0 ? (window.scrollY / scrollableHeight) * 100 : 0;
+    progressBar.style.width = `${scrolled}%`;
+    if (window.scrollY > 300) backToTopBtn.classList.add('visible');
+    else backToTopBtn.classList.remove('visible');
+  };
+  const scheduleScrollUI = () => {
+    if (scrollFrame === null) scrollFrame = window.requestAnimationFrame(updateScrollUI);
+  };
+
   const backToTopBtn = document.createElement('button');
   backToTopBtn.className = 'back-to-top';
   backToTopBtn.innerHTML = '↑';
   backToTopBtn.setAttribute('aria-label', 'Retour en haut');
   document.body.appendChild(backToTopBtn);
 
-  window.addEventListener('scroll', () => {
-    const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-    const scrolled = (window.scrollY / windowHeight) * 100;
-    progressBar.style.width = `${scrolled}%`;
-    if (window.scrollY > 300) backToTopBtn.classList.add('visible');
-    else backToTopBtn.classList.remove('visible');
-  });
+  window.addEventListener('scroll', scheduleScrollUI, { passive: true });
+  window.addEventListener('resize', scheduleScrollUI, { passive: true });
+  updateScrollUI();
 
-  backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+  backToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: reducedMotion ? 'auto' : 'smooth' }));
 
   // 6. TÉLÉCHARGEMENT CV INTERACTIF
   const cvBtns = document.querySelectorAll('.btn-download-cv');
@@ -475,34 +575,99 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 14. APPARITION FLUIDE AU DÉFILEMENT (FADE-IN)
   const reveals = document.querySelectorAll('.reveal');
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
-  }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
-  reveals.forEach(reveal => revealObserver.observe(reveal));
+  let revealObserver = null;
+  if (!reducedMotion && typeof window.IntersectionObserver === 'function') {
+    revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+    }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+    reveals.forEach(reveal => revealObserver.observe(reveal));
+  } else {
+    reveals.forEach(reveal => reveal.classList.add('active'));
+  }
+  onMotionPreferenceChange(isReduced => {
+    if (isReduced) {
+      if (revealObserver) revealObserver.disconnect();
+      reveals.forEach(reveal => reveal.classList.add('active'));
+    }
+  });
 
   // 15. EFFET PARALLAXE SUBTIL
-  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-  if (!isTouchDevice) {
+  const parallaxElements = [...document.querySelectorAll('.parallax')];
+  if (!isTouchDevice && parallaxElements.length > 0) {
+    let parallaxFrame = null;
+    let pointerX = 0;
+    let pointerY = 0;
+    const clearParallax = () => {
+      if (parallaxFrame !== null) window.cancelAnimationFrame(parallaxFrame);
+      parallaxFrame = null;
+      parallaxElements.forEach(element => { element.style.transform = ''; });
+    };
+    const renderParallax = () => {
+      parallaxFrame = null;
+      if (reducedMotion) return;
+      const x = (window.innerWidth - pointerX * 2) / 100;
+      const y = (window.innerHeight - pointerY * 2) / 100;
+      parallaxElements.forEach(element => { element.style.transform = `translate(${x}px, ${y}px)`; });
+    };
     document.addEventListener('mousemove', (e) => {
-      const x = (window.innerWidth - e.pageX * 2) / 100;
-      const y = (window.innerHeight - e.pageY * 2) / 100;
-      document.querySelectorAll('.parallax').forEach(el => { el.style.transform = `translate(${x}px, ${y}px)`; });
+      if (reducedMotion) return;
+      pointerX = e.pageX;
+      pointerY = e.pageY;
+      if (parallaxFrame === null) parallaxFrame = window.requestAnimationFrame(renderParallax);
     });
+    onMotionPreferenceChange(isReduced => { if (isReduced) clearParallax(); });
   }
 
   // 16. ANIMATION RÉSEAU (Particles.js)
-  if (document.getElementById('particles-js')) {
-    particlesJS('particles-js', {
-      "particles": { "number": { "value": 50, "density": { "enable": true, "value_area": 800 } }, "color": { "value": "#2563eb" }, "shape": { "type": "circle" }, "opacity": { "value": 0.3 }, "size": { "value": 3, "random": true }, "line_linked": { "enable": true, "distance": 150, "color": "#2563eb", "opacity": 0.3, "width": 1 }, "move": { "enable": true, "speed": 1.5, "direction": "none" } },
-      "interactivity": { "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" } }, "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 0.8 } }, "push": { "particles_nb": 3 } } },
-      "retina_detect": true
-    });
-  }
+  const particlesContainer = document.getElementById('particles-js');
+  let particlesInitialized = false;
+  const destroyParticles = () => {
+    if (!particlesInitialized) return;
+    try {
+      if (Array.isArray(window.pJSDom)) {
+        window.pJSDom.forEach(instance => instance?.pJS?.fn?.vendors?.destroypJS?.());
+      }
+      particlesContainer?.replaceChildren();
+    } catch (error) {
+      console.warn('Particles.js indisponible : arrêt de l’animation impossible.', error);
+    }
+    particlesInitialized = false;
+  };
+  const initParticles = () => {
+    if (reducedMotion || particlesInitialized || !particlesContainer || typeof window.particlesJS !== 'function') return;
+    try {
+      window.particlesJS('particles-js', {
+        "particles": { "number": { "value": 50, "density": { "enable": true, "value_area": 800 } }, "color": { "value": "#2563eb" }, "shape": { "type": "circle" }, "opacity": { "value": 0.3 }, "size": { "value": 3, "random": true }, "line_linked": { "enable": true, "distance": 150, "color": "#2563eb", "opacity": 0.3, "width": 1 }, "move": { "enable": true, "speed": 1.5, "direction": "none" } },
+        "interactivity": { "events": { "onhover": { "enable": true, "mode": "grab" }, "onclick": { "enable": true, "mode": "push" } }, "modes": { "grab": { "distance": 140, "line_linked": { "opacity": 0.8 } }, "push": { "particles_nb": 3 } } },
+        "retina_detect": true
+      });
+      particlesInitialized = true;
+    } catch (error) {
+      console.warn('Particles.js indisponible : animation désactivée.', error);
+    }
+  };
+  initParticles();
+  onMotionPreferenceChange(isReduced => isReduced ? destroyParticles() : initParticles());
 
   // 17. INITIALISATION TILT 3D
-  if (typeof VanillaTilt !== 'undefined') {
-    VanillaTilt.init(document.querySelectorAll(".project-card"), { max: 6, speed: 400, glare: true, "max-glare": 0.15, scale: 1.02 });
-  }
+  const tiltCards = document.querySelectorAll('.project-card');
+  let tiltInitialized = false;
+  const destroyTilt = () => {
+    if (!tiltInitialized) return;
+    tiltCards.forEach(card => card.vanillaTilt?.destroy());
+    tiltInitialized = false;
+  };
+  const initTilt = () => {
+    if (reducedMotion || isTouchDevice || tiltInitialized || tiltCards.length === 0 || !window.VanillaTilt || typeof window.VanillaTilt.init !== 'function') return;
+    try {
+      window.VanillaTilt.init(tiltCards, { max: 6, speed: 400, glare: true, "max-glare": 0.15, scale: 1.02 });
+      tiltInitialized = true;
+    } catch (error) {
+      console.warn('Vanilla Tilt indisponible : inclinaison désactivée.', error);
+    }
+  };
+  initTilt();
+  onMotionPreferenceChange(isReduced => isReduced ? destroyTilt() : initTilt());
 
   // 18. COPIE EMAIL & TOAST NOTIFICATION
   const emailCards = document.querySelectorAll('.copy-email-card');

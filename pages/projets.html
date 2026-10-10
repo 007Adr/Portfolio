@@ -35,7 +35,7 @@
 
   <nav>
     <a href="/index.html" class="nav-logo" aria-label="Retour à l'accueil">Adrien <span>Blaize</span></a>
-    <ul class="nav-links">
+    <ul id="primary-navigation" class="nav-links">
       <li><a href="/index.html">Accueil</a></li>
       <li><a href="/pages/about.html">Profil & CV</a></li>
       <li><a href="/pages/projets.html" class="active">Projets Tech</a></li>
@@ -44,7 +44,7 @@
       <li><a href="/pages/contact.html">Contact</a></li> 
       <li><button id="theme-toggle" aria-label="Basculer le thème" style="background:none; border:none; font-size:1.4rem; cursor:pointer; margin-left: 1rem; padding: 0;">🌙</button></li>
     </ul>
-    <button id="menu-toggle" class="menu-toggle" aria-label="Ouvrir le menu">☰</button>
+    <button id="menu-toggle" class="menu-toggle" aria-label="Ouvrir le menu" aria-controls="primary-navigation" aria-expanded="false">☰</button>
   </nav>
 
   <header class="page-header reveal">
