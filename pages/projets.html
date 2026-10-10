@@ -80,7 +80,7 @@
         </div>
       </article>
 
-      <article class="project-card reveal reveal-delay-2" data-category="net" data-modal-target="cub">
+      <article class="project-card reveal reveal-delay-2" data-category="net" data-modal-target="cub" tabindex="0" role="button" aria-haspopup="dialog">
         <div class="project-visual">🌐</div>
         <div class="project-body">
           <h2 class="project-title">Projet CUB : Réseau Multi-sites</h2>
@@ -106,7 +106,7 @@
         </div>
       </article>
 
-      <article class="project-card reveal reveal-delay-4" data-category="dev sys sec" data-modal-target="python">
+      <article class="project-card reveal reveal-delay-4" data-category="dev sys sec" data-modal-target="python" tabindex="0" role="button" aria-haspopup="dialog">
         <div class="project-visual">🐍</div>
         <div class="project-body">
           <h2 class="project-title">Projet HunterDex & Architecture</h2>
@@ -138,9 +138,9 @@
   <footer>Portfolio de <strong>Adrien Blaize</strong> &nbsp;·&nbsp; Technicien Support &amp; Delivery &nbsp;·&nbsp; 2026</footer>
   <a href="/pages/contact.html" class="floating-cta" aria-label="Bouton rapide vers la page de contact">🚀 Me contacter</a>
 
-  <div class="modal-overlay" id="project-modal">
+  <div class="modal-overlay" id="project-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true" tabindex="-1">
     <div class="modal-content">
-      <div class="modal-close" id="modal-close" aria-label="Fermer la fenêtre">✕</div>
+      <button type="button" class="modal-close" id="modal-close" aria-label="Fermer la fenêtre">✕</button>
       <h2 id="modal-title" class="page-title" style="font-size: 2rem; margin-top: 0; text-align: left;">Titre</h2>
       <div id="modal-body"></div>
     </div>

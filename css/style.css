@@ -291,7 +291,7 @@ footer { text-align: center; padding: 3rem 1.5rem; color: var(--muted); font-siz
 /* Modales Projets */
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100dvh; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 5000; opacity: 0; visibility: hidden; transition: all 0.3s; display: flex; align-items: center; justify-content: center; padding: 1rem; box-sizing: border-box; }
 .modal-overlay.active { opacity: 1; visibility: visible; }
-.modal-content { background: var(--bg-color); width: 100%; max-width: 850px; border-radius: 16px; padding: 2.5rem 2rem; position: relative; transform: scale(0.95) translateY(20px); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); max-height: 90dvh; overflow-y: auto; overflow-x: hidden; border: 1px solid var(--border); box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+.modal-content { background: var(--bg-color); width: 100%; max-width: min(1100px, calc(100vw - 2rem)); border-radius: 16px; padding: 2.5rem 2rem; position: relative; transform: scale(0.95) translateY(20px); transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); max-height: min(92dvh, 900px); overflow-y: auto; overflow-x: hidden; border: 1px solid var(--border); box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
 .modal-overlay.active .modal-content { transform: scale(1) translateY(0); }
 .modal-close { position: absolute; top: 15px; right: 15px; width: 40px; height: 40px; background: var(--surface); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; transition: background 0.2s; border: 1px solid var(--border); cursor: pointer; z-index: 10;}
 .modal-close:hover { background: var(--accent-light); color: var(--accent); }
@@ -299,6 +299,20 @@ footer { text-align: center; padding: 3rem 1.5rem; color: var(--muted); font-siz
 .modal-content::-webkit-scrollbar { width: 8px; }
 .modal-content::-webkit-scrollbar-track { background: transparent; }
 .modal-content::-webkit-scrollbar-thumb { background-color: var(--muted); border-radius: 8px; }
+
+.schema-viewer { margin: 0 0 1.5rem; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--surface); }
+.schema-toolbar { display: flex; align-items: center; justify-content: center; gap: 0.5rem; flex-wrap: wrap; padding: 0.75rem; border-bottom: 1px solid var(--border); }
+.schema-control { min-width: 2.5rem; min-height: 2.5rem; padding: 0.45rem 0.7rem; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-color); color: var(--text-color); cursor: pointer; font-weight: 700; font-size: 1rem; }
+.schema-control:hover, .schema-control:focus-visible { border-color: var(--accent); color: var(--accent); outline: none; }
+.schema-zoom-level { min-width: 4.5rem; text-align: center; color: var(--muted); font-size: 0.85rem; font-weight: 700; }
+.schema-viewport { position: relative; height: clamp(320px, 60vh, 650px); display: flex; align-items: center; justify-content: center; overflow: hidden; background: var(--surface); touch-action: none; overscroll-behavior: contain; cursor: grab; }
+.schema-viewport.is-dragging { cursor: grabbing; }
+.schema-image { display: block; width: 100%; height: 100%; object-fit: contain; user-select: none; -webkit-user-drag: none; transform-origin: center center; will-change: transform; transition: transform 0.2s ease; }
+.schema-help { margin: 0; padding: 0.6rem 0.9rem; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.78rem; text-align: center; }
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-content, .schema-image { transition: none; }
+}
 
 /* =========================================
    9. PAGE : EXPERIENCES
@@ -429,8 +443,9 @@ textarea.form-control { resize: vertical; min-height: 120px; }
   
   /* Ajustement Modal Mobile */
   .modal-overlay { padding: 0; background: var(--bg-color); }
-  .modal-content { max-height: 100dvh; height: 100dvh; border-radius: 0; padding: 4rem 1.5rem 2rem; transform: none !important; border: none; overflow-y: auto; }
+  .modal-content { width: 100%; max-width: none; max-height: 100dvh; height: 100dvh; border-radius: 0; padding: 4rem 1rem 2rem; transform: none !important; border: none; overflow-y: auto; }
   .modal-close { top: 15px; right: 15px; background: var(--surface); color: var(--text-color); box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+  .schema-viewport { height: clamp(220px, 52vh, 420px); }
   
   /* Ajustement divers */
   .cta-inner { padding: 2rem 1.5rem; text-align: center; justify-content: center; }

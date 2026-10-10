@@ -193,8 +193,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalData = {
       cub: { 
         title: "Projet CUB : Architecture Cisco", 
+        imageSrc: "../files/Schema_Radius.jpg",
+        imageAlt: "Schéma Infrastructure CUB",
         content: `
-          <img src="../files/Schema_Radius.jpg" alt="Schéma Infrastructure CUB" style="width:100%; border-radius:12px; margin-bottom:1.5rem; border:1px solid var(--border);" />
           <h3 style="color:var(--accent); margin-top:0;">Contexte & Architecture</h3>
           <p style="color:var(--muted); line-height:1.7;">Maquettage et déploiement d'une architecture réseau complexe pour l'entreprise CUB, intégrant une affectation dynamique de VLANs et un routage inter-VLAN sécurisé.</p>
           
@@ -209,8 +210,9 @@ document.addEventListener('DOMContentLoaded', () => {
       },
       python: { 
         title: "Projet HunterDex : Architecture & Automatisation", 
+        imageSrc: "../files/Schema_Hunterdex.png",
+        imageAlt: "Architecture HunterDex",
         content: `
-          <img src="../files/Schema_Hunterdex.png" alt="Architecture HunterDex" style="width:100%; border-radius:12px; margin-bottom:1.5rem; border:1px solid var(--border);" />
           <h3 style="color:var(--accent); margin-top:0;">Vue d'Ensemble</h3>
           <p style="color:var(--muted); line-height:1.7;">Le projet HunterDex est un écosystème complet séparant le Backend, le Frontend et le Bot Discord, hébergé sur un hyperviseur Proxmox VE avec une approche Zero Trust.</p>
   
@@ -232,22 +234,211 @@ document.addEventListener('DOMContentLoaded', () => {
         ` 
       }
     };
+
+    const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+    const createSchemaViewer = ({ imageSrc, imageAlt }) => {
+      const viewer = document.createElement('section');
+      viewer.className = 'schema-viewer';
+      viewer.setAttribute('aria-label', `Visualiseur : ${imageAlt}`);
+      viewer.innerHTML = `
+        <div class="schema-toolbar" role="toolbar" aria-label="Commandes du schéma">
+          <button type="button" class="schema-control" data-zoom="out" aria-label="Réduire le zoom" title="Réduire le zoom">−</button>
+          <span class="schema-zoom-level" aria-live="polite">100&nbsp;%</span>
+          <button type="button" class="schema-control" data-zoom="in" aria-label="Augmenter le zoom" title="Augmenter le zoom">+</button>
+          <button type="button" class="schema-control" data-zoom="reset" aria-label="Réinitialiser le zoom" title="Réinitialiser le zoom">↺</button>
+        </div>
+        <div class="schema-viewport" tabindex="0" role="region" aria-label="Zone de visualisation. Utilisez les flèches pour déplacer le schéma agrandi.">
+          <img class="schema-image" src="${imageSrc}" alt="${imageAlt}" draggable="false" />
+        </div>
+        <p class="schema-help">Molette avec Ctrl/Cmd pour zoomer · glisser pour déplacer · touches +, −, 0 et flèches disponibles</p>
+      `;
+
+      const viewport = viewer.querySelector('.schema-viewport');
+      const image = viewer.querySelector('.schema-image');
+      const zoomLevel = viewer.querySelector('.schema-zoom-level');
+      let scale = 1;
+      let offsetX = 0;
+      let offsetY = 0;
+      let pointerId = null;
+      let pointerStartX = 0;
+      let pointerStartY = 0;
+      let startOffsetX = 0;
+      let startOffsetY = 0;
+
+      const constrainOffset = () => {
+        const maxX = Math.max(0, (viewport.clientWidth * (scale - 1)) / 2);
+        const maxY = Math.max(0, (viewport.clientHeight * (scale - 1)) / 2);
+        offsetX = clamp(offsetX, -maxX, maxX);
+        offsetY = clamp(offsetY, -maxY, maxY);
+      };
+
+      const updateViewer = () => {
+        constrainOffset();
+        image.style.transform = `translate3d(${offsetX}px, ${offsetY}px, 0) scale(${scale})`;
+        zoomLevel.textContent = `${Math.round(scale * 100)} %`;
+      };
+
+      const setZoom = (nextScale, resetPosition = false) => {
+        scale = clamp(nextScale, 1, 4);
+        if (resetPosition || scale === 1) {
+          offsetX = 0;
+          offsetY = 0;
+        }
+        updateViewer();
+      };
+
+      const moveBy = (deltaX, deltaY) => {
+        offsetX += deltaX;
+        offsetY += deltaY;
+        updateViewer();
+      };
+
+      viewer.querySelector('[data-zoom="out"]').addEventListener('click', () => setZoom(scale - 0.25));
+      viewer.querySelector('[data-zoom="in"]').addEventListener('click', () => setZoom(scale + 0.25));
+      viewer.querySelector('[data-zoom="reset"]').addEventListener('click', () => setZoom(1, true));
+
+      viewport.addEventListener('wheel', (event) => {
+        if (!event.ctrlKey && !event.metaKey) return;
+        event.preventDefault();
+        setZoom(scale + (event.deltaY < 0 ? 0.25 : -0.25));
+      }, { passive: false });
+
+      viewport.addEventListener('pointerdown', (event) => {
+        if (scale <= 1) return;
+        pointerId = event.pointerId;
+        pointerStartX = event.clientX;
+        pointerStartY = event.clientY;
+        startOffsetX = offsetX;
+        startOffsetY = offsetY;
+        viewport.classList.add('is-dragging');
+        viewport.setPointerCapture(pointerId);
+      });
+
+      viewport.addEventListener('pointermove', (event) => {
+        if (event.pointerId !== pointerId) return;
+        offsetX = startOffsetX + event.clientX - pointerStartX;
+        offsetY = startOffsetY + event.clientY - pointerStartY;
+        updateViewer();
+      });
+
+      const endPointer = (event) => {
+        if (event.pointerId !== pointerId) return;
+        pointerId = null;
+        viewport.classList.remove('is-dragging');
+        if (viewport.hasPointerCapture(event.pointerId)) viewport.releasePointerCapture(event.pointerId);
+      };
+      viewport.addEventListener('pointerup', endPointer);
+      viewport.addEventListener('pointercancel', endPointer);
+
+      viewport.addEventListener('keydown', (event) => {
+        if (event.key === '+' || event.key === '=') {
+          event.preventDefault();
+          setZoom(scale + 0.25);
+        } else if (event.key === '-' || event.key === '_') {
+          event.preventDefault();
+          setZoom(scale - 0.25);
+        } else if (event.key === '0' || event.key === 'Home') {
+          event.preventDefault();
+          setZoom(1, true);
+        } else if (scale > 1 && event.key === 'ArrowLeft') {
+          event.preventDefault();
+          moveBy(40, 0);
+        } else if (scale > 1 && event.key === 'ArrowRight') {
+          event.preventDefault();
+          moveBy(-40, 0);
+        } else if (scale > 1 && event.key === 'ArrowUp') {
+          event.preventDefault();
+          moveBy(0, 40);
+        } else if (scale > 1 && event.key === 'ArrowDown') {
+          event.preventDefault();
+          moveBy(0, -40);
+        }
+      });
+
+      requestAnimationFrame(updateViewer);
+      return viewer;
+    };
+
+    let lastFocusedElement = null;
+    let previousBodyOverflow = '';
+    const focusableSelector = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
+    const closeModal = () => {
+      if (!modalOverlay.classList.contains('active')) return;
+      modalOverlay.classList.remove('active');
+      modalOverlay.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = previousBodyOverflow;
+      modalBody.replaceChildren();
+      if (lastFocusedElement && document.body.contains(lastFocusedElement)) lastFocusedElement.focus();
+      lastFocusedElement = null;
+    };
+
+    const openModal = (card, data) => {
+      lastFocusedElement = document.activeElement;
+      modalTitle.textContent = data.title;
+      modalBody.replaceChildren();
+      modalBody.appendChild(createSchemaViewer(data));
+      const details = document.createElement('div');
+      details.innerHTML = data.content;
+      modalBody.appendChild(details);
+      previousBodyOverflow = document.body.style.overflow;
+      modalOverlay.classList.add('active');
+      modalOverlay.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      modalClose.focus();
+      requestAnimationFrame(() => {
+        if (modalOverlay.classList.contains('active')) modalClose.focus();
+      });
+      setTimeout(() => {
+        if (modalOverlay.classList.contains('active')) modalClose.focus();
+      }, 0);
+    };
+
     modalTriggers.forEach(card => {
-      card.addEventListener('click', () => {
+      const activateCard = () => {
         const targetId = card.getAttribute('data-modal-target');
         const data = modalData[targetId];
-        if (data) { 
-          modalTitle.textContent = data.title; 
-          modalBody.innerHTML = data.content; 
-          modalOverlay.classList.add('active'); 
-          document.body.style.overflow = 'hidden'; 
+        if (data) openModal(card, data);
+      };
+      card.addEventListener('click', activateCard);
+      card.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          activateCard();
         }
       });
     });
-    const closeModal = () => { modalOverlay.classList.remove('active'); document.body.style.overflow = ''; };
     modalClose.addEventListener('click', closeModal);
     modalOverlay.addEventListener('click', (e) => { if (e.target === modalOverlay) closeModal(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+    document.addEventListener('focusin', (event) => {
+      if (modalOverlay.classList.contains('active') && !modalOverlay.contains(event.target)) modalClose.focus();
+    });
+    document.addEventListener('keydown', (event) => {
+      if (modalOverlay.classList.contains('active') && event.key === 'Escape') {
+        event.preventDefault();
+        closeModal();
+      }
+    });
+    modalOverlay.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        closeModal();
+        return;
+      }
+      if (event.key !== 'Tab') return;
+      const focusableElements = [...modalOverlay.querySelectorAll(focusableSelector)].filter(element => !element.disabled);
+      if (focusableElements.length === 0) return;
+      const firstElement = focusableElements[0];
+      const lastElement = focusableElements[focusableElements.length - 1];
+      if (event.shiftKey && document.activeElement === firstElement) {
+        event.preventDefault();
+        lastElement.focus();
+      } else if (!event.shiftKey && document.activeElement === lastElement) {
+        event.preventDefault();
+        firstElement.focus();
+      }
+    });
   }
 
   // 14. APPARITION FLUIDE AU DÉFILEMENT (FADE-IN)
