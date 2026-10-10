@@ -168,18 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 11. WIDGET SERVER STATUS
-  const homelabText = document.getElementById('homelab-text');
-  const homelabDot = document.getElementById('homelab-dot');
-  if (homelabText) {
-    setTimeout(() => {
-      homelabText.textContent = "Homelab : Operational (Ping 12ms)";
-      homelabDot.style.background = "#22c55e";
-      homelabDot.style.boxShadow = "0 0 8px #22c55e";
-    }, 1500);
-  }
-
-  // 12. TRI ANIMÉ DES PROJETS
+  // 11. TRI ANIMÉ DES PROJETS
   const filterBtns = document.querySelectorAll('.filter-btn');
   const projectCards = document.querySelectorAll('.project-card');
   filterBtns.forEach(btn => {
