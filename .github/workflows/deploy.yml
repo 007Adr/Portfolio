@@ -3,7 +3,7 @@ name: Optimisation et Déploiement
 on:
   push:
     branches:
-      - main # Le script se déclenche à chaque modification de la branche principale
+      - portfolio-v2 # Déploiement de la version Portfolio V2
 
 jobs:
   build-and-deploy:
@@ -31,3 +31,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./ # Envoi du résultat vers la branche de production
+          cname: portfolio.adrienblaize.fr
